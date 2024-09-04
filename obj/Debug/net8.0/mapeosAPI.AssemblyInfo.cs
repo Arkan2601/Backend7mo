@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("mapeosAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+415f49e59a1c06c28aecb3880442cfcef3fb1eba")]
 [assembly: System.Reflection.AssemblyProductAttribute("mapeosAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("mapeosAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "gtSMBupU9h3orDStEtNOA/v32uC72dNoBLScQs+RpZHc2eMAuntm0ls9kYhcgaE0sRBX7o0Tl1SYs9AAoBFTfg==",
+  "dgSpecHash": "SagDbjluiqM=",
   "success": true,
   "projectFilePath": "C:\\Users\\Arkan\\Desktop\\Backend7mo\\mapeosAPI.csproj",
   "expectedPackageFiles": [
@@ -144,5 +144,36 @@
     "C:\\Users\\Arkan\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Arkan\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.AspNetCore.Authentication.JwtBearer' 5.0.8 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-q7cg-43mg-qp69",
+      "libraryId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Data.SqlClient' 4.8.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-8g2p-5pqh-5jmc",
+      "libraryId": "System.Data.SqlClient",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Data.SqlClient' 4.8.3 has a known high severity vulnerability, https://github.com/advisories/GHSA-98g6-xh36-x2p7",
+      "libraryId": "System.Data.SqlClient",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }
