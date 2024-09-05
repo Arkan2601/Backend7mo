@@ -24,7 +24,7 @@ namespace marcatel_api.Models
     public class InsertUsuariosModel
     {
         public string Nombre { get; set; }
-        public string Contrasena { get; set; }
+        public string Contrasena { get; set; } = "123456789";
         public int Rol { get; set; }
         public int IdPersona { get; set; }
         public int Usuario { get; set; }

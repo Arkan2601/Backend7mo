@@ -22,6 +22,7 @@ namespace marcatel_api.Models
         public string ApMaterno { get; set; }
         public string Direccion { get; set; }
         public int Usuario { get; set; }
+        public string Pass { get; set; } = "123456789";
     }
     public class UpdatePersonasModel
     {

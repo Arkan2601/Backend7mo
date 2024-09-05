@@ -16,6 +16,8 @@ namespace marcatel_api.Controllers
     {
         private readonly PersonasService _PersonasService;
 
+        Encrypt enc = new Encrypt();
+
         public PersonasController(PersonasService personasService)
         {
             _PersonasService = personasService;
@@ -31,6 +33,8 @@ namespace marcatel_api.Controllers
             var objectResponse = Helper.GetStructResponse();
             try
             {
+                personas.Pass = enc.GetSHA256(personas.Pass);
+
                 var CatClienteResponse = _PersonasService.InsertPersonas(personas);
                 string msgDefault = "Registro insertado con éxito.";
 

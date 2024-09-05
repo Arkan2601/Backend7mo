@@ -44,7 +44,6 @@ namespace marcatel_api.Controllers
             var loginResponse = _loginService.Login(user.Username, cryptedPass);
 
 
-
             if (loginResponse.Id != 0)
             {
                 result.StatusCode = (int)HttpStatusCode.OK;
@@ -63,6 +62,7 @@ namespace marcatel_api.Controllers
                 result.Error = true;
                 result.Success = false;
                 result.Message = "Usuario o contraseña incorrecto,";
+
 
             }
 
