@@ -12,6 +12,7 @@ namespace marcatel_api.Models
         public string Rol { get; set; }
         public int IdRol {get;set;}
 
+
     }
     public class DataResponseLogin
 {

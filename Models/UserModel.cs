@@ -24,7 +24,7 @@ public class DataResponseLogin
     public bool Status { get; set; }
     public string Mensaje { get; set; }
     public string Token { get; set; }
-
+    public UsuarioModel Usuario { get; internal set; }
 }
 
 public class UserModel
