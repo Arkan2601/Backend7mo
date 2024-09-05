@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SagDbjluiqM=",
+  "dgSpecHash": "69qerohUrYw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Arkan\\Desktop\\Backend7mo\\mapeosAPI.csproj",
+  "projectFilePath": "C:\\Users\\Arkan\\Desktop\\Proyectos\\Backend7mo\\mapeosAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Arkan\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Arkan\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.8\\microsoft.aspnetcore.authentication.jwtbearer.5.0.8.nupkg.sha512",

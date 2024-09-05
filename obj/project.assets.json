@@ -7991,11 +7991,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Arkan\\Desktop\\Backend7mo\\mapeosAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Arkan\\Desktop\\Proyectos\\Backend7mo\\mapeosAPI.csproj",
       "projectName": "mapeosAPI",
-      "projectPath": "C:\\Users\\Arkan\\Desktop\\Backend7mo\\mapeosAPI.csproj",
+      "projectPath": "C:\\Users\\Arkan\\Desktop\\Proyectos\\Backend7mo\\mapeosAPI.csproj",
       "packagesPath": "C:\\Users\\Arkan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Arkan\\Desktop\\Backend7mo\\obj\\",
+      "outputPath": "C:\\Users\\Arkan\\Desktop\\Proyectos\\Backend7mo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Arkan\\AppData\\Roaming\\NuGet\\NuGet.Config"
