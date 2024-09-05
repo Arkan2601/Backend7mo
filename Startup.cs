@@ -56,33 +56,16 @@ namespace marcatel_api
             //    sp.GetRequiredService<IOptions<EmailstoreSettings>>().Value);
 
             // Get Services LB
-            services.AddSingleton<LoginService>();
-            services.AddSingleton<MapeosService>();
-            services.AddSingleton<AlmacenesService>();
-            services.AddSingleton<TicketsService>();
-            services.AddSingleton<ArticulosService>();
-            services.AddSingleton<DetalleTicketService>();
-            services.AddSingleton<DetalleMovimientoService>();
-            services.AddSingleton<MovInventarioService>();
-            services.AddSingleton<SucursalesService>();
-            services.AddSingleton<VendedoresService>();
+   
             services.AddSingleton<PersonasService>();
             services.AddSingleton<UsuariosService>();
             services.AddSingleton<EstadosService>();
-            services.AddSingleton<TiposMovService>();
-            services.AddSingleton<ClientesService>();
-            services.AddSingleton<ExistenciasService>();
-            services.AddSingleton<UMService>();
-            services.AddSingleton<RutasService>();
+ 
             services.AddSingleton<ModuloService>();
             services.AddSingleton<CatModuloService>();
-            services.AddSingleton<EmpleadosService>();
-            services.AddSingleton<PuestosService>();
-            services.AddSingleton<ModUsuarioService>();
-            services.AddSingleton<DetallePerfilService>();
+
             services.AddSingleton<LoginQuireyService>();
-            services.AddSingleton<RolesService>();
-            services.AddSingleton<AutorizarMovService>();
+
 
             services.AddCors();
 

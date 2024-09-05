@@ -154,3 +154,14 @@ C:\Users\Arkan\Desktop\Backend7mo\obj\Debug\net8.0\refint\mapeosAPI.dll
 C:\Users\Arkan\Desktop\Backend7mo\obj\Debug\net8.0\mapeosAPI.pdb
 C:\Users\Arkan\Desktop\Backend7mo\obj\Debug\net8.0\mapeosAPI.genruntimeconfig.cache
 C:\Users\Arkan\Desktop\Backend7mo\obj\Debug\net8.0\ref\mapeosAPI.dll
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.csproj.AssemblyReference.cache
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.AssemblyInfoInputs.cache
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.AssemblyInfo.cs
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.csproj.CoreCompileInputs.cache
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.sourcelink.json
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.dll
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\refint\mapeosAPI.dll
+C:\Users\Arkan\Desktop\Proyectos\Backend7mo\obj\Debug\net8.0\mapeosAPI.pdb
