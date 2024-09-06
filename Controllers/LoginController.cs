@@ -41,6 +41,7 @@ namespace marcatel_api.Controllers
 
             string cryptedPass = enc.GetSHA256(user.Userpassword);
 
+
             var loginResponse = _loginService.Login(user.Username, cryptedPass);
 
 

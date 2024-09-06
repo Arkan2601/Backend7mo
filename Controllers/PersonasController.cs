@@ -30,10 +30,12 @@ namespace marcatel_api.Controllers
         [HttpPost("Insert")]
         public JsonResult InsertPersonas([FromBody] InsertPersonasModel personas)
         {
+            string pwd = "123456789";
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                personas.Pass = enc.GetSHA256(personas.Pass);
+
+                personas.Pass = enc.GetSHA256(pwd);
 
                 var CatClienteResponse = _PersonasService.InsertPersonas(personas);
                 string msgDefault = "Registro insertado con éxito.";
