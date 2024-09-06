@@ -40,8 +40,7 @@ namespace marcatel_api.Controllers
             result.Response.data.Usuario = new UsuarioModel();
 
             string cryptedPass = enc.GetSHA256(user.Userpassword);
-            Console.WriteLine(cryptedPass);
-            Console.WriteLine(user.Username);
+
 
             var loginResponse = _loginService.Login(user.Username, cryptedPass);
 

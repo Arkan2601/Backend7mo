@@ -21,6 +21,7 @@ namespace marcatel_api.Services
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             try
             {
+
                 ArrayList parametros = new ArrayList();
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.VarChar, Value = user });
                 parametros.Add(new SqlParameter { ParameterName = "@pPass", SqlDbType = SqlDbType.VarChar, Value = pass });
