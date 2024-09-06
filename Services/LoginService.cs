@@ -17,6 +17,7 @@ namespace marcatel_api.Services
 
         public UsuarioModel Login(string user, string pass)
         {
+            Console.Write(pass);
             UsuarioModel usuario = new UsuarioModel();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             try
@@ -34,7 +35,7 @@ namespace marcatel_api.Services
                         usuario.NombrePersona = row["NombrePersona"].ToString();
                         //usuario.IdSucursal = int.Parse(row["IdSucursal"].ToString());
                         //usuario.NombreSucursal = row["NombreSucursal"].ToString();
-                        //usuario.Id = int.Parse(row["Id"].ToString());
+                        usuario.Id = int.Parse(row["Id"].ToString());
                         //usuario.IdPerfil = int.Parse(row["Id"].ToString());
                         //usuario.Rol = row["Rol"].ToString();
                         usuario.IdRol = int.Parse(row["IdRol"].ToString());
