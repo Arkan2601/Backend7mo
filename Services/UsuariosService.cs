@@ -93,10 +93,7 @@ namespace marcatel_api.Services
             try
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = usuarios.Id });
-                parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = usuarios.Nombre });
                 parametros.Add(new SqlParameter { ParameterName = "@pContrasena", SqlDbType = SqlDbType.VarChar, Value = usuarios.Contrasena });
-                parametros.Add(new SqlParameter { ParameterName = "@pEmpleado", SqlDbType = SqlDbType.Int, Value = usuarios.IdPersona });
-                parametros.Add(new SqlParameter { ParameterName = "@pRol", SqlDbType = SqlDbType.Int, Value = usuarios.Rol });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = usuarios.Usuario });
                 DataSet ds = dac.Fill("sp_UpdateUsuarios", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
