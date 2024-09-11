@@ -30,12 +30,12 @@ namespace marcatel_api.Services
                     {
                         lista.Add(new GetCatModuloModel
                         {
-                            Id = int.Parse(row["id"].ToString()),
-                            Nombre = row["nombre"].ToString(),
-                            Descripcion = row["descripcion"].ToString(),
-                            FechaRegistro = DateTime.Parse(row["fechaRegristro"].ToString()),
+                            Id = int.Parse(row["Id"].ToString()),
+                            Nombre = row["Nombre"].ToString(),
+                            Descripcion = row["Descripcion"].ToString(),
+                            FechaRegistro = DateTime.Parse(row["FechaRegistro"].ToString()),
                             FechaActualiza = DateTime.Parse(row["fechaActualiza"].ToString()),
-                            Usuario = int.Parse(row["usuarioActualiza"].ToString())
+                            Usuario = int.Parse(row["Usuario"].ToString())
                         });
                     }
                 }
