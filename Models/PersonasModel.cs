@@ -32,6 +32,8 @@ namespace marcatel_api.Models
         public string ApMaterno { get; set; }
         public string Direccion { get; set; }
         public int Usuario { get; set; }
+
+        public int Sucursal {get; set;}
     }
     public class DeletePersonasModel
     {
