@@ -27,7 +27,7 @@ namespace marcatel_api.Controllers
 
 
 
-        [HttpPost("Insert")]
+      /*   [HttpPost("Insert")]
         public JsonResult InsertPdersonas([FromBody] InsertUsuariosModel usuarios)
         {
             var objectResponse = Helper.GetStructResponse();
@@ -73,7 +73,7 @@ namespace marcatel_api.Controllers
             return new JsonResult(objectResponse);
 
         }
-
+ */
 
 
         [Authorize(AuthenticationSchemes = "Bearer")]
