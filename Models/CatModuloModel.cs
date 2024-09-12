@@ -17,7 +17,7 @@ namespace marcatel_api.Models
     {
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public string Usuario { get; set; }
+        public int Usuario { get; set; }
     }
 
     public class UpdateCatModuloModel
