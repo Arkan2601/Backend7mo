@@ -16,36 +16,36 @@ namespace marcatel_api.Services
             connection = settings.ConnectionString;
         }
 
-        public string InsertUsuarios(InsertUsuariosModel usuarios)
-        {
-            ArrayList parametros = new ArrayList();
-            ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<InsertUsuariosModel>();
+        // public string InsertUsuarios(InsertUsuariosModel usuarios)
+        // {
+        //     ArrayList parametros = new ArrayList();
+        //     ConexionDataAccess dac = new ConexionDataAccess(connection);
+        //     var lista = new List<InsertUsuariosModel>();
 
-            try
-            {
-                parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = usuarios.Nombre });
-                parametros.Add(new SqlParameter { ParameterName = "@pContrasena", SqlDbType = SqlDbType.VarChar, Value = usuarios.Contrasena });
-                parametros.Add(new SqlParameter { ParameterName = "@pRol", SqlDbType = SqlDbType.Int, Value = usuarios.Rol });
-                parametros.Add(new SqlParameter { ParameterName = "@pEmpleado", SqlDbType = SqlDbType.Int, Value = usuarios.IdPersona });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = usuarios.Usuario });
+        //     try
+        //     {
+        //         parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = usuarios.Nombre });
+        //         parametros.Add(new SqlParameter { ParameterName = "@pContrasena", SqlDbType = SqlDbType.VarChar, Value = usuarios.Contrasena });
+        //         parametros.Add(new SqlParameter { ParameterName = "@pRol", SqlDbType = SqlDbType.Int, Value = usuarios.Rol });
+        //         parametros.Add(new SqlParameter { ParameterName = "@pEmpleado", SqlDbType = SqlDbType.Int, Value = usuarios.IdPersona });
+        //         parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = usuarios.Usuario });
 
-                DataSet ds = dac.Fill("sp_InsertUsuario", parametros);
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    return ds.Tables[0].Rows[0]["Mensaje"].ToString();
-                }
-                else
-                {
-                    return "No se recibió ningún mensaje desde la base de datos";
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Write(ex.Message);
-                return "Error: " + ex.Message;
-            }
-        }
+        //         DataSet ds = dac.Fill("sp_InsertUsuario", parametros);
+        //         if (ds.Tables[0].Rows.Count > 0)
+        //         {
+        //             return ds.Tables[0].Rows[0]["Mensaje"].ToString();
+        //         }
+        //         else
+        //         {
+        //             return "No se recibió ningún mensaje desde la base de datos";
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.Write(ex.Message);
+        //         return "Error: " + ex.Message;
+        //     }
+        // }
 
         public List<GetUsuariosModel> GetUsuarios()
         {
@@ -62,10 +62,11 @@ namespace marcatel_api.Services
                         lista.Add(new GetUsuariosModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            Nombre = row["Nombre"].ToString(),
+                            NombreP = row["Nombre"].ToString(),
+                            Nombre = row["Usuario"].ToString(),
                             Contrasena = row["Contrasena"].ToString(),
                             Rol = row["Rol"].ToString(),
-                            IdPersona = int.Parse(row["Empleado"].ToString()),
+                            //IdPersona = int.Parse(row["Empleado"].ToString()),
                             Usuario = row["Usuario"].ToString(),
                             FechaAct = DateTime.Parse(row["FechaActualiza"].ToString()),
                             FechaReg = DateTime.Parse(row["FechaRegistro"].ToString())

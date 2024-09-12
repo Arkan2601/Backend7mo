@@ -4,6 +4,7 @@ namespace marcatel_api.Models
     public class GetUsuariosModel
     {
         public int Id { get; set; }
+        public string NombreP { get; set; }
         public string Nombre { get; set; }
         public string Contrasena { get; set; }
         public string Rol { get; set; }

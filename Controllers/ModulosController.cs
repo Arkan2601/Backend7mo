@@ -33,14 +33,31 @@ namespace marcatel_api.Controllers
             {
                 var CatClienteResponse = _modulosService.InsertModulos(modulo);
 
-                objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                objectResponse.success = true;
-                objectResponse.message = "Registro insertado con exito";
+                string msgDefault = "Registro insertado con éxito.";
 
-                objectResponse.response = new
+
+                if (msgDefault == CatClienteResponse)
                 {
-                    data = CatClienteResponse
-                };
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
             }
             catch (System.Exception ex)
             {
@@ -73,14 +90,30 @@ namespace marcatel_api.Controllers
             {
                 var CatClienteResponse = _modulosService.UpdateModulos(modulo);
 
-                objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                objectResponse.success = true;
-                objectResponse.message = "Registro actualizado con exito";
+                string msgDefault = "Registro actualizado con éxito.";
 
-                objectResponse.response = new
+                if (msgDefault == CatClienteResponse)
                 {
-                    data = CatClienteResponse
-                };
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
             }
             catch (System.Exception ex)
             {
@@ -101,14 +134,30 @@ namespace marcatel_api.Controllers
             {
                 var CatClienteResponse = _modulosService.DeleteModulos(modulo);
 
-                objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                objectResponse.success = true;
-                objectResponse.message = "Registro eliminado con exito";
+                string msgDefault = "Registro eliminado con éxito.";
 
-                objectResponse.response = new
+                if (msgDefault == CatClienteResponse)
                 {
-                    data = CatClienteResponse
-                };
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
             }
             catch (System.Exception ex)
             {
