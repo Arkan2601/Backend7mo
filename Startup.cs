@@ -115,8 +115,8 @@ namespace marcatel_api
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Quirey API",
-                    Description = "ASP.NET Core Web API for Quirey API.",
+                    Title = "ERP API",
+                    Description = "ASP.NET Core Web API for ERP API.",
                     TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact
                     {
@@ -144,7 +144,7 @@ namespace marcatel_api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mapeos API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API V1");
                 c.RoutePrefix = string.Empty;
             });
 
