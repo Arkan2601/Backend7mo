@@ -77,7 +77,7 @@ namespace marcatel_api.Controllers
 
 
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("Get")]
         public IActionResult GetPersonas()
         {
