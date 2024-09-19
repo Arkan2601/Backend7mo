@@ -63,6 +63,7 @@ namespace marcatel_api
 
             services.AddSingleton<ModuloService>();
             services.AddSingleton<CatModuloService>();
+            services.AddSingleton<ProveedoresService>();
 
             services.AddSingleton<LoginService>();
 
