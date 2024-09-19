@@ -12,15 +12,13 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class PersonasController : ControllerBase
+    public class ArticulosController : ControllerBase
     {
-        private readonly PersonasService _PersonasService;
+        private readonly ArticulosService _ArticulosService;
 
-        Encrypt enc = new Encrypt();
-
-        public PersonasController(PersonasService personasService)
+        public ArticulosController(ArticulosService articulosService)
         {
-            _PersonasService = personasService;
+            _ArticulosService = articulosService;
         }
 
 
@@ -28,16 +26,13 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-        public JsonResult InsertPersonas([FromBody] InsertPersonasModel personas)
+        public JsonResult InsertArticulo([FromBody] InsertArticulosModel articulo)
         {
-            string pwd = "123456789";
             var objectResponse = Helper.GetStructResponse();
             try
             {
+                var CatClienteResponse = _ArticulosService.InserArticulos(articulo);
 
-                personas.Pass = enc.GetSHA256(pwd);
-
-                var CatClienteResponse = _PersonasService.InsertPersonas(personas);
                 string msgDefault = "Registro insertado con éxito.";
 
 
@@ -78,21 +73,23 @@ namespace marcatel_api.Controllers
 
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
+
         [HttpGet("Get")]
-        public IActionResult GetPersonas()
+        public IActionResult GetArticulos()
         {
-            var personas = _PersonasService.GetPersonas();
-            return Ok(personas);
+            var articulo = _ArticulosService.Getarticulos();
+            return Ok(articulo);
         }
 
 
         [HttpPut("Update")]
-        public JsonResult UpdatePersonas([FromBody] UpdatePersonasModel personas)
+        public JsonResult UpdateArticulo([FromBody] UpdateArticulosModel articulo)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _PersonasService.UpdatePersonas(personas);
+                var CatClienteResponse = _ArticulosService.Updatearticulos(articulo);
+
                 string msgDefault = "Registro actualizado con éxito.";
 
                 if (msgDefault == CatClienteResponse)
@@ -130,12 +127,13 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeletePersonas([FromBody] DeletePersonasModel personas)
+        public JsonResult DeleteArticulo([FromBody] DeleteArticulosModel articulo)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _PersonasService.DeletePersonas(personas);
+                var CatClienteResponse = _ArticulosService.Deletearticulos(articulo);
+
                 string msgDefault = "Registro eliminado con éxito.";
 
                 if (msgDefault == CatClienteResponse)

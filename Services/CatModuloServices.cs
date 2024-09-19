@@ -35,7 +35,7 @@ namespace marcatel_api.Services
                             Descripcion = row["Descripcion"].ToString(),
                             FechaRegistro = DateTime.Parse(row["FechaRegistro"].ToString()),
                             FechaActualiza = DateTime.Parse(row["fechaActualiza"].ToString()),
-                            Usuario = int.Parse(row["Usuario"].ToString())
+                            Usuario = row["Usuario"].ToString()
                         });
                     }
                 }

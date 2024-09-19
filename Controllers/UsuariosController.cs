@@ -27,56 +27,56 @@ namespace marcatel_api.Controllers
 
 
 
-      /*   [HttpPost("Insert")]
-        public JsonResult InsertPdersonas([FromBody] InsertUsuariosModel usuarios)
-        {
-            var objectResponse = Helper.GetStructResponse();
-            try
-            {
-                usuarios.Contrasena = enc.GetSHA256(usuarios.Contrasena);
+        /*   [HttpPost("Insert")]
+          public JsonResult InsertPdersonas([FromBody] InsertUsuariosModel usuarios)
+          {
+              var objectResponse = Helper.GetStructResponse();
+              try
+              {
+                  usuarios.Contrasena = enc.GetSHA256(usuarios.Contrasena);
 
-                var CatClienteResponse = _UsuarioService.InsertUsuarios(usuarios);
+                  var CatClienteResponse = _UsuarioService.InsertUsuarios(usuarios);
 
-                string msgDefault = "Registro insertado con éxito.";
-
-
-                if (msgDefault == CatClienteResponse)
-                {
-                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                    objectResponse.success = true;
-                    objectResponse.message = "Éxito.";
-
-                    objectResponse.response = new
-                    {
-                        data = CatClienteResponse
-                    };
-                }
-                else
-                {
-                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = true;
-                    objectResponse.message = "Error.";
-
-                    objectResponse.response = new
-                    {
-                        data = CatClienteResponse
-                    };
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Console.Write(ex.Message);
-                throw;
-            }
+                  string msgDefault = "Registro insertado con éxito.";
 
 
-            return new JsonResult(objectResponse);
+                  if (msgDefault == CatClienteResponse)
+                  {
+                      objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                      objectResponse.success = true;
+                      objectResponse.message = "Éxito.";
 
-        }
- */
+                      objectResponse.response = new
+                      {
+                          data = CatClienteResponse
+                      };
+                  }
+                  else
+                  {
+                      objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                      objectResponse.success = true;
+                      objectResponse.message = "Error.";
+
+                      objectResponse.response = new
+                      {
+                          data = CatClienteResponse
+                      };
+                  }
+              }
+              catch (System.Exception ex)
+              {
+                  Console.Write(ex.Message);
+                  throw;
+              }
 
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+              return new JsonResult(objectResponse);
+
+          }
+   */
+
+
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("Get")]
         public IActionResult GetUsuario()
         {
