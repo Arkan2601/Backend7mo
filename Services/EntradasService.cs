@@ -95,6 +95,7 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.Int, Value = entradas.IdProveedor });
                 parametros.Add(new SqlParameter { ParameterName = "@pFactura", SqlDbType = SqlDbType.VarChar, Value = entradas.Factura });
                 parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = entradas.IdSurcursal });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaEntrega", SqlDbType = SqlDbType.Date, Value = entradas.FechaEntrega });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = entradas.UsuarioActualiza });
              
 
