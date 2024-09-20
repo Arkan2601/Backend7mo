@@ -28,7 +28,6 @@ namespace marcatel_api.Models
         public decimal Cantidad { get; set; }
         public decimal Costo { get; set; }
         public decimal Descuento { get; set; }
-        public decimal CantidadSinCargo { get; set; }
         public int UsuarioActualiza { get; set; }
     }
 

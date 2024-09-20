@@ -75,7 +75,6 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pCantidad", SqlDbType = SqlDbType.Decimal, Value = de.Cantidad });
                 parametros.Add(new SqlParameter { ParameterName = "@pCosto", SqlDbType = SqlDbType.Decimal, Value = de.Costo });
                 parametros.Add(new SqlParameter { ParameterName = "@pDescuento", SqlDbType = SqlDbType.Decimal, Value = de.Descuento });
-                parametros.Add(new SqlParameter { ParameterName = "@pCantidadSinCargo", SqlDbType = SqlDbType.Decimal, Value = de.CantidadSinCargo });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = de.UsuarioActualiza });
 
 
