@@ -16,11 +16,11 @@ namespace marcatel_api.Services
             connection = settings.ConnectionString;
         }
 
-        public string InsertEntradas(InsertEntradasModel entradas)
+        public List<GetEntradasModel> InsertEntradas(InsertEntradasModel entradas)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-
+            var lista = new List<GetEntradasModel>();
 
             try
             {
@@ -33,17 +33,22 @@ namespace marcatel_api.Services
                 DataSet ds = dac.Fill("sp_InsertEntradas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    return ds.Tables[0].Rows[0]["Mensaje"].ToString();
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        lista.Add(new GetEntradasModel
+                        {
+                            Id = int.Parse(row["Id"].ToString()),
+                            Mensaje = row["Mensaje"].ToString()
+                        });
+                    }
+
                 }
-                else
-                {
-                    return "No se recibió ningún mensaje desde la base de datos";
-                }
+
+                return lista;
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
-                return "Error: " + ex.Message;
+                throw ex;
             }
         }
 
@@ -96,7 +101,7 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pFactura", SqlDbType = SqlDbType.VarChar, Value = entradas.Factura });
                 parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = entradas.IdSurcursal });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = entradas.UsuarioActualiza });
-             
+
 
                 DataSet ds = dac.Fill("sp_UpdateEntradas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
