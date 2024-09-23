@@ -169,7 +169,49 @@ namespace marcatel_api.Controllers
         }
 
 
+        [HttpPut("UpdateCantSinCArgo")]
+        public JsonResult UpdateCantiSinCargo([FromBody] UpdateCantSinCargoModel csc)
+        {
+            var objectResponse = Helper.GetStructResponse();
+            try
+            {
+                var CatClienteResponse = _DetalleEntradaService.UpdateCantiSinCargo(csc);
 
+                string msgDefault = "Registro actualizado con éxito.";
+
+                if (msgDefault == CatClienteResponse)
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.Write(ex.Message);
+                throw;
+            }
+
+
+            return new JsonResult(objectResponse);
+
+        }
 
 
 
