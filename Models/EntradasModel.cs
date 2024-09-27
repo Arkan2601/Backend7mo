@@ -34,11 +34,8 @@ namespace marcatel_api.Models
         public int IdSurcursal{get; set;}
         public DateTime FechaEntrega{get; set;}
         public int UsuarioActualiza {get; set;}
-        public string Factura { get; set; }
-        public int IdSurcursal { get; set; }
-        public DateTime FechaEntrega { get; set; }
+
         public DateTime FechaActualiza { get; set; }
-        public int UsuarioActualiza { get; set; }
 
     }
 
