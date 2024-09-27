@@ -43,4 +43,10 @@ namespace marcatel_api.Models
     {
         public int Id { get; set; }
     }
+
+    public class UpdateCantSinCargoModel
+    {
+        public int Id { get; set; }
+        public decimal Cantidad { get; set; }
+    }
 }
