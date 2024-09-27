@@ -54,7 +54,7 @@ namespace marcatel_api.Services
             var lista = new List<GetUsuariosModel>();
             try
             {
-                DataSet ds = dac.Fill("sp_GetUsuario", parametros);
+                DataSet ds = dac.Fill("sp_GetUsuarios", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow row in ds.Tables[0].Rows)
