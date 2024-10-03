@@ -76,8 +76,8 @@ namespace marcatel_api.Services
                             RFC= row["RFC"].ToString(),
                             RazonSocial= row["RazonSocial"].ToString(),
                             CLABE= row["CLABE"].ToString(),
-                            FechaRegistro = DateTime.Parse(row["FechaActualiza"].ToString()),
-                            FechaActualiza = DateTime.Parse(row["FechaRegistro"].ToString()),
+                            FechaRegistro = DateTime.Parse(row["FechaRegistro"].ToString()),
+                            FechaActualiza = DateTime.Parse(row["FechaActualiza"].ToString()),
                             UsuarioActualiza = row["UsuarioActualiza"].ToString()
                         });
                     }
