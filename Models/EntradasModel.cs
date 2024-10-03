@@ -4,7 +4,7 @@ namespace marcatel_api.Models
     public class GetEntradasModel
     {
         public int Id { get; set; }
-        public int IdProveedor { get; set; }
+        public string Proveedor { get; set; }
 
         public string Factura { get; set; }
         public int IdSurcursal { get; set; }
@@ -19,7 +19,7 @@ namespace marcatel_api.Models
 
     public class InsertEntradasModel
     {
-        public string Proveedor { get; set; }
+        public int IdProveedor { get; set; }
         public string Factura { get; set; }
         public int IdSurcursal { get; set; }
         public int UsuarioActualiza { get; set; }
