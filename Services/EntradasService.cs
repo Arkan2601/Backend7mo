@@ -69,7 +69,7 @@ namespace marcatel_api.Services
                             Id = int.Parse(row["Id"].ToString()),
                             Proveedor = row["Proveedor"].ToString(),
                             Factura = row["Factura"].ToString(),
-                            IdSurcursal = int.Parse(row["IdSurcursal"].ToString()),
+                            Surcursal = row["Sucursal"].ToString(),
                             FechaEntrega = DateTime.Parse(row["FechaEntrega"].ToString()),
                             FechaRegistro = DateTime.Parse(row["FechaRegistro"].ToString()),
                             FechaActualiza = DateTime.Parse(row["FechaActualiza"].ToString()),

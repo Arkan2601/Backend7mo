@@ -7,7 +7,7 @@ namespace marcatel_api.Models
         public string Proveedor { get; set; }
 
         public string Factura { get; set; }
-        public int IdSurcursal { get; set; }
+        public string Surcursal { get; set; }
         public DateTime FechaEntrega { get; set; }
         public DateTime FechaRegistro { get; set; }
         public DateTime FechaActualiza { get; set; }
