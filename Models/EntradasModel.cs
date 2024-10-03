@@ -4,10 +4,10 @@ namespace marcatel_api.Models
     public class GetEntradasModel
     {
         public int Id { get; set; }
-        public int IdProveedor { get; set; }
+        public string IdProveedor { get; set; }
 
         public string Factura { get; set; }
-        public int IdSurcursal { get; set; }
+        public string IdSurcursal { get; set; }
         public DateTime FechaEntrega { get; set; }
         public DateTime FechaRegistro { get; set; }
         public DateTime FechaActualiza { get; set; }
@@ -30,11 +30,13 @@ namespace marcatel_api.Models
     {
         public int Id { get; set; }
         public string IdProveedor { get; set; }
-        public string Factura { get; set; }
-        public int IdSurcursal { get; set; }
-        public DateTime FechaEntrega { get; set; }
+         public string Factura {get; set;}
+        public int IdSurcursal{get; set;}
+        public DateTime FechaEntrega{get; set;}
+        public int UsuarioActualiza {get; set;}
+
         public DateTime FechaActualiza { get; set; }
-        public int UsuarioActualiza { get; set; }
+
     }
 
     public class DeleteEntradasModel

@@ -12,13 +12,13 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class EntradasController : ControllerBase
+    public class BancosController : ControllerBase
     {
-        private readonly EntradasService _entradasService;
+        private readonly BancosService _bancosService;
 
-        public EntradasController(EntradasService entradasservice)
+        public BancosController(BancosService bancosservice)
         {
-            _entradasService = entradasservice;
+            _bancosService = bancosservice;
         }
 
 
@@ -26,52 +26,37 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-        public JsonResult InsertEntradas([FromBody] InsertEntradasModel entradas)
+        public JsonResult InsertBancos([FromBody] InsertBancosModel bancos)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var entradasModels = _entradasService.InsertEntradas(entradas);
+                var CatClienteResponse = _bancosService.InsertBancos(bancos);
 
-                if (entradasModels.Count > 0)
+                string msgDefault = "Registro insertado con éxito.";
+
+
+                if (msgDefault == CatClienteResponse)
                 {
-                    var Id = entradasModels[0].Id;
-                    var Msg = entradasModels[0].Mensaje;
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
 
-                    string msgDefault = "Registro insertado con éxito.";
-
-                    if (msgDefault == Msg)
+                    objectResponse.response = new
                     {
-                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                        objectResponse.success = true;
-                        objectResponse.message = "Éxito.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                    }
-                    else
-                    {
-                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                        objectResponse.success = true;
-                        objectResponse.message = "Error.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                    }
+                        data = CatClienteResponse
+                    };
                 }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                     objectResponse.success = true;
-                    objectResponse.message = "Error: No se devolvió ningún resultado.";
+                    objectResponse.message = "Error.";
 
-                    objectResponse.response = null;
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
                 }
             }
             catch (System.Exception ex)
@@ -80,29 +65,30 @@ namespace marcatel_api.Controllers
                 throw;
             }
 
+
             return new JsonResult(objectResponse);
 
         }
 
 
 
-/*         [Authorize(AuthenticationSchemes = "Bearer")] */
+        //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetEntradas()
+        public IActionResult GetBancos()
         {
-            var entrada = _entradasService.GetEntradas();
-            return Ok(entrada);
+            var bancos = _bancosService.GetBancos();
+            return Ok(bancos);
         }
 
 
         [HttpPut("Update")]
-        public JsonResult UpdateEntradas([FromBody] UpdateEntradasModel entradas)
+        public JsonResult UpdateBancos([FromBody] UpdateBancosModel bancos)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.UpdateEntradas(entradas);
+                var CatClienteResponse = _bancosService.UpdateBancos(bancos);
 
                 string msgDefault = "Registro actualizado con éxito.";
 
@@ -141,12 +127,12 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeleteEntradas([FromBody] DeleteEntradasModel entradas)
+        public JsonResult DeleteBancos([FromBody] DeleteBancosModel bancos)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.DeleteEntradas(entradas);
+                var CatClienteResponse = _bancosService.DeleteBancos(bancos);
 
                 string msgDefault = "Registro eliminado con éxito.";
 
