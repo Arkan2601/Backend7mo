@@ -4,10 +4,10 @@ namespace marcatel_api.Models
     public class GetEntradasModel
     {
         public int Id { get; set; }
-        public string Proveedor { get; set; }
+        public string IdProveedor { get; set; }
 
         public string Factura { get; set; }
-        public string Surcursal { get; set; }
+        public string IdSurcursal { get; set; }
         public DateTime FechaEntrega { get; set; }
         public DateTime FechaRegistro { get; set; }
         public DateTime FechaActualiza { get; set; }

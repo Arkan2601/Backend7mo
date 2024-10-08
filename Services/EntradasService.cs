@@ -67,9 +67,9 @@ namespace marcatel_api.Services
                         lista.Add(new GetEntradasModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            Proveedor = row["Proveedor"].ToString(),
+                            IdProveedor = row["Proveedor"].ToString(),
                             Factura = row["Factura"].ToString(),
-                            Surcursal = row["Sucursal"].ToString(),
+                            IdSurcursal = row["Sucursal"].ToString(),
                             FechaEntrega = DateTime.Parse(row["FechaEntrega"].ToString()),
                             FechaRegistro = DateTime.Parse(row["FechaRegistro"].ToString()),
                             FechaActualiza = DateTime.Parse(row["FechaActualiza"].ToString()),
@@ -96,8 +96,8 @@ namespace marcatel_api.Services
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = entradas.Id });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.Int, Value = entradas.IdProveedor });
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.VarChar, Value = entradas.Id });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.VarChar, Value = entradas.IdProveedor });
                 parametros.Add(new SqlParameter { ParameterName = "@pFactura", SqlDbType = SqlDbType.VarChar, Value = entradas.Factura });
                 parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = entradas.IdSurcursal });
                 parametros.Add(new SqlParameter { ParameterName = "@pFechaEntrega", SqlDbType = SqlDbType.Date, Value = entradas.FechaEntrega });
