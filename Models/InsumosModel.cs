@@ -21,10 +21,10 @@ public class InsertInsumosModel
         public string DescripcionInsumo { get; set; }
         public decimal Costo { get; set; }
         public string UnidadMedida { get; set; }
-        public DateTime FechaRegistro { get; set; }
-        public DateTime FechaActualiza { get; set; }
+        public string FechaRegistro { get; set; }
+        public string FechaActualiza { get; set; }
         // public int Estatus { get; set; }
-        public int UsuarioActualiza { get; set; }
+        public string UsuarioActualiza { get; set; }
 
     }
 

@@ -66,9 +66,9 @@ namespace marcatel_api.Services
                             DescripcionInsumo= row["DescripcionInsumo"].ToString(),
                             Costo= decimal.Parse(row["Costo"].ToString()),
                             UnidadMedida = row["UnidadMedida"].ToString(),
-                            FechaRegistro = DateTime.Parse(row["FechaRegistro"].ToString()),
-                            FechaActualiza = DateTime.Parse(row["FechaActualiza"].ToString()),
-                            UsuarioActualiza = int.Parse(row["UsuarioActualiza"].ToString())
+                            FechaRegistro = row["FechaRegistro"].ToString(),
+                            FechaActualiza = row["FechaActualiza"].ToString(),
+                            UsuarioActualiza = row["UsuarioActualiza"].ToString()
                         });
                     }
                 }
