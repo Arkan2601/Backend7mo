@@ -6,6 +6,7 @@ namespace marcatel_api.Models
         public int Id { get; set; }
         public int IdReceta { get; set; }
         public string Insumo { get; set; }
+        public string Descripcion { get; set; }
         public decimal Cantidad { get; set; }
         public string FechaReg { get; set; }
         public string FechaAct { get; set; }

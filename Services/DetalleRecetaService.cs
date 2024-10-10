@@ -37,6 +37,7 @@ namespace marcatel_api.Services
                             Id = int.Parse(row["Id"].ToString()),
                             IdReceta = int.Parse(row["IdEntrada"].ToString()),
                             Insumo = row["Codigo"].ToString(),
+                            Descripcion = row["Descripcion"].ToString(),
                             Cantidad = decimal.Parse(row["Cantidad"].ToString()),
                             FechaAct = row["FechaActualiza"].ToString(),
                             FechaReg = row["FechaRegistra"].ToString(),
