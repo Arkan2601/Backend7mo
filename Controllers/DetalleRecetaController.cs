@@ -12,13 +12,14 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class DetalleOrdenCompraController : ControllerBase
+    public class DetalleRecetaController : ControllerBase
     {
-        private readonly DetalleOrdenCompraService _detalleOrdenCompraService;
+        private readonly DetalleRecetaService _DetalleRecetaService;
 
-        public DetalleOrdenCompraController(DetalleOrdenCompraService detalleordencompraservice)
+        public DetalleRecetaController(DetalleRecetaService detallerecetaservice)
         {
-            _detalleOrdenCompraService = detalleordencompraservice;
+            _DetalleRecetaService = detallerecetaservice;
+
         }
 
 
@@ -26,14 +27,14 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-          public JsonResult InsertDetalleOrdenCompra([FromBody] InsertDetalleOrdenCompraModel DOC)
+        public JsonResult InsertDetalleReceta([FromBody] InsertDetalleRecetaModel dr)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _detalleOrdenCompraService.InsertDetalleOrdenCompra(DOC);
+                var CatClienteResponse = _DetalleRecetaService.InsertDetalleReceta(dr);
 
-                string msgDefault = "Insumo agregado con éxito.";
+                string msgDefault = "Registro insertado con éxito.";
 
                 if (msgDefault == CatClienteResponse)
                 {
@@ -71,26 +72,23 @@ namespace marcatel_api.Controllers
 
 
 
-/*      [Authorize(AuthenticationSchemes = "Bearer")]
- */
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("Get")]
-        public IActionResult GetDetalleOrdenCompra(GetDetalleOrdenCompraModel DOC)
+        public IActionResult GetDetalleReceta(GetDetalleRecetaModel dr)
         {
-            var detalleOC = _detalleOrdenCompraService.GetDetalleOrdenCompra(DOC);
-            return Ok(detalleOC);
+            var DR = _DetalleRecetaService.GetDetalleReceta(dr);
+            return Ok(DR);
         }
 
-
-
         [HttpPut("Update")]
-        public JsonResult UpdateDetalleOrdenCompra([FromBody] UpdateDetalleOrdenCompraModel DOC)
+        public JsonResult UpdateDetalleReceta([FromBody] UpdateDetalleRecetaModel dr)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _detalleOrdenCompraService.UpdateDetalleOrdenCompra(DOC);
+                var CatClienteResponse = _DetalleRecetaService.UpdateDetalleReceta(dr);
 
-                string msgDefault = "Insumo actualizado con éxito.";
+                string msgDefault = "Registro actualizado con éxito.";
 
                 if (msgDefault == CatClienteResponse)
                 {
@@ -127,14 +125,14 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeleteDetalleOrdenCompra([FromBody] DeleteDetalleOrdenCompraModel DOC)
+        public JsonResult DeleteDetalleReceta([FromBody] DeleteDetalleRecetaModel dr)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _detalleOrdenCompraService.DeleteDetalleOrdenCompra(DOC);
+                var CatClienteResponse = _DetalleRecetaService.DeleteDetalleReceta(dr);
 
-                string msgDefault = "Insumo eliminado con éxito";
+                string msgDefault = "Registro eliminado con éxito.";
 
                 if (msgDefault == CatClienteResponse)
                 {
@@ -169,11 +167,6 @@ namespace marcatel_api.Controllers
             return new JsonResult(objectResponse);
 
         }
-
-
-
-
-
 
 
     }
