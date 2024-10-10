@@ -16,11 +16,11 @@ namespace marcatel_api.Services
             connection = settings.ConnectionString;
         }
 
-        public string InsertRecetas(InsertRecetasModel recetas)
+        public List<GetRecetasModel> InsertRecetas(InsertRecetasModel recetas)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-
+            var lista = new List<GetRecetasModel>();
 
             try
             {
@@ -29,22 +29,24 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = recetas.UsuarioActualiza });
 
 
-
-
                 DataSet ds = dac.Fill("sp_InsertRecetas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    return ds.Tables[0].Rows[0]["Mensaje"].ToString();
+                   foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        lista.Add(new GetRecetasModel
+                        {
+                            Id = int.Parse(row["Id"].ToString()),
+                            Mensaje = row["Mensaje"].ToString()
+                        });
+                    }
                 }
-                else
-                {
-                    return "No se recibió ningún mensaje desde la base de datos";
-                }
+                
+                return lista;
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
-                return "Error: " + ex.Message;
+              throw ex;
             }
         }
 
