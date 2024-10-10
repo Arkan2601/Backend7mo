@@ -17,13 +17,14 @@ namespace marcatel_api.Services
             connection = settings.ConnectionString;
         }
 
-public List<GetDetalleOrdenCompraModel> GetDetalleOrdenCompra()
+public List<GetDetalleOrdenCompraModel> GetDetalleOrdenCompra(GetDetalleOrdenCompraModel DOC)
 {
     ArrayList parametros = new ArrayList();
     ConexionDataAccess dac = new ConexionDataAccess(connection);
     var lista = new List<GetDetalleOrdenCompraModel>();
     try
     {
+        parametros.Add(new SqlParameter { ParameterName = "@pIdOrdenCompra", SqlDbType = SqlDbType.Int, Value = DOC.IdOrdenCompra });
         // Si el procedimiento almacenado no necesita parámetros, no agregues ninguno
         DataSet ds = dac.Fill("sp_GetDetalleOrdenCompra", parametros);
         if (ds.Tables[0].Rows.Count > 0)
