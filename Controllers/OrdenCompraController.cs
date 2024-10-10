@@ -12,13 +12,13 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class EntradasController : ControllerBase
+    public class OrdenCompraController : ControllerBase
     {
-        private readonly EntradasService _entradasService;
+        private readonly OrdenCompraService _OrdenCompraService;
 
-        public EntradasController(EntradasService entradasservice)
+        public OrdenCompraController(OrdenCompraService ordenCompraService)
         {
-            _entradasService = entradasservice;
+            _OrdenCompraService = ordenCompraService;
         }
 
 
@@ -26,17 +26,17 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-        public JsonResult InsertEntradas([FromBody] InsertEntradasModel entradas)
+        public JsonResult InsertOrdenCompra([FromBody] InsertarOrdenCompraModel orden)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var entradasModels = _entradasService.InsertEntradas(entradas);
+                var ordenModels = _OrdenCompraService.InsertOrdenCompra(orden);
 
-                if (entradasModels.Count > 0)
+                if (ordenModels.Count > 0)
                 {
-                    var Id = entradasModels[0].Id;
-                    var Msg = entradasModels[0].Mensaje;
+                    var Id = ordenModels[0].Id;
+                    var Msg = ordenModels[0].Mensaje;
 
                     string msgDefault = "Registro insertado con éxito.";
 
@@ -87,22 +87,23 @@ namespace marcatel_api.Controllers
 
 
 /*         [Authorize(AuthenticationSchemes = "Bearer")] */
-
         [HttpGet("Get")]
-        public IActionResult GetEntradas()
+        public IActionResult GetOrdenCompras()
         {
-            var entrada = _entradasService.GetEntradas();
-            return Ok(entrada);
+            var orden = _OrdenCompraService.getOrdenCompras();
+            return Ok(orden);
         }
 
 
+
+
         [HttpPut("Update")]
-        public JsonResult UpdateEntradas([FromBody] UpdateEntradasModel entradas)
+        public JsonResult UpdateOrdenCompra([FromBody] UpdateOrdenCompraModel orden)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.UpdateEntradas(entradas);
+                var CatClienteResponse = _OrdenCompraService.UpdateOrdenCompra(orden);
 
                 string msgDefault = "Registro actualizado con éxito.";
 
@@ -140,13 +141,13 @@ namespace marcatel_api.Controllers
 
         }
 
-        [HttpPut("Delete")]
-        public JsonResult DeleteEntradas([FromBody] DeleteEntradasModel entradas)
+         [HttpPut("Delete")]
+        public JsonResult DeleteOrdenCompra([FromBody] DeleteOrdenCompraModel orden)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.DeleteEntradas(entradas);
+                var CatClienteResponse = _OrdenCompraService.DeleteOrdenCompra(orden);
 
                 string msgDefault = "Registro eliminado con éxito.";
 
@@ -182,13 +183,7 @@ namespace marcatel_api.Controllers
 
             return new JsonResult(objectResponse);
 
-        }
-
-
-
-
-
-
+        } 
 
     }
 }
