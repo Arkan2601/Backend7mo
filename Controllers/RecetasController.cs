@@ -31,22 +31,27 @@ namespace marcatel_api.Controllers
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _recetasService.InsertRecetas(recetas);
+                var recetasmodel = _recetasService.InsertRecetas(recetas);
 
-                string msgDefault = "Registro insertado con éxito.";
-
-
-                if (msgDefault == CatClienteResponse)
+                 if (recetasmodel.Count > 0)
                 {
-                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                    objectResponse.success = true;
-                    objectResponse.message = "Éxito.";
+                    var Id = recetasmodel[0].Id;
+                    var Msg = recetasmodel[0].Mensaje;
 
-                    objectResponse.response = new
+                    string msgDefault = "Registro insertado con éxito.";
+
+                    if (msgDefault == Msg)
                     {
-                        data = CatClienteResponse
-                    };
-                }
+                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                        objectResponse.success = true;
+                        objectResponse.message = "Éxito.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            Msg
+                        };
+                    }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -54,9 +59,19 @@ namespace marcatel_api.Controllers
                     objectResponse.message = "Error.";
 
                     objectResponse.response = new
-                    {
-                        data = CatClienteResponse
-                    };
+                        {
+                            data = Id,
+                            Msg
+                        };
+                }
+            }
+            else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error: No se devolvió ningún resultado.";
+
+                    objectResponse.response = null;
                 }
             }
             catch (System.Exception ex)
