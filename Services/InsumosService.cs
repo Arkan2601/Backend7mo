@@ -63,7 +63,7 @@ namespace marcatel_api.Services
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             Insumo= row["Insumo"].ToString(),
-                            DescripcionInsumo= row["DescripcionInsumo"].ToString(),
+                            Descripcion= row["Descripcion"].ToString(),
                             Costo= decimal.Parse(row["Costo"].ToString()),
                             UnidadMedida = row["UnidadMedida"].ToString(),
                             FechaRegistro = row["FechaRegistro"].ToString(),

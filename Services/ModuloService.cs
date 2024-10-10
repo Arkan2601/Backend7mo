@@ -61,11 +61,11 @@ namespace marcatel_api.Services
                         lista.Add(new GetModulosModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            NombreModulo = row["NombreModulo"].ToString(),
+                            Modulo = row["Modulo"].ToString(),
                             CategoriaModulo = row["Categoria"].ToString(),
                             Usuario = row["Usuario"].ToString(),
-                            FechaAct = DateTime.Parse(row["FechaActualiza"].ToString()),
-                            FechaReg = DateTime.Parse(row["FechaRegistro"].ToString())
+                            FechaAct =row["FechaActualiza"].ToString(),
+                            FechaReg = row["FechaRegistro"].ToString()
                         });
                     }
                 }

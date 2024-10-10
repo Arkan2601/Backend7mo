@@ -10,8 +10,7 @@ namespace marcatel_api.Models
         public decimal Cantidad { get; set; }
         public string FechaReg { get; set; }
         public string FechaAct { get; set; }
-        public int UsuarioAct { get; set; }
-        public int Estatus { get; set; }
+        public string UsuarioAct { get; set; }
         public string Mensaje { get; set; }
 
     }

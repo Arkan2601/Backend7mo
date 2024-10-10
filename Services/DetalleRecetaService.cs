@@ -35,13 +35,13 @@ namespace marcatel_api.Services
                         lista.Add(new GetDetalleRecetaModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            IdReceta = int.Parse(row["IdEntrada"].ToString()),
-                            Insumo = row["Codigo"].ToString(),
+                            IdReceta = int.Parse(row["IdReceta"].ToString()),
+                            Insumo = row["Insumo"].ToString(),
                             Descripcion = row["Descripcion"].ToString(),
                             Cantidad = decimal.Parse(row["Cantidad"].ToString()),
                             FechaAct = row["FechaActualiza"].ToString(),
-                            FechaReg = row["FechaRegistra"].ToString(),
-                            UsuarioAct = int.Parse(row["UsuarioActualiza"].ToString())
+                            FechaReg = row["FechaRegistro"].ToString(),
+                            UsuarioAct = row["UsuarioActualiza"].ToString()
 
                         });
                     }

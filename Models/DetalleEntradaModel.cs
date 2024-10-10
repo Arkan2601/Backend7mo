@@ -13,10 +13,9 @@ namespace marcatel_api.Models
         public decimal MontoDescuento { get; set; }
         public decimal CantidadSinCargo { get; set; }
         public decimal Total { get; set; }
-        public DateTime FechaReg { get; set; }
-        public DateTime FechaAct { get; set; }
+        public string FechaReg { get; set; }
+        public string FechaAct { get; set; }
         public string UsuarioAct { get; set; }
-        public string Estatus { get; set; }
         public string Mensaje { get; set; }
 
     }

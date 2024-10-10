@@ -72,12 +72,14 @@ namespace marcatel_api.Controllers
 
 
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpGet("Get")]
-        public IActionResult GetDetalleEntrada(GetDetalleEntradaModel de)
+            /*      [Authorize(AuthenticationSchemes = "Bearer")]
+        */
+            [HttpGet("Get")]
+        public IActionResult GetDetalleEntrada([FromQuery] int idEntrada)
         {
-            var DE = _DetalleEntradaService.GetDetalleEntrada(de);
-            return Ok(DE);
+            var DOC = new GetDetalleEntradaModel { IdEntrada = idEntrada };
+            var detalleOC = _DetalleEntradaService.GetDetalleEntrada(DOC);
+            return Ok(detalleOC);
         }
 
         [HttpPut("Update")]

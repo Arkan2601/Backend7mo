@@ -13,8 +13,8 @@ namespace marcatel_api.Models
         public string Iva {get; set;}
         public string Ieps {get; set;}
         public string Usuario { get; set; }
-        public DateTime FechaAct { get; set; }
-        public DateTime FechaReg { get; set; }
+        public string FechaAct { get; set; }
+        public string FechaReg { get; set; }
 
 
     }
