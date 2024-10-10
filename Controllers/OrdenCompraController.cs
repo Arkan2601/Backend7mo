@@ -87,13 +87,14 @@ namespace marcatel_api.Controllers
 
 
 /*         [Authorize(AuthenticationSchemes = "Bearer")] */
-
         [HttpGet("Get")]
         public IActionResult GetOrdenCompras()
         {
             var orden = _OrdenCompraService.getOrdenCompras();
             return Ok(orden);
         }
+
+
 
 
         [HttpPut("Update")]

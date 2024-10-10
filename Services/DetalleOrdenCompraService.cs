@@ -17,46 +17,41 @@ namespace marcatel_api.Services
             connection = settings.ConnectionString;
         }
 
-
-        public List<GetDetalleOrdenCompraModel> GetDetalleOrdenCompra(GetDetalleOrdenCompraModel DOC)
+public List<GetDetalleOrdenCompraModel> GetDetalleOrdenCompra()
+{
+    ArrayList parametros = new ArrayList();
+    ConexionDataAccess dac = new ConexionDataAccess(connection);
+    var lista = new List<GetDetalleOrdenCompraModel>();
+    try
+    {
+        // Si el procedimiento almacenado no necesita parámetros, no agregues ninguno
+        DataSet ds = dac.Fill("sp_GetDetalleOrdenCompra", parametros);
+        if (ds.Tables[0].Rows.Count > 0)
         {
-            ArrayList parametros = new ArrayList();
-            ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetDetalleOrdenCompraModel>();
-            try
+            foreach (DataRow row in ds.Tables[0].Rows)
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pIdOrdenCompra", SqlDbType = SqlDbType.Int, Value = DOC.IdOrdenCompra });
-
-                DataSet ds = dac.Fill("sp_GetDetalleOrdenCompra", parametros);
-                if (ds.Tables[0].Rows.Count > 0)
+                lista.Add(new GetDetalleOrdenCompraModel
                 {
-                    foreach (DataRow row in ds.Tables[0].Rows)
-                    {
-                        lista.Add(new GetDetalleOrdenCompraModel
-                        {
-                            Id = int.Parse(row["Id"].ToString()),
-                            Insumo = row["Insumo"].ToString(),
-                            Cantidad = decimal.Parse(row["Cantidad"].ToString()),
-                            CantidadRecibida = decimal.Parse(row["CantidadRecibida"].ToString()),
-                            Costo = decimal.Parse(row["Costo"].ToString()),
-                            CostoRenglon = decimal.Parse(row["CostoRenglon"].ToString()),
-                            FechaRegistro = row["FechaRegistro"].ToString(),
-                            FechaActualiza = row["FechaActualiza"].ToString(),
-                            UsuarioActualiza = row["UsuarioActualiza"].ToString(),
-
-                        });
-                    }
-                }
-                return lista;
-
+                    Id = int.Parse(row["Id"].ToString()),
+                    Insumo = row["Insumo"].ToString(),
+                    Cantidad = decimal.Parse(row["Cantidad"].ToString()),
+                    CantidadRecibida = decimal.Parse(row["CantidadRecibida"].ToString()),
+                    Costo = decimal.Parse(row["Costo"].ToString()),
+                    CostoRenglon = decimal.Parse(row["CostoRenglon"].ToString()),
+                    FechaRegistro = row["FechaRegistro"].ToString(),
+                    FechaActualiza = row["FechaActualiza"].ToString(),
+                    UsuarioActualiza = row["UsuarioActualiza"].ToString(),
+                });
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-
         }
+        return lista;
+    }
+    catch (Exception ex)
+    {
+        throw ex;
+    }
+}
+
 
         public string InsertDetalleOrdenCompra(InsertDetalleOrdenCompraModel DOC)
         {
