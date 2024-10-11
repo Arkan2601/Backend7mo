@@ -6,8 +6,8 @@ namespace marcatel_api.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public DateTime FechaRegistro { get; set; }
-        public DateTime FechaActualiza { get; set; }
+        public string FechaRegistro { get; set; }
+        public string FechaActualiza { get; set; }
         public string Usuario { get; set; }
         public string Mensaje { get; set; }
 
@@ -17,7 +17,7 @@ namespace marcatel_api.Models
     {
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public string Usuario { get; set; }
+        public int Usuario { get; set; }
     }
 
     public class UpdateCatModuloModel

@@ -12,13 +12,13 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class EntradasController : ControllerBase
+    public class DetalleOrdenCompraController : ControllerBase
     {
-        private readonly EntradasService _entradasService;
+        private readonly DetalleOrdenCompraService _detalleOrdenCompraService;
 
-        public EntradasController(EntradasService entradasservice)
+        public DetalleOrdenCompraController(DetalleOrdenCompraService detalleordencompraservice)
         {
-            _entradasService = entradasservice;
+            _detalleOrdenCompraService = detalleordencompraservice;
         }
 
 
@@ -26,52 +26,36 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-        public JsonResult InsertEntradas([FromBody] InsertEntradasModel entradas)
+          public JsonResult InsertDetalleOrdenCompra([FromBody] InsertDetalleOrdenCompraModel DOC)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var entradasModels = _entradasService.InsertEntradas(entradas);
+                var CatClienteResponse = _detalleOrdenCompraService.InsertDetalleOrdenCompra(DOC);
 
-                if (entradasModels.Count > 0)
+                string msgDefault = "Insumo agregado con éxito.";
+
+                if (msgDefault == CatClienteResponse)
                 {
-                    var Id = entradasModels[0].Id;
-                    var Msg = entradasModels[0].Mensaje;
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
 
-                    string msgDefault = "Registro insertado con éxito.";
-
-                    if (msgDefault == Msg)
+                    objectResponse.response = new
                     {
-                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                        objectResponse.success = true;
-                        objectResponse.message = "Éxito.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                    }
-                    else
-                    {
-                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                        objectResponse.success = true;
-                        objectResponse.message = "Error.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                    }
+                        data = CatClienteResponse
+                    };
                 }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                     objectResponse.success = true;
-                    objectResponse.message = "Error: No se devolvió ningún resultado.";
+                    objectResponse.message = "Error.";
 
-                    objectResponse.response = null;
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
                 }
             }
             catch (System.Exception ex)
@@ -80,31 +64,34 @@ namespace marcatel_api.Controllers
                 throw;
             }
 
+
             return new JsonResult(objectResponse);
 
         }
 
 
 
-/*         [Authorize(AuthenticationSchemes = "Bearer")] */
+/*      [Authorize(AuthenticationSchemes = "Bearer")]
+ */
+    [HttpGet("Get")]
+public IActionResult GetDetalleOrdenCompra([FromQuery] int idOrdenCompra)
+{
+    var DOC = new GetDetalleOrdenCompraModel { IdOrdenCompra = idOrdenCompra };
+    var detalleOC = _detalleOrdenCompraService.GetDetalleOrdenCompra(DOC);
+    return Ok(detalleOC);
+}
 
-        [HttpGet("Get")]
-        public IActionResult GetEntradas()
-        {
-            var entrada = _entradasService.GetEntradas();
-            return Ok(entrada);
-        }
 
 
         [HttpPut("Update")]
-        public JsonResult UpdateEntradas([FromBody] UpdateEntradasModel entradas)
+        public JsonResult UpdateDetalleOrdenCompra([FromBody] UpdateDetalleOrdenCompraModel DOC)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.UpdateEntradas(entradas);
+                var CatClienteResponse = _detalleOrdenCompraService.UpdateDetalleOrdenCompra(DOC);
 
-                string msgDefault = "Registro actualizado con éxito.";
+                string msgDefault = "Insumo actualizado con éxito.";
 
                 if (msgDefault == CatClienteResponse)
                 {
@@ -141,14 +128,14 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeleteEntradas([FromBody] DeleteEntradasModel entradas)
+        public JsonResult DeleteDetalleOrdenCompra([FromBody] DeleteDetalleOrdenCompraModel DOC)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.DeleteEntradas(entradas);
+                var CatClienteResponse = _detalleOrdenCompraService.DeleteDetalleOrdenCompra(DOC);
 
-                string msgDefault = "Registro eliminado con éxito.";
+                string msgDefault = "Insumo eliminado con éxito";
 
                 if (msgDefault == CatClienteResponse)
                 {

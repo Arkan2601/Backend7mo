@@ -12,13 +12,13 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class EntradasController : ControllerBase
+    public class RecetasController : ControllerBase
     {
-        private readonly EntradasService _entradasService;
+        private readonly RecetasService _recetasService;
 
-        public EntradasController(EntradasService entradasservice)
+        public RecetasController(RecetasService recetasservice)
         {
-            _entradasService = entradasservice;
+            _recetasService = recetasservice;
         }
 
 
@@ -26,17 +26,17 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-        public JsonResult InsertEntradas([FromBody] InsertEntradasModel entradas)
+        public JsonResult InsertRecetas([FromBody] InsertRecetasModel recetas)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var entradasModels = _entradasService.InsertEntradas(entradas);
+                var recetasmodel = _recetasService.InsertRecetas(recetas);
 
-                if (entradasModels.Count > 0)
+                 if (recetasmodel.Count > 0)
                 {
-                    var Id = entradasModels[0].Id;
-                    var Msg = entradasModels[0].Mensaje;
+                    var Id = recetasmodel[0].Id;
+                    var Msg = recetasmodel[0].Mensaje;
 
                     string msgDefault = "Registro insertado con éxito.";
 
@@ -52,20 +52,20 @@ namespace marcatel_api.Controllers
                             Msg
                         };
                     }
-                    else
-                    {
-                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                        objectResponse.success = true;
-                        objectResponse.message = "Error.";
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error.";
 
-                        objectResponse.response = new
+                    objectResponse.response = new
                         {
                             data = Id,
                             Msg
                         };
-                    }
                 }
-                else
+            }
+            else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                     objectResponse.success = true;
@@ -80,29 +80,30 @@ namespace marcatel_api.Controllers
                 throw;
             }
 
+
             return new JsonResult(objectResponse);
 
         }
 
 
 
-/*         [Authorize(AuthenticationSchemes = "Bearer")] */
+        //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetEntradas()
+        public IActionResult GetRecetas()
         {
-            var entrada = _entradasService.GetEntradas();
-            return Ok(entrada);
+            var recetas = _recetasService.GetRecetas();
+            return Ok(recetas);
         }
 
 
         [HttpPut("Update")]
-        public JsonResult UpdateEntradas([FromBody] UpdateEntradasModel entradas)
+        public JsonResult UpdateRecetas([FromBody] UpdateRecetasModel recetas)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.UpdateEntradas(entradas);
+                var CatClienteResponse = _recetasService.UpdateRecetas(recetas);
 
                 string msgDefault = "Registro actualizado con éxito.";
 
@@ -141,12 +142,12 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeleteEntradas([FromBody] DeleteEntradasModel entradas)
+        public JsonResult DeletRecetas([FromBody] DeleteRecetasModel recetas)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.DeleteEntradas(entradas);
+                var CatClienteResponse = _recetasService.DeleteRecetas(recetas);
 
                 string msgDefault = "Registro eliminado con éxito.";
 

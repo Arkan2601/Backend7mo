@@ -12,13 +12,14 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class EntradasController : ControllerBase
+    public class DetalleRecetaController : ControllerBase
     {
-        private readonly EntradasService _entradasService;
+        private readonly DetalleRecetaService _DetalleRecetaService;
 
-        public EntradasController(EntradasService entradasservice)
+        public DetalleRecetaController(DetalleRecetaService detallerecetaservice)
         {
-            _entradasService = entradasservice;
+            _DetalleRecetaService = detallerecetaservice;
+
         }
 
 
@@ -26,52 +27,36 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-        public JsonResult InsertEntradas([FromBody] InsertEntradasModel entradas)
+        public JsonResult InsertDetalleReceta([FromBody] InsertDetalleRecetaModel dr)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var entradasModels = _entradasService.InsertEntradas(entradas);
+                var CatClienteResponse = _DetalleRecetaService.InsertDetalleReceta(dr);
 
-                if (entradasModels.Count > 0)
+                string msgDefault = "Registro insertado con éxito.";
+
+                if (msgDefault == CatClienteResponse)
                 {
-                    var Id = entradasModels[0].Id;
-                    var Msg = entradasModels[0].Mensaje;
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
 
-                    string msgDefault = "Registro insertado con éxito.";
-
-                    if (msgDefault == Msg)
+                    objectResponse.response = new
                     {
-                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                        objectResponse.success = true;
-                        objectResponse.message = "Éxito.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                    }
-                    else
-                    {
-                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                        objectResponse.success = true;
-                        objectResponse.message = "Error.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                    }
+                        data = CatClienteResponse
+                    };
                 }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                     objectResponse.success = true;
-                    objectResponse.message = "Error: No se devolvió ningún resultado.";
+                    objectResponse.message = "Error.";
 
-                    objectResponse.response = null;
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
                 }
             }
             catch (System.Exception ex)
@@ -80,29 +65,29 @@ namespace marcatel_api.Controllers
                 throw;
             }
 
+
             return new JsonResult(objectResponse);
 
         }
 
 
 
-/*         [Authorize(AuthenticationSchemes = "Bearer")] */
-
-        [HttpGet("Get")]
-        public IActionResult GetEntradas()
+/*         [Authorize(AuthenticationSchemes = "Bearer")]
+ */     [HttpGet("Get")]
+        public IActionResult GetDetalleReceta([FromQuery] int idReceta)
         {
-            var entrada = _entradasService.GetEntradas();
-            return Ok(entrada);
+            var DOC = new GetDetalleRecetaModel { IdReceta = idReceta };
+            var detalleOC = _DetalleRecetaService.GetDetalleReceta(DOC);
+            return Ok(detalleOC);
         }
 
-
         [HttpPut("Update")]
-        public JsonResult UpdateEntradas([FromBody] UpdateEntradasModel entradas)
+        public JsonResult UpdateDetalleReceta([FromBody] UpdateDetalleRecetaModel dr)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.UpdateEntradas(entradas);
+                var CatClienteResponse = _DetalleRecetaService.UpdateDetalleReceta(dr);
 
                 string msgDefault = "Registro actualizado con éxito.";
 
@@ -141,12 +126,12 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeleteEntradas([FromBody] DeleteEntradasModel entradas)
+        public JsonResult DeleteDetalleReceta([FromBody] DeleteDetalleRecetaModel dr)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _entradasService.DeleteEntradas(entradas);
+                var CatClienteResponse = _DetalleRecetaService.DeleteDetalleReceta(dr);
 
                 string msgDefault = "Registro eliminado con éxito.";
 
@@ -183,11 +168,6 @@ namespace marcatel_api.Controllers
             return new JsonResult(objectResponse);
 
         }
-
-
-
-
-
 
 
     }

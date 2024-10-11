@@ -13,8 +13,8 @@ namespace marcatel_api.Models
        public string RFC {get; set;}
         public string RazonSocial {get; set;}
         public string CLABE {get; set;}
-        public DateTime FechaRegistro {get; set;}
-        public DateTime FechaActualiza {get; set;}
+        public string FechaRegistro {get; set;}
+        public string FechaActualiza {get; set;}
         public string UsuarioActualiza {get; set;}
 
     }

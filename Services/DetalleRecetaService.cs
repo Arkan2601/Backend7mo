@@ -6,36 +6,43 @@ using marcatel_api.DataContext;
 using marcatel_api.Models;
 using System.Collections;
 
+
 namespace marcatel_api.Services
 {
-    public class CatModuloService
+    public class DetalleRecetaService
     {
         private string connection;
-        public CatModuloService(IMarcatelDatabaseSetting settings)
+        public DetalleRecetaService(IMarcatelDatabaseSetting settings)
         {
             connection = settings.ConnectionString;
         }
 
-        public List<GetCatModuloModel> GetCatModulo()
+
+        public List<GetDetalleRecetaModel> GetDetalleReceta(GetDetalleRecetaModel dr)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetCatModuloModel>();
+            var lista = new List<GetDetalleRecetaModel>();
             try
             {
-                DataSet ds = dac.Fill("sp_GetCategoriaModulo", parametros);
+                parametros.Add(new SqlParameter { ParameterName = "@pIdReceta", SqlDbType = SqlDbType.Int, Value = dr.IdReceta });
+
+                DataSet ds = dac.Fill("sp_GetDetalleReceta", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        lista.Add(new GetCatModuloModel
+                        lista.Add(new GetDetalleRecetaModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            Nombre = row["Nombre"].ToString(),
+                            IdReceta = int.Parse(row["IdReceta"].ToString()),
+                            Insumo = row["Insumo"].ToString(),
                             Descripcion = row["Descripcion"].ToString(),
-                            FechaRegistro = row["FechaRegistro"].ToString(),
-                            FechaActualiza = row["FechaActualiza"].ToString(),
-                            Usuario = row["Usuario"].ToString()
+                            Cantidad = decimal.Parse(row["Cantidad"].ToString()),
+                            FechaAct = row["FechaActualiza"].ToString(),
+                            FechaReg = row["FechaRegistro"].ToString(),
+                            UsuarioAct = row["UsuarioActualiza"].ToString()
+
                         });
                     }
                 }
@@ -50,19 +57,22 @@ namespace marcatel_api.Services
 
         }
 
-
-        public string InsertCatModulo(InsertCatModuloModel catModulo)
+        public string InsertDetalleReceta(InsertDetalleRecetaModel dr)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetCatModuloModel>();
+            var lista = new List<GetDetalleRecetaModel>();
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = catModulo.Nombre });
-                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = catModulo.Descripcion });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = catModulo.Usuario });
-                DataSet ds = dac.Fill("sp_InsertCategoriaModulo", parametros);
+                parametros.Add(new SqlParameter { ParameterName = "@pIdReceta", SqlDbType = SqlDbType.Int, Value = dr.IdReceta });
+                parametros.Add(new SqlParameter { ParameterName = "@pInsumo", SqlDbType = SqlDbType.VarChar, Value = dr.Insumo });
+                parametros.Add(new SqlParameter { ParameterName = "@pCantidad", SqlDbType = SqlDbType.Decimal, Value = dr.Cantidad });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = dr.UsuarioActualiza });
+
+
+                DataSet ds = dac.Fill("sp_InsertDetalleReceta", parametros);
+
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
@@ -79,19 +89,20 @@ namespace marcatel_api.Services
             }
         }
 
-        public string UpdateCatModulo(UpdateCatModuloModel catModulo)
+        public string UpdateDetalleReceta(UpdateDetalleRecetaModel dr)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetCatModuloModel>();
+            var lista = new List<GetDetalleRecetaModel>();
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.VarChar, Value = catModulo.Id });
-                parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = catModulo.Nombre });
-                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = catModulo.Descripcion });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = catModulo.Usuario });
-                DataSet ds = dac.Fill("sp_UpdateCategoriaModulo", parametros);
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = dr.Id });
+                parametros.Add(new SqlParameter { ParameterName = "@pInsumo", SqlDbType = SqlDbType.VarChar, Value = dr.Insumo });
+                parametros.Add(new SqlParameter { ParameterName = "@pCantidad", SqlDbType = SqlDbType.Decimal, Value = dr.Cantidad });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = dr.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pEstatus", SqlDbType = SqlDbType.Int, Value = dr.Estatus });
+                DataSet ds = dac.Fill("sp_UpdateDetalleReceta", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
@@ -108,17 +119,16 @@ namespace marcatel_api.Services
             }
         }
 
-        public string DeleteCatModulo(DeleteCatModuloModel catModulo)
+        public string DeleteDetalleReceta(DeleteDetalleRecetaModel dr)
         {
-
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetCatModuloModel>();
+            var lista = new List<GetDetalleRecetaModel>();
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = catModulo.Id });
-                DataSet ds = dac.Fill("sp_DeleteCategoriaModulo", parametros);
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = dr.Id });
+                DataSet ds = dac.Fill("sp_DeleteDetalleReceta", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
@@ -133,9 +143,7 @@ namespace marcatel_api.Services
                 Console.Write(ex.Message);
                 return "Error: " + ex.Message;
             }
-
         }
-
 
     }
 }

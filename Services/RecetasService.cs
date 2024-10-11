@@ -8,72 +8,71 @@ using System.Collections;
 
 namespace marcatel_api.Services
 {
-    public class EntradasService
+    public class RecetasService
     {
         private string connection;
-        public EntradasService(IMarcatelDatabaseSetting settings)
+        public RecetasService(IMarcatelDatabaseSetting settings)
         {
             connection = settings.ConnectionString;
         }
 
-        public List<GetEntradasModel> InsertEntradas(InsertEntradasModel entradas)
+        public List<GetRecetasModel> InsertRecetas(InsertRecetasModel recetas)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetEntradasModel>();
+            var lista = new List<GetRecetasModel>();
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.Int, Value = entradas.IdProveedor });
-                parametros.Add(new SqlParameter { ParameterName = "@pFactura", SqlDbType = SqlDbType.VarChar, Value = entradas.Factura });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = entradas.IdSurcursal });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = entradas.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = recetas.Nombre });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioRegistra", SqlDbType = SqlDbType.Int, Value = recetas.UsuarioRegistra });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = recetas.UsuarioActualiza });
 
 
-                DataSet ds = dac.Fill("sp_InsertEntradas", parametros);
+                DataSet ds = dac.Fill("sp_InsertRecetas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    foreach (DataRow row in ds.Tables[0].Rows)
+                   foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        lista.Add(new GetEntradasModel
+                        lista.Add(new GetRecetasModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             Mensaje = row["Mensaje"].ToString()
                         });
                     }
-
                 }
-
+                
                 return lista;
             }
             catch (Exception ex)
             {
-                throw ex;
+              throw ex;
             }
         }
 
-        public List<GetEntradasModel> GetEntradas()
+        public List<GetRecetasModel> GetRecetas()
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetEntradasModel>();
+            var lista = new List<GetRecetasModel>();
             try
             {
-                DataSet ds = dac.Fill("sp_GetEntradas", parametros);
+                DataSet ds = dac.Fill("sp_GetRecetas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        lista.Add(new GetEntradasModel
+                        lista.Add(new GetRecetasModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            IdProveedor = row["Proveedor"].ToString(),
-                            Factura = row["Factura"].ToString(),
-                            IdSurcursal = row["Sucursal"].ToString(),
-                            FechaEntrega = row["FechaEntrega"].ToString(),
-                            FechaRegistro = row["FechaRegistro"].ToString(),
+                            Nombre = row["Nombre"].ToString(),
+                            FechaCreacion = row["FechaCreacion"].ToString(), 
                             FechaActualiza = row["FechaActualiza"].ToString(),
+                            Estatus = int.Parse(row["Estatus"].ToString()),
+                            UsuarioRegistra = row["UsuarioRegistra"].ToString(),
                             UsuarioActualiza = row["UsuarioActualiza"].ToString()
+
+                           
                         });
                     }
                 }
@@ -88,7 +87,7 @@ namespace marcatel_api.Services
 
         }
 
-        public string UpdateEntradas(UpdateEntradasModel entradas)
+        public string UpdateRecetas(UpdateRecetasModel recetas)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
@@ -96,15 +95,11 @@ namespace marcatel_api.Services
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.VarChar, Value = entradas.Id });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.VarChar, Value = entradas.IdProveedor });
-                parametros.Add(new SqlParameter { ParameterName = "@pFactura", SqlDbType = SqlDbType.VarChar, Value = entradas.Factura });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = entradas.IdSurcursal });
-                parametros.Add(new SqlParameter { ParameterName = "@pFechaEntrega", SqlDbType = SqlDbType.Date, Value = entradas.FechaEntrega });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = entradas.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.VarChar, Value = recetas.Id });
+                parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = recetas.Nombre });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = recetas.UsuarioActualiza });
 
-
-                DataSet ds = dac.Fill("sp_UpdateEntradas", parametros);
+                DataSet ds = dac.Fill("sp_UpdateRecetas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
@@ -121,7 +116,7 @@ namespace marcatel_api.Services
             }
         }
 
-        public string DeleteEntradas(DeleteEntradasModel entradas)
+        public string DeleteRecetas(DeleteRecetasModel recetas)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
@@ -129,8 +124,8 @@ namespace marcatel_api.Services
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = entradas.Id });
-                DataSet ds = dac.Fill("sp_DeleteEntradas", parametros);
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = recetas.Id });
+                DataSet ds = dac.Fill("sp_DeleteRecetas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();

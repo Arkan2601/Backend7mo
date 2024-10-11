@@ -39,13 +39,13 @@ namespace marcatel_api.Services
                             Codigo = row["Codigo"].ToString(),
                             Articulo = row["Articulo"].ToString(),
                             Cantidad = decimal.Parse(row["Cantidad"].ToString()),
-                            Costo = decimal.Parse(row["Cantidad"].ToString()),
-                            Descuento = decimal.Parse(row["Cantidad"].ToString()),
-                            MontoDescuento = decimal.Parse(row["Cantidad"].ToString()),
-                            CantidadSinCargo = decimal.Parse(row["Cantidad"].ToString()),
-                            Total = decimal.Parse(row["Cantidad"].ToString()),
-                            FechaAct = DateTime.Parse(row["FechaActualiza"].ToString()),
-                            FechaReg = DateTime.Parse(row["FechaRegistra"].ToString()),
+                            Costo = decimal.Parse(row["Costo"].ToString()),
+                            Descuento = decimal.Parse(row["Descuento"].ToString()),
+                            MontoDescuento = decimal.Parse(row["MontoDescuento"].ToString()),
+                            CantidadSinCargo = decimal.Parse(row["CantidadSinCargo"].ToString()),
+                            Total = decimal.Parse(row["Total"].ToString()),
+                            FechaAct = row["FechaActualiza"].ToString(),
+                            FechaReg = row["FechaRegistra"].ToString(),
                             UsuarioAct = row["UsuarioActualiza"].ToString()
 
                         });

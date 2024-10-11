@@ -8,34 +8,35 @@ using System.Collections;
 
 namespace marcatel_api.Services
 {
-    public class EntradasService
+    public class OrdenCompraService
     {
         private string connection;
-        public EntradasService(IMarcatelDatabaseSetting settings)
+        public OrdenCompraService(IMarcatelDatabaseSetting settings)
         {
             connection = settings.ConnectionString;
         }
 
-        public List<GetEntradasModel> InsertEntradas(InsertEntradasModel entradas)
+        public List<GetOrdenCompraModel> InsertOrdenCompra(InsertarOrdenCompraModel orden)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetEntradasModel>();
+            var lista = new List<GetOrdenCompraModel>();
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.Int, Value = entradas.IdProveedor });
-                parametros.Add(new SqlParameter { ParameterName = "@pFactura", SqlDbType = SqlDbType.VarChar, Value = entradas.Factura });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = entradas.IdSurcursal });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = entradas.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.Int, Value = orden.IdProveedor });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaLlegada", SqlDbType = SqlDbType.Date, Value = orden.FechaLlegada });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = orden.IdSurcursal });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdComprador", SqlDbType = SqlDbType.Int, Value = orden.IdComprador });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = orden.UsuarioActualiza });
 
 
-                DataSet ds = dac.Fill("sp_InsertEntradas", parametros);
+                DataSet ds = dac.Fill("sp_InsertOrdenCompra", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        lista.Add(new GetEntradasModel
+                        lista.Add(new GetOrdenCompraModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             Mensaje = row["Mensaje"].ToString()
@@ -52,28 +53,28 @@ namespace marcatel_api.Services
             }
         }
 
-        public List<GetEntradasModel> GetEntradas()
+        public List<GetOrdenCompraModel> getOrdenCompras()
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetEntradasModel>();
+            var lista = new List<GetOrdenCompraModel>();
             try
             {
-                DataSet ds = dac.Fill("sp_GetEntradas", parametros);
+                DataSet ds = dac.Fill("sp_GetOrdenCompra", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        lista.Add(new GetEntradasModel
+                        lista.Add(new GetOrdenCompraModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             IdProveedor = row["Proveedor"].ToString(),
-                            Factura = row["Factura"].ToString(),
                             IdSurcursal = row["Sucursal"].ToString(),
-                            FechaEntrega = row["FechaEntrega"].ToString(),
+                            IdComprador = row["Comprador"].ToString(),
                             FechaRegistro = row["FechaRegistro"].ToString(),
-                            FechaActualiza = row["FechaActualiza"].ToString(),
-                            UsuarioActualiza = row["UsuarioActualiza"].ToString()
+                            FechaLlegada = row["FechaLlegada"].ToString(),
+                            Total = decimal.Parse(row["Total"].ToString()),
+                            UsuarioActualiza = row["Usuario"].ToString()
                         });
                     }
                 }
@@ -88,7 +89,7 @@ namespace marcatel_api.Services
 
         }
 
-        public string UpdateEntradas(UpdateEntradasModel entradas)
+        public string UpdateOrdenCompra(UpdateOrdenCompraModel orden)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
@@ -96,15 +97,15 @@ namespace marcatel_api.Services
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.VarChar, Value = entradas.Id });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.VarChar, Value = entradas.IdProveedor });
-                parametros.Add(new SqlParameter { ParameterName = "@pFactura", SqlDbType = SqlDbType.VarChar, Value = entradas.Factura });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = entradas.IdSurcursal });
-                parametros.Add(new SqlParameter { ParameterName = "@pFechaEntrega", SqlDbType = SqlDbType.Date, Value = entradas.FechaEntrega });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = entradas.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdOrdenCompra", SqlDbType = SqlDbType.Int, Value = orden.IdOrden });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.Int, Value = orden.IdProveedor });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaLlegada", SqlDbType = SqlDbType.Date, Value = orden.FechaLlegada });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = orden.IdSurcursal });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdComprador", SqlDbType = SqlDbType.Int, Value = orden.IdComprador });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = orden.UsuarioActualiza });
 
 
-                DataSet ds = dac.Fill("sp_UpdateEntradas", parametros);
+                DataSet ds = dac.Fill("sp_UpdateOrdenCompra", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
@@ -121,7 +122,7 @@ namespace marcatel_api.Services
             }
         }
 
-        public string DeleteEntradas(DeleteEntradasModel entradas)
+        public string DeleteOrdenCompra(DeleteOrdenCompraModel orden)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
@@ -129,8 +130,8 @@ namespace marcatel_api.Services
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = entradas.Id });
-                DataSet ds = dac.Fill("sp_DeleteEntradas", parametros);
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = orden.Id });
+                DataSet ds = dac.Fill("sp_DeleteOrdenCompra", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
