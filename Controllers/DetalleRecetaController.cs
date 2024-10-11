@@ -72,12 +72,13 @@ namespace marcatel_api.Controllers
 
 
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpGet("Get")]
-        public IActionResult GetDetalleReceta(GetDetalleRecetaModel dr)
+/*         [Authorize(AuthenticationSchemes = "Bearer")]
+ */     [HttpGet("Get")]
+        public IActionResult GetDetalleReceta([FromQuery] int idReceta)
         {
-            var DR = _DetalleRecetaService.GetDetalleReceta(dr);
-            return Ok(DR);
+            var DOC = new GetDetalleRecetaModel { IdReceta = idReceta };
+            var detalleOC = _DetalleRecetaService.GetDetalleReceta(DOC);
+            return Ok(detalleOC);
         }
 
         [HttpPut("Update")]
@@ -167,6 +168,7 @@ namespace marcatel_api.Controllers
             return new JsonResult(objectResponse);
 
         }
+
 
     }
 }

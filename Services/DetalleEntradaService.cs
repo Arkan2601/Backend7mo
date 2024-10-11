@@ -44,8 +44,8 @@ namespace marcatel_api.Services
                             MontoDescuento = decimal.Parse(row["MontoDescuento"].ToString()),
                             CantidadSinCargo = decimal.Parse(row["CantidadSinCargo"].ToString()),
                             Total = decimal.Parse(row["Total"].ToString()),
-                            FechaAct = DateTime.Parse(row["FechaActualiza"].ToString()),
-                            FechaReg = DateTime.Parse(row["FechaRegistra"].ToString()),
+                            FechaAct = row["FechaActualiza"].ToString(),
+                            FechaReg = row["FechaRegistra"].ToString(),
                             UsuarioAct = row["UsuarioActualiza"].ToString()
 
                         });

@@ -69,10 +69,10 @@ namespace marcatel_api.Services
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             IdProveedor = row["Proveedor"].ToString(),
-                            FechaLlegada = row["FechaLlegada"].ToString(),
                             IdSurcursal = row["Sucursal"].ToString(),
                             IdComprador = row["Comprador"].ToString(),
                             FechaRegistro = row["FechaRegistro"].ToString(),
+                            FechaLlegada = row["FechaLlegada"].ToString(),
                             Total = decimal.Parse(row["Total"].ToString()),
                             UsuarioActualiza = row["Usuario"].ToString()
                         });

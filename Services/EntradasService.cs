@@ -70,10 +70,10 @@ namespace marcatel_api.Services
                             IdProveedor = row["Proveedor"].ToString(),
                             Factura = row["Factura"].ToString(),
                             IdSurcursal = row["Sucursal"].ToString(),
-                            FechaEntrega = DateTime.Parse(row["FechaEntrega"].ToString()),
-                            FechaRegistro = DateTime.Parse(row["FechaRegistro"].ToString()),
-                            FechaActualiza = DateTime.Parse(row["FechaActualiza"].ToString()),
-                            UsuarioActualiza = int.Parse(row["UsuarioActualiza"].ToString())
+                            FechaEntrega = row["FechaEntrega"].ToString(),
+                            FechaRegistro = row["FechaRegistro"].ToString(),
+                            FechaActualiza = row["FechaActualiza"].ToString(),
+                            UsuarioActualiza = row["UsuarioActualiza"].ToString()
                         });
                     }
                 }

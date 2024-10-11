@@ -66,10 +66,10 @@ namespace marcatel_api.Services
                             Nombre = row["Usuario"].ToString(),
                             Contrasena = row["Contrasena"].ToString(),
                             Rol = row["Rol"].ToString(),
-                            //IdPersona = int.Parse(row["Empleado"].ToString()),
+                            IdPersona = int.Parse(row["IdPersona"].ToString()),
                             Usuario = row["Usuario"].ToString(),
-                            FechaAct = DateTime.Parse(row["FechaActualiza"].ToString()),
-                            FechaReg = DateTime.Parse(row["FechaRegistro"].ToString())
+                            FechaAct = row["FechaActualiza"].ToString(),
+                            FechaReg = row["FechaRegistro"].ToString()
 
                         });
                     }

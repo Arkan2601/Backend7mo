@@ -7,8 +7,8 @@ namespace marcatel_api.Models
         public string Nombre { get; set; }
         public string Direccion { get; set; }
         public string Usuario { get; set; }
-        public DateTime FechaAct { get; set; }
-        public DateTime FechaReg { get; set; }
+        public string FechaAct { get; set; }
+        public string FechaReg { get; set; }
 
 
     }

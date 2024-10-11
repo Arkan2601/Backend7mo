@@ -73,12 +73,13 @@ namespace marcatel_api.Controllers
 
 /*      [Authorize(AuthenticationSchemes = "Bearer")]
  */
-        [HttpGet("Get")]
-        public IActionResult GetDetalleOrdenCompra()
-        {
-            var detalleOrdenCompra = _detalleOrdenCompraService.GetDetalleOrdenCompra();
-            return Ok(detalleOrdenCompra);
-        }
+    [HttpGet("Get")]
+public IActionResult GetDetalleOrdenCompra([FromQuery] int idOrdenCompra)
+{
+    var DOC = new GetDetalleOrdenCompraModel { IdOrdenCompra = idOrdenCompra };
+    var detalleOC = _detalleOrdenCompraService.GetDetalleOrdenCompra(DOC);
+    return Ok(detalleOC);
+}
 
 
 

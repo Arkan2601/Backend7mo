@@ -18,7 +18,7 @@ public class InsertInsumosModel
     {
         public int Id { get; set; }
         public string Insumo { get; set; }
-        public string DescripcionInsumo { get; set; }
+        public string Descripcion { get; set; }
         public decimal Costo { get; set; }
         public string UnidadMedida { get; set; }
         public string FechaRegistro { get; set; }

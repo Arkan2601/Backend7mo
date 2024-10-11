@@ -4,11 +4,11 @@ namespace marcatel_api.Models
     public class GetModulosModel
     {
         public int Id {get; set;}
-        public string NombreModulo {get; set;}
+        public string Modulo {get; set;}
         public string CategoriaModulo {get; set;}
         public string Usuario {get; set;}
-        public DateTime FechaAct {get; set;}
-        public DateTime FechaReg {get; set;}
+        public string FechaAct {get; set;}
+        public string FechaReg {get; set;}
 
     }
     public class InsertModulosModel
