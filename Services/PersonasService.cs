@@ -129,7 +129,7 @@ namespace marcatel_api.Services
             try
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = personas.Id });
-                DataSet ds = dac.Fill("sp_DeletePersona", parametros);
+                DataSet ds = dac.Fill("sp_DeletePersonas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
