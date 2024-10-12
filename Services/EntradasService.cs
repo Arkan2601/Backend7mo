@@ -67,9 +67,9 @@ namespace marcatel_api.Services
                         lista.Add(new GetEntradasModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            IdProveedor = row["Proveedor"].ToString(),
+                            Proveedor = row["Proveedor"].ToString(),
                             Factura = row["Factura"].ToString(),
-                            IdSurcursal = row["Sucursal"].ToString(),
+                            Surcursal = row["Sucursal"].ToString(),
                             FechaEntrega = row["FechaEntrega"].ToString(),
                             FechaRegistro = row["FechaRegistro"].ToString(),
                             FechaActualiza = row["FechaActualiza"].ToString(),
