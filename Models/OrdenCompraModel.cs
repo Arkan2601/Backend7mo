@@ -19,7 +19,7 @@ namespace marcatel_api.Models
     {
         public int IdProveedor { get; set; }
         public DateTime FechaLlegada { get; set; }
-        public int IdSurcursal { get; set; }
+        public int IdSucursal { get; set; }
         public int IdComprador { get; set; }
         public int UsuarioActualiza { get; set; }
 

@@ -26,7 +26,7 @@ namespace marcatel_api.Services
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pIdProveedor", SqlDbType = SqlDbType.Int, Value = orden.IdProveedor });
                 parametros.Add(new SqlParameter { ParameterName = "@pFechaLlegada", SqlDbType = SqlDbType.Date, Value = orden.FechaLlegada });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = orden.IdSurcursal });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdSucursal", SqlDbType = SqlDbType.Int, Value = orden.IdSucursal });
                 parametros.Add(new SqlParameter { ParameterName = "@pIdComprador", SqlDbType = SqlDbType.Int, Value = orden.IdComprador });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = orden.UsuarioActualiza });
 
