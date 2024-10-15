@@ -11,6 +11,7 @@ public class InsertInsumosModel
         public decimal Costo { get; set; }
         public int UnidadMedida { get; set; }
         public int UsuarioActualiza { get; set; }
+         public string InsumosUP { get; set; }
     }
 
 
@@ -25,6 +26,7 @@ public class InsertInsumosModel
         public string FechaActualiza { get; set; }
         // public int Estatus { get; set; }
         public string UsuarioActualiza { get; set; }
+        public string InsumosUP { get; set; }
 
     }
 
@@ -39,6 +41,7 @@ public class InsertInsumosModel
         public int UnidadMedida { get; set; }
         // public int Estatus { get; set; }
         public int UsuarioActualiza { get; set; }
+        public string InsumosUP { get; set; }
         //public DateTime FechaActualiza { get; set; }
 
     }
