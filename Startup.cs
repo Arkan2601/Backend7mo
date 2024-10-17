@@ -74,10 +74,11 @@ namespace marcatel_api
 
 
             services.AddSingleton<DetalleRecetaService>();
+            services.AddSingleton<DetalleMovimientosService>();
 
 
             services.AddSingleton<OrdenCompraService>();
-            services.AddSingleton<DetalleRecetaService>();
+            
 
 
 
