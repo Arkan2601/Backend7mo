@@ -86,7 +86,7 @@ namespace marcatel_api
             services.AddSingleton<DetalleRecetaService>();
              services.AddSingleton<MovimientosService>();
             services.AddSingleton<UnidadMedidaService>();
->
+
 
             services.AddSingleton<LoginService>();
 
