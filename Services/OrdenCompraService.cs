@@ -69,10 +69,10 @@ namespace marcatel_api.Services
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             IdProveedor = row["Proveedor"].ToString(),
-                            FechaLlegada = row["FechaLlegada"].ToString(),
                             IdSurcursal = row["Sucursal"].ToString(),
                             IdComprador = row["Comprador"].ToString(),
                             FechaRegistro = row["FechaRegistro"].ToString(),
+                            FechaLlegada = row["FechaLlegada"].ToString(),
                             Total = decimal.Parse(row["Total"].ToString()),
                             UsuarioActualiza = row["Usuario"].ToString()
                         });
@@ -122,7 +122,7 @@ namespace marcatel_api.Services
             }
         }
 
-        public string DeleteEntradas(DeleteEntradasModel entradas)
+        public string DeleteOrdenCompra(DeleteOrdenCompraModel orden)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
@@ -130,8 +130,8 @@ namespace marcatel_api.Services
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = entradas.Id });
-                DataSet ds = dac.Fill("sp_DeleteEntradas", parametros);
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = orden.Id });
+                DataSet ds = dac.Fill("sp_DeleteOrdenCompra", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();

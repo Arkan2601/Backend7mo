@@ -141,13 +141,13 @@ namespace marcatel_api.Controllers
 
         }
 
-/*         [HttpPut("Delete")]
-        public JsonResult DeleteEntradas([FromBody] DeleteEntradasModel entradas)
+         [HttpPut("Delete")]
+        public JsonResult DeleteOrdenCompra([FromBody] DeleteOrdenCompraModel orden)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _.DeleteEntradas(entradas);
+                var CatClienteResponse = _OrdenCompraService.DeleteOrdenCompra(orden);
 
                 string msgDefault = "Registro eliminado con éxito.";
 
@@ -183,7 +183,7 @@ namespace marcatel_api.Controllers
 
             return new JsonResult(objectResponse);
 
-        } */
+        } 
 
     }
 }

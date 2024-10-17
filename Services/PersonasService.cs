@@ -71,8 +71,8 @@ namespace marcatel_api.Services
                             ApMaterno = row["ApMaterno"].ToString(),
                             Direccion = row["Direccion"].ToString(),
                             Usuario = row["Usuario"].ToString(),
-                            FechaAct = DateTime.Parse(row["FechaActualiza"].ToString()),
-                            FechaReg = DateTime.Parse(row["FechaRegistro"].ToString())
+                            FechaAct = row["FechaActualiza"].ToString(),
+                            FechaReg = row["FechaRegistro"].ToString()
                         });
                     }
                 }

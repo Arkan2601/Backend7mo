@@ -66,12 +66,14 @@ namespace marcatel_api
             services.AddSingleton<CatModuloService>();
             services.AddSingleton<DetalleOrdenCompraService>();
             services.AddSingleton<ProveedoresService>();
-
+            services.AddSingleton<InsumosService>();
             services.AddSingleton<EntradasService>();
             services.AddSingleton<DetalleEntradaService>();
             services.AddSingleton<BancosService>();
             services.AddSingleton<RecetasService>();
+            services.AddSingleton<OrdenCompraService>();
             services.AddSingleton<DetalleRecetaService>();
+            services.AddSingleton<TraspasosService>();
 
 
             services.AddSingleton<LoginService>();

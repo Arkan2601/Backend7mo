@@ -12,14 +12,13 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class DetalleRecetaController : ControllerBase
+    public class TraspasosController : ControllerBase
     {
-        private readonly DetalleRecetaService _DetalleRecetaService;
+        private readonly TraspasosService _traspasosService;
 
-        public DetalleRecetaController(DetalleRecetaService detallerecetaservice)
+        public TraspasosController(TraspasosService traspasosservice)
         {
-            _DetalleRecetaService = detallerecetaservice;
-
+            _traspasosService = traspasosservice;
         }
 
 
@@ -27,36 +26,52 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-        public JsonResult InsertDetalleReceta([FromBody] InsertDetalleRecetaModel dr)
+        public JsonResult InsertTraspasos([FromBody] InsertTraspasosModel traspasos)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _DetalleRecetaService.InsertDetalleReceta(dr);
+                var traspasosModels = _traspasosService.InsertTraspasos(traspasos);
 
-                string msgDefault = "Registro insertado con éxito.";
-
-                if (msgDefault == CatClienteResponse)
+                if (traspasosModels.Count > 0)
                 {
-                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                    objectResponse.success = true;
-                    objectResponse.message = "Éxito.";
+                    var Id = traspasosModels[0].Id;
+                    var Msg = traspasosModels[0].Mensaje;
 
-                    objectResponse.response = new
+                    string msgDefault = "Registro insertado con éxito.";
+
+                    if (msgDefault == Msg)
                     {
-                        data = CatClienteResponse
-                    };
+                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                        objectResponse.success = true;
+                        objectResponse.message = "Éxito.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            Msg
+                        };
+                    }
+                    else
+                    {
+                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                        objectResponse.success = true;
+                        objectResponse.message = "Error.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            Msg
+                        };
+                    }
                 }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                     objectResponse.success = true;
-                    objectResponse.message = "Error.";
+                    objectResponse.message = "Error: No se devolvió ningún resultado.";
 
-                    objectResponse.response = new
-                    {
-                        data = CatClienteResponse
-                    };
+                    objectResponse.response = null;
                 }
             }
             catch (System.Exception ex)
@@ -65,29 +80,29 @@ namespace marcatel_api.Controllers
                 throw;
             }
 
-
             return new JsonResult(objectResponse);
 
         }
 
 
 
-/*         [Authorize(AuthenticationSchemes = "Bearer")]
- */     [HttpGet("Get")]
-        public IActionResult GetDetalleReceta([FromQuery] int idReceta)
+        /*         [Authorize(AuthenticationSchemes = "Bearer")] */
+
+        [HttpGet("Get")]
+        public IActionResult GetTraspasos()
         {
-            var DOC = new GetDetalleRecetaModel { IdReceta = idReceta };
-            var detalleOC = _DetalleRecetaService.GetDetalleReceta(DOC);
-            return Ok(detalleOC);
+            var traspaso = _traspasosService.GetTraspasos();
+            return Ok(traspaso);
         }
 
+
         [HttpPut("Update")]
-        public JsonResult UpdateDetalleReceta([FromBody] UpdateDetalleRecetaModel dr)
+        public JsonResult UpdateTraspasos([FromBody] UpdateTraspasosModel traspasos)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _DetalleRecetaService.UpdateDetalleReceta(dr);
+                var CatClienteResponse = _traspasosService.UpdateTraspasos(traspasos);
 
                 string msgDefault = "Registro actualizado con éxito.";
 
@@ -126,12 +141,12 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeleteDetalleReceta([FromBody] DeleteDetalleRecetaModel dr)
+        public JsonResult DeleteTraspasos([FromBody] DeleteTraspasosModel traspasos)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _DetalleRecetaService.DeleteDetalleReceta(dr);
+                var CatClienteResponse = _traspasosService.DeleteTraspasos(traspasos);
 
                 string msgDefault = "Registro eliminado con éxito.";
 
@@ -168,6 +183,53 @@ namespace marcatel_api.Controllers
             return new JsonResult(objectResponse);
 
         }
+
+
+
+        [HttpPut("AutorizarTraspaso")]
+        public JsonResult AutorizarTraspasos([FromBody] AutorizarTraspasosModel traspasos)
+        {
+            var objectResponse = Helper.GetStructResponse();
+            try
+            {
+                var CatClienteResponse = _traspasosService.AutorizarTraspasos(traspasos);
+
+                string msgDefault = "Registro actualizado con éxito.";
+
+                if (msgDefault == CatClienteResponse)
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.Write(ex.Message);
+                throw;
+            }
+
+
+            return new JsonResult(objectResponse);
+
+        }
+
 
 
     }
