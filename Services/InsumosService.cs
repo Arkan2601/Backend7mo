@@ -29,6 +29,8 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pCosto", SqlDbType = SqlDbType.Decimal, Value = insumos.Costo });
                 parametros.Add(new SqlParameter { ParameterName = "@pUnidadMedida", SqlDbType = SqlDbType.Int, Value = insumos.UnidadMedida });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = insumos.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pInsumosUP", SqlDbType = SqlDbType.VarChar, Value = insumos.InsumosUP });
+
 
                 DataSet ds = dac.Fill("sp_InsertInsumos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
@@ -68,7 +70,8 @@ namespace marcatel_api.Services
                             UnidadMedida = row["UnidadMedida"].ToString(),
                             FechaRegistro = row["FechaRegistro"].ToString(),
                             FechaActualiza = row["FechaActualiza"].ToString(),
-                            UsuarioActualiza = row["UsuarioActualiza"].ToString()
+                            UsuarioActualiza = row["UsuarioActualiza"].ToString(),
+                            InsumosUP = row["InsumosUP"].ToString()
                         });
                     }
                 }
@@ -97,6 +100,9 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pCosto", SqlDbType = SqlDbType.Decimal, Value = insumos.Costo });
                 parametros.Add(new SqlParameter { ParameterName = "@pUnidadMedida", SqlDbType = SqlDbType.Int, Value = insumos.UnidadMedida });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = insumos.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pInsumosUP", SqlDbType = SqlDbType.VarChar, Value = insumos.InsumosUP });
+
+
                 DataSet ds = dac.Fill("sp_UpdateInsumos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
