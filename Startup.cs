@@ -90,6 +90,8 @@ namespace marcatel_api
 
             services.AddSingleton<LoginService>();
 
+              services.AddSingleton<TipoMovimientoService>();
+
 
             services.AddCors();
 
