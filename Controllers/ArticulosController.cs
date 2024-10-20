@@ -41,18 +41,16 @@ namespace marcatel_api.Controllers
                     objectResponse.StatusCode = (int)HttpStatusCode.OK;
                     objectResponse.success = true;
                     objectResponse.message = "Éxito.";
-
                     objectResponse.response = new
-                    {
+                    { 
                         data = CatClienteResponse
                     };
                 }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = true;
-                    objectResponse.message = "Error.";
-
+                    objectResponse.success = false;
+                    objectResponse.message = "Error." ;
                     objectResponse.response = new
                     {
                         data = CatClienteResponse
