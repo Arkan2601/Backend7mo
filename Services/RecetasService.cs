@@ -68,7 +68,6 @@ namespace marcatel_api.Services
                             Nombre = row["Nombre"].ToString(),
                             FechaCreacion = row["FechaCreacion"].ToString(), 
                             FechaActualiza = row["FechaActualiza"].ToString(),
-                            Estatus = int.Parse(row["Estatus"].ToString()),
                             UsuarioRegistra = row["UsuarioRegistra"].ToString(),
                             UsuarioActualiza = row["UsuarioActualiza"].ToString()
 
