@@ -69,7 +69,7 @@ namespace marcatel_api.Services
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             NombreAlmacen= row["NombreAlmacen"].ToString(),
-                            TipoMovimiento= int.Parse(row["TipoMovimiento"].ToString()),
+                            TipoMovimiento= row["TipoMovimiento"].ToString(),
                             FechaCreacion= row["FechaCreacion"].ToString(),
                             FechaAutorizacion = row["FechaAutorizacion"].ToString(),
                             UsuarioRegistra = row["UsuarioRegistra"].ToString(),
@@ -102,6 +102,7 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = movimientos.Id });
                 parametros.Add(new SqlParameter { ParameterName = "@pIdAlmacen", SqlDbType = SqlDbType.Int, Value = movimientos.IdAlmacen });
                 parametros.Add(new SqlParameter { ParameterName = "@pTipoMovimiento", SqlDbType = SqlDbType.Int, Value = movimientos.TipoMovimiento });
+                parametros.Add(new SqlParameter { ParameterName = "@pEstatus", SqlDbType = SqlDbType.Int, Value = movimientos.Estatus });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioRegistra", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioRegistra });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioAutoriza", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioAutoriza });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioActualiza });
