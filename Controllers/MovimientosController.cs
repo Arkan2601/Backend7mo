@@ -22,67 +22,85 @@ namespace marcatel_api.Controllers
             _movimientosService = movimientosService;
         }
 
-
-
-
-
-        [HttpPost("Insert")]
-public JsonResult InsertMovimientos([FromBody] InsertMovimientosModel movimientos)
+        [HttpGet("ExportarMovimientosAExcel")]
+public IActionResult ExportarMovimientosAExcel()
 {
-    var objectResponse = Helper.GetStructResponse();
     try
     {
-        var catClienteResponse = _movimientosService.InsertMovimientos(movimientos);
+        var excelData = _movimientosService.ExportarMovimientosAExcel();
 
-        // Suponemos que el mensaje de éxito contiene el ID del registro insertado
-        if (catClienteResponse.Contains("Registro insertado con éxito", StringComparison.OrdinalIgnoreCase))
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.OK;
-            objectResponse.success = true;
-            objectResponse.message = "Éxito.";
-
-            // Extraer el ID de la respuesta
-            // Suponiendo que CatClienteResponse es algo como "Registro insertado con éxito. ID: 123"
-            int id = ExtractIdFromResponse(catClienteResponse);
-            objectResponse.response = new
-            {
-                id = id // Agregamos el ID del registro insertado
-            };
-        }
-        else
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-            objectResponse.success = false; // Cambiado a false para indicar un error
-            objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
-
-            objectResponse.response = new
-            {
-                data = catClienteResponse
-            };
-        }
+        
+        return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Movimientos.xlsx");
     }
-    catch (System.Exception ex)
+    catch (Exception ex)
     {
-        Console.Write(ex.Message);
-        objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
-        objectResponse.success = false;
-        objectResponse.message = "Error interno del servidor: " + ex.Message;
+        Console.WriteLine(ex.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
     }
-
-    return new JsonResult(objectResponse);
 }
 
-// Método auxiliar para extraer el ID del mensaje de respuesta
-private int ExtractIdFromResponse(string response)
-{
-    // Suponiendo que la respuesta tiene el formato: "Registro insertado con éxito. ID: 123"
-    var parts = response.Split(new[] { "Id: " }, StringSplitOptions.None);
-    if (parts.Length > 1 && int.TryParse(parts[1], out int id))
-    {
-        return id; // Devuelve el ID extraído
-    }
-    return 0; // Devuelve 0 si no se puede extraer el ID
-}
+
+
+
+      [HttpPost("Insert")]
+        public JsonResult InsertarMovimiento([FromBody] InsertMovimientosModel movimiento)
+        {
+            var objectResponse = Helper.GetStructResponse();
+            try
+            {
+                var MovModels = _movimientosService.InsertarMovimientos(movimiento);
+
+                if (MovModels.Count > 0)
+                {
+                    var Id = MovModels[0].Id;
+                    var Msg = MovModels[0].Mensaje;
+
+                    string msgDefault = "Registro insertado con éxito.";
+
+                    if (msgDefault == Msg)
+                    {
+                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                        objectResponse.success = true;
+                        objectResponse.message = "Éxito.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            Msg
+                        };
+                    }
+                    else
+                    {
+                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                        objectResponse.success = true;
+                        objectResponse.message = "Error.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            Msg
+                        };
+                    }
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error: No se devolvió ningún resultado.";
+
+                    objectResponse.response = null;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.Write(ex.Message);
+                throw;
+            }
+
+            return new JsonResult(objectResponse);
+
+        }
+
 
 
 

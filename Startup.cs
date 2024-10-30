@@ -72,7 +72,7 @@ namespace marcatel_api
             services.AddSingleton<BancosService>();
             services.AddSingleton<RecetasService>();
             services.AddSingleton<DetalleTraspasoService>();
-
+            services.AddSingleton<ImagenService>();
             services.AddSingleton<DetalleRecetaService>();
             services.AddSingleton<TraspasosService>();
             services.AddSingleton<DetalleMovimientosService>();

@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using marcatel_api.DataContext;
 using marcatel_api.Models;
 using System.Collections;
+using System.IO;
+using ClosedXML.Excel;
 
 namespace marcatel_api.Services
 {
@@ -16,43 +18,89 @@ namespace marcatel_api.Services
             connection = settings.ConnectionString;
         }
 
-
-    public string InsertMovimientos(InsertMovimientosModel movimientos)
+        public byte[] ExportarMovimientosAExcel()
 {
-    ArrayList parametros = new ArrayList();
-    ConexionDataAccess dac = new ConexionDataAccess(connection);
+    // Obtén la lista de movimientos
+    var listaMovimientos = GetMovimientos();
 
-    try
+    // Crea un nuevo workbook
+    using (var workbook = new XLWorkbook())
     {
-        // Agregando los parámetros de inserción
-        parametros.Add(new SqlParameter { ParameterName = "@pIdAlmacen", SqlDbType = SqlDbType.Int, Value = movimientos.IdAlmacen });
-        parametros.Add(new SqlParameter { ParameterName = "@pTipoMovimiento", SqlDbType = SqlDbType.Int, Value = movimientos.TipoMovimiento });
-        parametros.Add(new SqlParameter { ParameterName = "@pUsuarioRegistra", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioRegistra });
-        parametros.Add(new SqlParameter { ParameterName = "@pUsuarioAutoriza", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioAutoriza });
-        parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioActualiza });
+        var worksheet = workbook.Worksheets.Add("Movimientos");
 
-        // Llamando al procedimiento almacenado
-        DataSet ds = dac.Fill("sp_InsertMovimientos", parametros);
+        // Especifica los encabezados de las columnas
+        worksheet.Cell(1, 1).Value = "Id";
+        worksheet.Cell(1, 2).Value = "Nombre Almacen";
+        worksheet.Cell(1, 3).Value = "Tipo Movimiento";
+        worksheet.Cell(1, 4).Value = "Fecha Creacion";
+        worksheet.Cell(1, 5).Value = "Fecha Autorizacion";
+        worksheet.Cell(1, 6).Value = "Usuario Registra";
+        worksheet.Cell(1, 7).Value = "Usuario Autoriza";
+        worksheet.Cell(1, 8).Value = "Fecha Actualiza";
+        worksheet.Cell(1, 9).Value = "Usuario Actualiza";
 
-        // Comprobar si el procedimiento retornó alguna fila
-        if (ds.Tables[0].Rows.Count > 0)
+        // Llena las filas con los datos
+        for (int i = 0; i < listaMovimientos.Count; i++)
         {
-            // Capturando el valor del Id desde el resultado del procedimiento
-            int nuevoId = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString());
-            return $"Registro insertado con éxito. Id: {nuevoId}";
+            var movimiento = listaMovimientos[i];
+            worksheet.Cell(i + 2, 1).Value = movimiento.Id;
+            worksheet.Cell(i + 2, 2).Value = movimiento.NombreAlmacen;
+            worksheet.Cell(i + 2, 3).Value = movimiento.TipoMovimiento;
+            worksheet.Cell(i + 2, 4).Value = movimiento.FechaCreacion;
+            worksheet.Cell(i + 2, 5).Value = movimiento.FechaAutorizacion;
+            worksheet.Cell(i + 2, 6).Value = movimiento.UsuarioRegistra;
+            worksheet.Cell(i + 2, 7).Value = movimiento.UsuarioAutoriza;
+            worksheet.Cell(i + 2, 8).Value = movimiento.FechaActualiza;
+            worksheet.Cell(i + 2, 9).Value = movimiento.UsuarioActualiza;
         }
-        else
+
+        // Guarda el archivo en un MemoryStream
+        using (var stream = new MemoryStream())
         {
-            return "No se recibió ningún mensaje desde la base de datos";
+            workbook.SaveAs(stream);
+            return stream.ToArray(); // Devuelve el archivo como un arreglo de bytes
         }
-    }
-    catch (Exception ex)
-    {
-        Console.Write(ex.Message);
-        return "Error: " + ex.Message;
     }
 }
 
+         public List<GetMovimientosModel> InsertarMovimientos(InsertMovimientosModel movimientos)
+        {
+            ArrayList parametros = new ArrayList();
+            ConexionDataAccess dac = new ConexionDataAccess(connection);
+            var lista = new List<GetMovimientosModel>();
+
+            try
+            {
+                parametros.Add(new SqlParameter { ParameterName = "@pIdAlmacen", SqlDbType = SqlDbType.Int, Value = movimientos.IdAlmacen });
+                parametros.Add(new SqlParameter { ParameterName = "@pTipoMovimiento", SqlDbType = SqlDbType.Int, Value = movimientos.TipoMovimiento });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioRegistra", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioRegistra });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioAutoriza", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioAutoriza });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = movimientos.UsuarioActualiza });
+
+
+                DataSet ds = dac.Fill("sp_InsertMovimientos", parametros);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        lista.Add(new GetMovimientosModel
+                        {
+                            Id = int.Parse(row["Id"].ToString()),
+                            Mensaje = row["Mensaje"].ToString()
+                        });
+                    }
+
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+    
         public List<GetMovimientosModel> GetMovimientos()
         {
             ArrayList parametros = new ArrayList();

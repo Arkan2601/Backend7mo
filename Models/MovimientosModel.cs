@@ -15,7 +15,7 @@ namespace marcatel_api.Models
        public string FechaActualiza { get; set; }
         public string UsuarioActualiza { get; set; }
 
-        //public string Mensaje { get; set; }
+        public string Mensaje { get; set; }
 
     }
 
