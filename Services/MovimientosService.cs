@@ -19,16 +19,16 @@ namespace marcatel_api.Services
         }
 
         public byte[] ExportarMovimientosAExcel()
-{
-    // Obtén la lista de movimientos
-    var listaMovimientos = GetMovimientos();
+        {
+  
+        var listaMovimientos = GetMovimientos();
 
-    // Crea un nuevo workbook
-    using (var workbook = new XLWorkbook())
+
+        using (var workbook = new XLWorkbook())
     {
         var worksheet = workbook.Worksheets.Add("Movimientos");
 
-        // Especifica los encabezados de las columnas
+
         worksheet.Cell(1, 1).Value = "Id";
         worksheet.Cell(1, 2).Value = "Nombre Almacen";
         worksheet.Cell(1, 3).Value = "Tipo Movimiento";
@@ -39,7 +39,7 @@ namespace marcatel_api.Services
         worksheet.Cell(1, 8).Value = "Fecha Actualiza";
         worksheet.Cell(1, 9).Value = "Usuario Actualiza";
 
-        // Llena las filas con los datos
+
         for (int i = 0; i < listaMovimientos.Count; i++)
         {
             var movimiento = listaMovimientos[i];
@@ -54,11 +54,12 @@ namespace marcatel_api.Services
             worksheet.Cell(i + 2, 9).Value = movimiento.UsuarioActualiza;
         }
 
-        // Guarda el archivo en un MemoryStream
+         worksheet.Columns().AdjustToContents();
+
         using (var stream = new MemoryStream())
         {
             workbook.SaveAs(stream);
-            return stream.ToArray(); // Devuelve el archivo como un arreglo de bytes
+            return stream.ToArray(); 
         }
     }
 }
