@@ -64,7 +64,7 @@ namespace marcatel_api.Controllers
 
 
 
- /*            [HttpGet("VerImagen/{id}")]
+          [HttpGet("VerImagen/{id}")]
                 public IActionResult VerImagen(int id)
                 {
                     var imagenData = _imagenService.ObtenerImagen(id);
@@ -78,49 +78,49 @@ namespace marcatel_api.Controllers
                     byte[] imageBytes = Convert.FromBase64String(base64String);
 
                     return File(imageBytes, "image/jpeg"); 
-                } */
+                } 
 
 
-                [HttpGet("GetImagen/{id}")]
-public JsonResult GetImagen(int id)
-{
-    var objectResponse = Helper.GetStructResponse(); // Obtener la estructura de respuesta
-    try
-    {
-        var imagenData = _imagenService.ObtenerImagen(id);
-
-        if (imagenData != null)
-        {
-            // Convertir la imagen binaria a base64
-            string base64String = Convert.ToBase64String(imagenData);
-
-            objectResponse.StatusCode = (int)HttpStatusCode.OK;
-            objectResponse.success = true;
-            objectResponse.message = "Imagen obtenida con éxito.";
-            objectResponse.response = new
+              /*   [HttpGet("GetImagen/{id}")]
+            public JsonResult GetImagen(int id)
             {
-                data = base64String
-            };
-        }
-        else
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.NotFound;
-            objectResponse.success = false;
-            objectResponse.message = "No se encontró una imagen para este usuario.";
-            objectResponse.response = null;
-        }
-    }
-    catch (System.Exception ex)
-    {
-        Console.Write(ex.Message);
-        objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError;
-        objectResponse.success = false;
-        objectResponse.message = "Ocurrió un error al obtener la imagen.";
-        objectResponse.response = null;
-    }
+                var objectResponse = Helper.GetStructResponse(); // Obtener la estructura de respuesta
+                try
+                {
+                    var imagenData = _imagenService.ObtenerImagen(id);
 
-    return new JsonResult(objectResponse);
-}
+                    if (imagenData != null)
+                    {
+                        // Convertir la imagen binaria a base64
+                        string base64String = Convert.ToBase64String(imagenData);
+
+                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                        objectResponse.success = true;
+                        objectResponse.message = "Imagen obtenida con éxito.";
+                        objectResponse.response = new
+                        {
+                            data = base64String
+                        };
+                    }
+                    else
+                    {
+                        objectResponse.StatusCode = (int)HttpStatusCode.NotFound;
+                        objectResponse.success = false;
+                        objectResponse.message = "No se encontró una imagen para este usuario.";
+                        objectResponse.response = null;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Console.Write(ex.Message);
+                    objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    objectResponse.success = false;
+                    objectResponse.message = "Ocurrió un error al obtener la imagen.";
+                    objectResponse.response = null;
+                }
+
+                return new JsonResult(objectResponse);
+            } */
 
     }
 }
