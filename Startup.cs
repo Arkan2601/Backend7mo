@@ -89,6 +89,7 @@ namespace marcatel_api
             services.AddSingleton<UnidadMedidaService>();
 
             services.AddSingleton<TraspasosService>();
+            services.AddSingleton<ExistenciasService>();
 
 
 
