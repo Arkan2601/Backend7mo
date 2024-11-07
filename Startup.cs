@@ -21,7 +21,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-
 namespace marcatel_api
 {
     public class Startup
@@ -29,33 +28,19 @@ namespace marcatel_api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             var key = "BusinessCaseMarcatelApiV2Tibs!*";
 
-            // requires using Microsoft.Extensions.Options
-            services.Configure<MarcatelDatabaseSetting>(
-            Configuration.GetSection(nameof(MarcatelDatabaseSetting)));
+            services.Configure<MarcatelDatabaseSetting>(Configuration.GetSection(nameof(MarcatelDatabaseSetting)));
 
-            //services.Configure<EmailstoreSettings>(
-            //Configuration.GetSection(nameof(EmailstoreSettings)));
-
-            // Get KudotibsDatabaseSettings
+            // Registering services
             services.AddSingleton<IMarcatelDatabaseSetting>(sp =>
-            sp.GetRequiredService<IOptions<MarcatelDatabaseSetting>>().Value);
-
-            // Get EmailstoreSettings
-            //services.AddSingleton<IEmailstoreSettings>(sp =>
-            //    sp.GetRequiredService<IOptions<EmailstoreSettings>>().Value);
-
-            // Get Services LB
+                sp.GetRequiredService<IOptions<MarcatelDatabaseSetting>>().Value);
 
             services.AddSingleton<PersonasService>();
             services.AddSingleton<UsuariosService>();
@@ -71,74 +56,52 @@ namespace marcatel_api
             services.AddSingleton<DetalleEntradaService>();
             services.AddSingleton<BancosService>();
             services.AddSingleton<RecetasService>();
-
-
             services.AddSingleton<DetalleRecetaService>();
-
             services.AddSingleton<DetalleMovimientosService>();
-
-
             services.AddSingleton<OrdenCompraService>();
-
-            
-
-
-
-            services.AddSingleton<DetalleRecetaService>();
-             services.AddSingleton<MovimientosService>();
+            services.AddSingleton<MovimientosService>();
             services.AddSingleton<UnidadMedidaService>();
-
             services.AddSingleton<TraspasosService>();
             services.AddSingleton<ExistenciasService>();
-
-
-
+            services.AddSingleton<ReportKardexMovService>();
             services.AddSingleton<LoginService>();
 
-
             services.AddCors();
-
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing())
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
                     options.JsonSerializerOptions.WriteIndented = true;
                 });
 
-
-            services
-                .AddAuthentication(x =>
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                }).AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidIssuer = "https://marcatelapi.herokuapp.com/",
-                        ValidAudience = "https://marcatelapi.herokuapp.com/",
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-                    };
-                });
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidIssuer = "https://marcatelapi.herokuapp.com/",
+                    ValidAudience = "https://marcatelapi.herokuapp.com/",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                };
+            });
 
             services.AddAuthorization();
             services.AddSingleton<IJwtAuthenticationService>(new JwtAuthenticationService(key));
             services.AddHttpClient();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-
-            // Context DB
-            //services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
-
-            // Register the Swagger generator, defening 1 or more Swgager documents
+            // Swagger Configuration
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -149,7 +112,7 @@ namespace marcatel_api
                     TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact
                     {
-                        Name = " DEV",
+                        Name = "DEV",
                         Email = string.Empty,
                         Url = new Uri("https://www.utl.edu.mx/"),
                     },
@@ -159,14 +122,13 @@ namespace marcatel_api
                         Url = new Uri("https://example.com/license"),
                     }
                 });
+                c.EnableAnnotations(); // Enable Swagger Annotations
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            // Enable middleware to serve generated swagger as a JSON endpoint.
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -181,7 +143,7 @@ namespace marcatel_api
             {
                 app.UseDeveloperExceptionPage();
             }
-            //  app.ConfigureExceptionHandler(logger);
+
             app.ConfigureCustomExceptionMiddleware();
             app.UseHttpsRedirection();
 
@@ -195,11 +157,7 @@ namespace marcatel_api
                 .AllowCredentials()); // allow credentials
 
             app.UseAuthentication();
-
             app.UseAuthorization();
-
-
-
 
             app.UseEndpoints(endpoints =>
             {
@@ -208,3 +166,4 @@ namespace marcatel_api
         }
     }
 }
+
