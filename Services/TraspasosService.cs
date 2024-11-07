@@ -52,13 +52,17 @@ namespace marcatel_api.Services
             }
         }
 
-        public List<GetTraspasosModel> GetTraspasos()
+        public List<GetTraspasosModel> GetTraspasos(GetTraspasosModel traspasos)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             var lista = new List<GetTraspasosModel>();
             try
             {
+                parametros.Add(new SqlParameter { ParameterName = "@pAlmacenEnvia", SqlDbType = SqlDbType.Int, Value = traspasos.AlmacenOrigen });
+                parametros.Add(new SqlParameter { ParameterName = "@pAlmacenRecibe", SqlDbType = SqlDbType.Int, Value = traspasos.AlmacenDestino });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaInicio", SqlDbType = SqlDbType.VarChar, Value = traspasos.FechaInicio });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaFinal", SqlDbType = SqlDbType.VarChar, Value = traspasos.FechaFinal });
                 DataSet ds = dac.Fill("sp_GetTraspasos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {

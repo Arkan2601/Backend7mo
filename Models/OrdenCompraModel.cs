@@ -19,7 +19,7 @@ namespace marcatel_api.Models
     {
         public int IdProveedor { get; set; }
         public DateTime FechaLlegada { get; set; }
-        public int IdSurcursal { get; set; }
+        public int IdSucursal { get; set; }
         public int IdComprador { get; set; }
         public int UsuarioActualiza { get; set; }
 
@@ -28,7 +28,7 @@ namespace marcatel_api.Models
     public class UpdateOrdenCompraModel
     {
         public int IdOrden { get; set; }
-        public string IdProveedor { get; set; }
+        public int IdProveedor { get; set; }
         public DateTime FechaLlegada { get; set; }
         public int IdSurcursal{get; set;}
         public int IdComprador{get; set;}

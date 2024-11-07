@@ -24,72 +24,92 @@ namespace marcatel_api.Controllers
 
 
 
+        [HttpGet("ExportarMovimientosAExcel")]
+        public IActionResult ExportarMovimientosAExcel()
+        {
+            try
+            {
+                var excelData = _movimientosService.ExportarMovimientosAExcel();
+
+
+                return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Movimientos.xlsx");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
+            }
+        }
+
+
 
 
         [HttpPost("Insert")]
-public JsonResult InsertMovimientos([FromBody] InsertMovimientosModel movimientos)
-{
-    var objectResponse = Helper.GetStructResponse();
-    try
-    {
-        var catClienteResponse = _movimientosService.InsertMovimientos(movimientos);
-
-        // Suponemos que el mensaje de éxito contiene el ID del registro insertado
-        if (catClienteResponse.Contains("Registro insertado con éxito", StringComparison.OrdinalIgnoreCase))
+        public JsonResult InsertarMovimiento([FromBody] InsertMovimientosModel movimiento)
         {
-            objectResponse.StatusCode = (int)HttpStatusCode.OK;
-            objectResponse.success = true;
-            objectResponse.message = "Éxito.";
-
-            // Extraer el ID de la respuesta
-            // Suponiendo que CatClienteResponse es algo como "Registro insertado con éxito. ID: 123"
-            int id = ExtractIdFromResponse(catClienteResponse);
-            objectResponse.response = new
+            var objectResponse = Helper.GetStructResponse();
+            try
             {
-                id = id // Agregamos el ID del registro insertado
-            };
-        }
-        else
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-            objectResponse.success = false; // Cambiado a false para indicar un error
-            objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
+                var MovModels = _movimientosService.InsertarMovimientos(movimiento);
 
-            objectResponse.response = new
+                if (MovModels.Count > 0)
+                {
+                    var Id = MovModels[0].Id;
+                    var Msg = MovModels[0].Mensaje;
+
+                    string msgDefault = "Registro insertado con éxito.";
+
+                    if (msgDefault == Msg)
+                    {
+                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                        objectResponse.success = true;
+                        objectResponse.message = "Éxito.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            Msg
+                        };
+                    }
+                    else
+                    {
+                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                        objectResponse.success = true;
+                        objectResponse.message = "Error.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            Msg
+                        };
+                    }
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error: No se devolvió ningún resultado.";
+
+                    objectResponse.response = null;
+                }
+            }
+            catch (System.Exception ex)
             {
-                data = catClienteResponse
-            };
+                Console.Write(ex.Message);
+                throw;
+            }
+
+            return new JsonResult(objectResponse);
+
         }
-    }
-    catch (System.Exception ex)
-    {
-        Console.Write(ex.Message);
-        objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
-        objectResponse.success = false;
-        objectResponse.message = "Error interno del servidor: " + ex.Message;
-    }
 
-    return new JsonResult(objectResponse);
-}
-
-// Método auxiliar para extraer el ID del mensaje de respuesta
-private int ExtractIdFromResponse(string response)
-{
-    // Suponiendo que la respuesta tiene el formato: "Registro insertado con éxito. ID: 123"
-    var parts = response.Split(new[] { "Id: " }, StringSplitOptions.None);
-    if (parts.Length > 1 && int.TryParse(parts[1], out int id))
-    {
-        return id; // Devuelve el ID extraído
-    }
-    return 0; // Devuelve 0 si no se puede extraer el ID
-}
 
 
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetMovimientos() 
+        public IActionResult GetMovimientos()
         {
             var movimientos = _movimientosService.GetMovimientos();
             return Ok(movimientos);
@@ -142,7 +162,7 @@ private int ExtractIdFromResponse(string response)
 
 
 
-    [HttpPut("UpdateFechaAutoriza")]
+        [HttpPut("UpdateFechaAutoriza")]
         public JsonResult UpdateMovimientosAutoriza([FromBody] UpdateMovimientosAutorizaModel movimientos)
         {
             var objectResponse = Helper.GetStructResponse();
@@ -189,47 +209,47 @@ private int ExtractIdFromResponse(string response)
 
 
         [HttpPut("Delete")]
-public JsonResult DeleteMovimientos([FromBody] DeleteMovimientosModel movimientos)
-{
-    var objectResponse = Helper.GetStructResponse();
-    try
-    {
-        var catClienteResponse = _movimientosService.DeleteMovimientos(movimientos);
-
-        // Suponemos que el mensaje de éxito contiene la frase "Registro eliminado con éxito"
-        if (catClienteResponse.Contains("Registro eliminado con éxito", StringComparison.OrdinalIgnoreCase))
+        public JsonResult DeleteMovimientos([FromBody] DeleteMovimientosModel movimientos)
         {
-            objectResponse.StatusCode = (int)HttpStatusCode.OK;
-            objectResponse.success = true;
-            objectResponse.message = "Éxito.";
-
-            objectResponse.response = new
+            var objectResponse = Helper.GetStructResponse();
+            try
             {
-                data = catClienteResponse
-            };
-        }
-        else
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-            objectResponse.success = false; // Cambiado a false para indicar un error
-            objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
+                var catClienteResponse = _movimientosService.DeleteMovimientos(movimientos);
 
-            objectResponse.response = new
+                // Suponemos que el mensaje de éxito contiene la frase "Registro eliminado con éxito"
+                if (catClienteResponse.Contains("Registro eliminado con éxito", StringComparison.OrdinalIgnoreCase))
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = catClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = false; // Cambiado a false para indicar un error
+                    objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
+
+                    objectResponse.response = new
+                    {
+                        data = catClienteResponse
+                    };
+                }
+            }
+            catch (System.Exception ex)
             {
-                data = catClienteResponse
-            };
+                Console.Write(ex.Message);
+                objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
+                objectResponse.success = false;
+                objectResponse.message = "Error interno del servidor: " + ex.Message;
+            }
+
+            return new JsonResult(objectResponse);
         }
-    }
-    catch (System.Exception ex)
-    {
-        Console.Write(ex.Message);
-        objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
-        objectResponse.success = false;
-        objectResponse.message = "Error interno del servidor: " + ex.Message;
-    }
 
-    return new JsonResult(objectResponse);
-}
-
-} 
+    }
 }

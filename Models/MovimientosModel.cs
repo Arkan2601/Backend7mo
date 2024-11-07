@@ -7,7 +7,7 @@ namespace marcatel_api.Models
     {
         public int Id { get; set; }
         public string NombreAlmacen { get; set; }
-        public int TipoMovimiento { get; set; }
+        public string TipoMovimiento { get; set; }
         public string FechaCreacion { get; set; }
        public string FechaAutorizacion { get; set; }
        public string UsuarioRegistra { get; set; }
@@ -15,7 +15,7 @@ namespace marcatel_api.Models
        public string FechaActualiza { get; set; }
         public string UsuarioActualiza { get; set; }
 
-        //public string Mensaje { get; set; }
+        public string Mensaje { get; set; }
 
     }
 
@@ -35,6 +35,7 @@ namespace marcatel_api.Models
         public int Id { get; set; }
         public int IdAlmacen { get; set; }
         public int TipoMovimiento { get; set; } 
+        public int Estatus { get; set; } 
         public int UsuarioRegistra { get; set; }
         public int UsuarioAutoriza { get; set; }
         public int UsuarioActualiza { get; set; }

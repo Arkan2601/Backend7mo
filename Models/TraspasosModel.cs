@@ -13,6 +13,8 @@ namespace marcatel_api.Models
         public string UsuarioRecibe { get; set; }
         public string UsuarioActualiza { get; set; }
         public string Mensaje { get; set; }
+        public string FechaInicio { get; set; }
+        public string FechaFinal { get; set; }
     }
 
     public class InsertTraspasosModel

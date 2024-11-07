@@ -12,13 +12,14 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class ArticulosController : ControllerBase
+    public class DetalleTraspasoController : ControllerBase
     {
-        private readonly ArticulosService _ArticulosService;
+        private readonly DetalleTraspasoService _DetalleTraspasoService;
 
-        public ArticulosController(ArticulosService articulosService)
+        public DetalleTraspasoController(DetalleTraspasoService detalletraspasoservice)
         {
-            _ArticulosService = articulosService;
+            _DetalleTraspasoService = detalletraspasoservice;
+
         }
 
 
@@ -26,31 +27,32 @@ namespace marcatel_api.Controllers
 
 
         [HttpPost("Insert")]
-        public JsonResult InsertArticulo([FromBody] InsertArticulosModel articulo)
+        public JsonResult InsertDetalleTraspaso([FromBody] InsertDetalleTraspasoModel traspaso)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _ArticulosService.InserArticulos(articulo);
+                var CatClienteResponse = _DetalleTraspasoService.InsertDetalleTraspaso(traspaso);
 
                 string msgDefault = "Registro insertado con éxito.";
-
 
                 if (msgDefault == CatClienteResponse)
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.OK;
                     objectResponse.success = true;
                     objectResponse.message = "Éxito.";
+
                     objectResponse.response = new
-                    { 
+                    {
                         data = CatClienteResponse
                     };
                 }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = false;
-                    objectResponse.message = "Error." ;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error.";
+
                     objectResponse.response = new
                     {
                         data = CatClienteResponse
@@ -70,23 +72,22 @@ namespace marcatel_api.Controllers
 
 
 
-        //[Authorize(AuthenticationSchemes = "Bearer")]
-
-        [HttpGet("Get")]
-        public IActionResult GetArticulos()
+/*         [Authorize(AuthenticationSchemes = "Bearer")]
+ */     [HttpGet("Get")]
+        public IActionResult GetDetalleTraspaso([FromQuery] int idTraspaso)
         {
-            var articulo = _ArticulosService.Getarticulos();
-            return Ok(articulo);
+            var traspaso = new GetDetalleTraspasoModel { IdTraspaso = idTraspaso };
+            var detalleTraspaso = _DetalleTraspasoService.GetDetalleTraspaso(traspaso);
+            return Ok(detalleTraspaso);
         }
 
-
         [HttpPut("Update")]
-        public JsonResult UpdateArticulo([FromBody] UpdateArticulosModel articulo)
+        public JsonResult UpdateDetalleTraspaso([FromBody] UpdateDetalleTraspasoModel traspaso)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _ArticulosService.Updatearticulos(articulo);
+                var CatClienteResponse = _DetalleTraspasoService.UpdateDetalleTrasapaso(traspaso);
 
                 string msgDefault = "Registro actualizado con éxito.";
 
@@ -125,12 +126,12 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeleteArticulo([FromBody] DeleteArticulosModel articulo)
+        public JsonResult DeleteDetalleTraspaso([FromBody] DeleteDetalleTraspasoModel traspaso)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _ArticulosService.Deletearticulos(articulo);
+                var CatClienteResponse = _DetalleTraspasoService.DeleteDetalleTraspaso(traspaso);
 
                 string msgDefault = "Registro eliminado con éxito.";
 
@@ -167,11 +168,6 @@ namespace marcatel_api.Controllers
             return new JsonResult(objectResponse);
 
         }
-
-
-
-
-
 
 
     }

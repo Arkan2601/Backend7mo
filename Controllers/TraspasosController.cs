@@ -86,13 +86,14 @@ namespace marcatel_api.Controllers
 
 
 
-        /*         [Authorize(AuthenticationSchemes = "Bearer")] */
-
+        /*      [Authorize(AuthenticationSchemes = "Bearer")]
+        */
         [HttpGet("Get")]
-        public IActionResult GetTraspasos()
+        public IActionResult GetTraspasos([FromQuery] string pAlmacenOrigen, string pAlmacenDestino, string pFechaInicio, string pFechaFinal)
         {
-            var traspaso = _traspasosService.GetTraspasos();
-            return Ok(traspaso);
+            var T = new GetTraspasosModel { AlmacenOrigen = pAlmacenOrigen, AlmacenDestino = pAlmacenDestino, FechaInicio = pFechaInicio, FechaFinal = pFechaFinal };
+            var t = _traspasosService.GetTraspasos(T);
+            return Ok(t);
         }
 
 

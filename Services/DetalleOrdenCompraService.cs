@@ -34,6 +34,7 @@ public List<GetDetalleOrdenCompraModel> GetDetalleOrdenCompra(GetDetalleOrdenCom
                 lista.Add(new GetDetalleOrdenCompraModel
                 {
                     Id = int.Parse(row["Id"].ToString()),
+                    IdOrdenCompra = int.Parse(row["IdOrdenCompra"].ToString()),
                     Insumo = row["Insumo"].ToString(),
                     Cantidad = decimal.Parse(row["Cantidad"].ToString()),
                     CantidadRecibida = decimal.Parse(row["CantidadRecibida"].ToString()),
