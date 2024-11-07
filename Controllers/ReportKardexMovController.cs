@@ -21,6 +21,23 @@ namespace marcatel_api.Controllers
             _reportKardexMovService = reportKardexMovService;
         }
 
+             [HttpGet("ExportarReportKardexMovAExcel")]
+        public IActionResult ExportarReportKardexMovAExcel()
+        {
+            try
+            {
+                var excelData = _reportKardexMovService.ExportarReportKardexMovAExcel();
+
+
+                return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ReportKardexMov.xlsx");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
+            }
+        }
+
 [HttpGet("Get")]
 public IActionResult GetReportKardexMov([FromQuery] string FechaInicio, string FechaFinal)
 {
