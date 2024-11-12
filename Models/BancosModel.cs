@@ -1,6 +1,32 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
+
+
+
 {
+
+    public class ResponseBancos
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyBanco Response { get; set; }
+    }
+
+    public class ResponseBodyBanco
+    {
+        public DataResponseBanco data { get; set; }
+    }
+
+    public class DataResponseBanco
+    {
+        public bool Status { get; set; }
+        public string Mensaje { get; set; }
+        // Cambia esto a una lista en lugar de un solo objeto
+        public List<GetBancosModel> Bancos { get; set; }
+    }
     public class GetBancosModel
     {
         public int Id { get; set; }
@@ -24,8 +50,8 @@ namespace marcatel_api.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-         public string Direccion {get; set;}
-         public int UsuarioActualiza {get; set;}
+        public string Direccion { get; set; }
+        public int UsuarioActualiza { get; set; }
 
     }
 

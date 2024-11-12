@@ -7,6 +7,7 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Linq;
 
 namespace marcatel_api.Controllers
 {
@@ -23,6 +24,24 @@ namespace marcatel_api.Controllers
         }
 
 
+        [HttpGet("DiferenciasTraspasosExcel")]
+        public IActionResult ExportarDetalleTraspasosAExcel([FromQuery] string FechaInicio, string FechaFinal)
+        {
+            try
+            {
+                var dtraspaso = new GetDetalleTraspasoModel { FechaInicio = FechaInicio, FechaFinal = FechaFinal };
+                var detalleTraspaso = _DetalleTraspasoService.DiferenciaTraspasos(dtraspaso);
+                var excelData = _DetalleTraspasoService.ExportarTraspasosAExcel();
+
+
+                return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DiferenciasEntreTraspasos.xlsx");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
+            }
+        }
 
 
 
@@ -72,13 +91,45 @@ namespace marcatel_api.Controllers
 
 
 
-/*         [Authorize(AuthenticationSchemes = "Bearer")]
- */     [HttpGet("Get")]
+        /*         [Authorize(AuthenticationSchemes = "Bearer")]
+         */
+        [HttpGet("Get")]
         public IActionResult GetDetalleTraspaso([FromQuery] int idTraspaso)
         {
-            var traspaso = new GetDetalleTraspasoModel { IdTraspaso = idTraspaso };
-            var detalleTraspaso = _DetalleTraspasoService.GetDetalleTraspaso(traspaso);
-            return Ok(detalleTraspaso);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseDTraspaso result = new ResponseDTraspaso();
+            result.Response = new ResponseBodyDT();
+            result.Response.data = new DataResponseDT();
+
+            // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
+            var DTResponse = _DetalleTraspasoService.GetDetalleTraspaso(new GetDetalleTraspasoModel { IdTraspaso = idTraspaso });
+
+            if (DTResponse != null && DTResponse.Any()) // Verificar si hay datos
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Éxito.";
+                result.Response.data.Status = true;
+                result.Response.data.Mensaje = "Información obtenida con éxito.";
+
+                // Asignar toda la lista de movimientos
+                result.Response.data.DetalleTraspaso = DTResponse;  // MovResponse es List<GetMovimientosModel>
+
+                objectResponse.response = new
+                {
+                    data = result.Response.data.DetalleTraspaso
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
         [HttpPut("Update")]
