@@ -7,6 +7,7 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Linq;
 
 namespace marcatel_api.Controllers
 {
@@ -42,7 +43,7 @@ namespace marcatel_api.Controllers
                     objectResponse.success = true;
                     objectResponse.message = "Éxito.";
                     objectResponse.response = new
-                    { 
+                    {
                         data = CatClienteResponse
                     };
                 }
@@ -50,7 +51,7 @@ namespace marcatel_api.Controllers
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                     objectResponse.success = false;
-                    objectResponse.message = "Error." ;
+                    objectResponse.message = "Error.";
                     objectResponse.response = new
                     {
                         data = CatClienteResponse
@@ -75,8 +76,40 @@ namespace marcatel_api.Controllers
         [HttpGet("Get")]
         public IActionResult GetArticulos()
         {
-            var articulo = _ArticulosService.Getarticulos();
-            return Ok(articulo);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseArticulos result = new ResponseArticulos();
+            result.Response = new ResponseBodyArt();
+            result.Response.data = new DataResponseArt();
+
+            // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
+            var ArtResponse = _ArticulosService.Getarticulos();
+
+            if (ArtResponse != null && ArtResponse.Any()) // Verificar si hay datos
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Éxito.";
+                result.Response.data.Status = true;
+                result.Response.data.Mensaje = "Información obtenida con éxito.";
+
+                // Asignar toda la lista de movimientos
+                result.Response.data.Articulo = ArtResponse;  // MovResponse es List<GetMovimientosModel>
+
+                objectResponse.response = new
+                {
+                    data = result.Response.data.Articulo
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
 
