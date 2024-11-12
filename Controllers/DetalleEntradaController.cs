@@ -70,6 +70,30 @@ namespace marcatel_api.Controllers
 
         }
 
+         [HttpGet("ExportarReportEntradasAExcel")]
+        public IActionResult ExportarReportEntradasAExcel()
+        {
+            try
+            {
+                var excelData = _DetalleEntradaService.ExportarReportEntradasAExcel();
+
+
+                return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ReportEntradas.xlsx");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
+            }
+        }
+[HttpGet("GetReportEntradas")]
+public IActionResult GetReportKardex([FromQuery] string FechaInicio, string FechaFinal)
+{
+    var DOC = new GetReportEntradasModel { FechaInicio = FechaInicio, FechaFinal = FechaFinal };
+    var detalleOC = _DetalleEntradaService.GetReportKardex(DOC);
+    return Ok(detalleOC);
+}
+    
 
 
             /*      [Authorize(AuthenticationSchemes = "Bearer")]

@@ -20,51 +20,51 @@ namespace marcatel_api.Services
 
         public byte[] ExportarMovimientosAExcel()
         {
-  
-        var listaMovimientos = GetMovimientos();
+
+            var listaMovimientos = GetMovimientos();
 
 
-        using (var workbook = new XLWorkbook())
-    {
-        var worksheet = workbook.Worksheets.Add("Movimientos");
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Movimientos");
 
 
-        worksheet.Cell(1, 1).Value = "Id";
-        worksheet.Cell(1, 2).Value = "Nombre Almacen";
-        worksheet.Cell(1, 3).Value = "Tipo Movimiento";
-        worksheet.Cell(1, 4).Value = "Fecha Creacion";
-        worksheet.Cell(1, 5).Value = "Fecha Autorizacion";
-        worksheet.Cell(1, 6).Value = "Usuario Registra";
-        worksheet.Cell(1, 7).Value = "Usuario Autoriza";
-        worksheet.Cell(1, 8).Value = "Fecha Actualiza";
-        worksheet.Cell(1, 9).Value = "Usuario Actualiza";
+                worksheet.Cell(1, 1).Value = "Id";
+                worksheet.Cell(1, 2).Value = "Nombre Almacen";
+                worksheet.Cell(1, 3).Value = "Tipo Movimiento";
+                worksheet.Cell(1, 4).Value = "Fecha Creacion";
+                worksheet.Cell(1, 5).Value = "Fecha Autorizacion";
+                worksheet.Cell(1, 6).Value = "Usuario Registra";
+                worksheet.Cell(1, 7).Value = "Usuario Autoriza";
+                worksheet.Cell(1, 8).Value = "Fecha Actualiza";
+                worksheet.Cell(1, 9).Value = "Usuario Actualiza";
 
 
-        for (int i = 0; i < listaMovimientos.Count; i++)
-        {
-            var movimiento = listaMovimientos[i];
-            worksheet.Cell(i + 2, 1).Value = movimiento.Id;
-            worksheet.Cell(i + 2, 2).Value = movimiento.NombreAlmacen;
-            worksheet.Cell(i + 2, 3).Value = movimiento.TipoMovimiento;
-            worksheet.Cell(i + 2, 4).Value = movimiento.FechaCreacion;
-            worksheet.Cell(i + 2, 5).Value = movimiento.FechaAutorizacion;
-            worksheet.Cell(i + 2, 6).Value = movimiento.UsuarioRegistra;
-            worksheet.Cell(i + 2, 7).Value = movimiento.UsuarioAutoriza;
-            worksheet.Cell(i + 2, 8).Value = movimiento.FechaActualiza;
-            worksheet.Cell(i + 2, 9).Value = movimiento.UsuarioActualiza;
+                for (int i = 0; i < listaMovimientos.Count; i++)
+                {
+                    var movimiento = listaMovimientos[i];
+                    worksheet.Cell(i + 2, 1).Value = movimiento.Id;
+                    worksheet.Cell(i + 2, 2).Value = movimiento.NombreAlmacen;
+                    worksheet.Cell(i + 2, 3).Value = movimiento.TipoMovimiento;
+                    worksheet.Cell(i + 2, 4).Value = movimiento.FechaCreacion;
+                    worksheet.Cell(i + 2, 5).Value = movimiento.FechaAutorizacion;
+                    worksheet.Cell(i + 2, 6).Value = movimiento.UsuarioRegistra;
+                    worksheet.Cell(i + 2, 7).Value = movimiento.UsuarioAutoriza;
+                    worksheet.Cell(i + 2, 8).Value = movimiento.FechaActualiza;
+                    worksheet.Cell(i + 2, 9).Value = movimiento.UsuarioActualiza;
+                }
+
+                worksheet.Columns().AdjustToContents();
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    return stream.ToArray();
+                }
+            }
         }
 
-         worksheet.Columns().AdjustToContents();
-
-        using (var stream = new MemoryStream())
-        {
-            workbook.SaveAs(stream);
-            return stream.ToArray(); 
-        }
-    }
-}
-
-         public List<GetMovimientosModel> InsertarMovimientos(InsertMovimientosModel movimientos)
+        public List<GetMovimientosModel> InsertarMovimientos(InsertMovimientosModel movimientos)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
@@ -101,7 +101,7 @@ namespace marcatel_api.Services
             }
         }
 
-    
+
         public List<GetMovimientosModel> GetMovimientos()
         {
             ArrayList parametros = new ArrayList();
@@ -117,15 +117,15 @@ namespace marcatel_api.Services
                         lista.Add(new GetMovimientosModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            NombreAlmacen= row["NombreAlmacen"].ToString(),
-                            TipoMovimiento= row["TipoMovimiento"].ToString(),
-                            FechaCreacion= row["FechaCreacion"].ToString(),
+                            NombreAlmacen = row["NombreAlmacen"].ToString(),
+                            TipoMovimiento = row["TipoMovimiento"].ToString(),
+                            FechaCreacion = row["FechaCreacion"].ToString(),
                             FechaAutorizacion = row["FechaAutorizacion"].ToString(),
                             UsuarioRegistra = row["UsuarioRegistra"].ToString(),
                             UsuarioAutoriza = row["UsuarioAutoriza"].ToString(),
                             FechaActualiza = row["FechaActualiza"].ToString(),
                             UsuarioActualiza = row["UsuarioActualiza"].ToString()
-                            
+
                         });
                     }
                 }
@@ -177,7 +177,7 @@ namespace marcatel_api.Services
 
 
 
-           public string UpdateMovimientosAutoriza(UpdateMovimientosAutorizaModel movimientos)
+        public string UpdateMovimientosAutoriza(UpdateMovimientosAutorizaModel movimientos)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
@@ -186,7 +186,7 @@ namespace marcatel_api.Services
             try
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = movimientos.Id });
-           
+
 
 
                 DataSet ds = dac.Fill("sp_UpdateFechaAutorizacion", parametros);

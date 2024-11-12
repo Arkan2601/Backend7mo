@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using marcatel_api.DataContext;
 using marcatel_api.Models;
 using System.Collections;
+using ClosedXML.Excel;
+using System.IO;
 
 namespace marcatel_api.Services
 {
@@ -15,6 +17,62 @@ namespace marcatel_api.Services
         {
             connection = settings.ConnectionString;
         }
+
+public byte[] ExportarReportKardexMovAExcel()
+        {
+  
+       var drk = new GetReportKardexMovModel(); // Crea una instancia de GetReportKardexMovModel
+    var ReportKardexMovList = GetReportKardexMov(drk); 
+
+
+        using (var workbook = new XLWorkbook())
+    {
+        var worksheet = workbook.Worksheets.Add("ReportKardex");
+
+
+        worksheet.Cell(1, 1).Value = "Id";
+        worksheet.Cell(1, 2).Value = "Movimiento Ligado";
+        worksheet.Cell(1, 3).Value = "Tipo Movimiento";
+        worksheet.Cell(1, 4).Value = "Sucursal";
+        worksheet.Cell(1, 5).Value = "Insumo";
+        worksheet.Cell(1, 6).Value = "Cantidad";
+        worksheet.Cell(1, 7).Value = "Estatus";
+        worksheet.Cell(1, 8).Value = "Fecha Registro";
+        worksheet.Cell(1, 9).Value = "Fecha Actualiza";
+        worksheet.Cell(1, 10).Value = "Usuario Actualiza";
+
+
+        for (int i = 0; i < ReportKardexMovList.Count; i++)
+        {
+            var reportkardex = ReportKardexMovList[i];
+            worksheet.Cell(i + 2, 1).Value = reportkardex.Id;
+            worksheet.Cell(i + 2, 2).Value = reportkardex.Movimiento_Ligado;
+            worksheet.Cell(i + 2, 3).Value = reportkardex.TipoMovimiento;
+            worksheet.Cell(i + 2, 4).Value = reportkardex.Sucursal;
+            worksheet.Cell(i + 2, 5).Value = reportkardex.Insumo;
+            worksheet.Cell(i + 2, 6).Value = reportkardex.Cantidad;
+            worksheet.Cell(i + 2, 7).Value = reportkardex.Estatus;
+            worksheet.Cell(i + 2, 8).Value = reportkardex.FechaRegistro;
+            worksheet.Cell(i + 2, 9).Value = reportkardex.FechaActualiza;
+            worksheet.Cell(i + 2, 10).Value = reportkardex.UsuarioActualiza;
+        }
+
+         worksheet.Columns().AdjustToContents();
+
+        using (var stream = new MemoryStream())
+        {
+            workbook.SaveAs(stream);
+            return stream.ToArray(); 
+        }
+    }
+        }
+
+
+
+
+
+
+
         public List<GetReportKardexMovModel> GetReportKardexMov(GetReportKardexMovModel drk)
 {
     ArrayList parametros = new ArrayList();
