@@ -17,15 +17,7 @@ namespace marcatel_api.Models
 
     public class ResponseBodyBanco
     {
-        public DataResponseBanco data { get; set; }
-    }
-
-    public class DataResponseBanco
-    {
-        public bool Status { get; set; }
-        public string Mensaje { get; set; }
-        // Cambia esto a una lista en lugar de un solo objeto
-        public List<GetBancosModel> Bancos { get; set; }
+        public List<GetBancosModel> data { get; set; }
     }
     public class GetBancosModel
     {
