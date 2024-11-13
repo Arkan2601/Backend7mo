@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -81,26 +82,21 @@ namespace marcatel_api.Controllers
             var objectResponse = Helper.GetStructResponse();
             ResponseBancos result = new ResponseBancos();
             result.Response = new ResponseBodyBanco();
-            result.Response.data = new DataResponseBanco();
+            result.Response.data = new List<GetBancosModel>();
 
-            // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
             var BancoResponse = _bancosService.GetBancos();
 
-            if (BancoResponse != null && BancoResponse.Any()) // Verificar si hay datos
+            if (BancoResponse != null && BancoResponse.Any())
             {
                 result.StatusCode = (int)HttpStatusCode.OK;
                 result.Error = false;
                 result.Success = true;
-                result.Message = "Éxito.";
-                result.Response.data.Status = true;
-                result.Response.data.Mensaje = "Información obtenida con éxito.";
+                result.Message = "Información obtenida con éxito.";
 
-                // Asignar toda la lista de movimientos
-                result.Response.data.Bancos = BancoResponse;  // MovResponse es List<GetMovimientosModel>
-
+                result.Response.data = BancoResponse;
                 objectResponse.response = new
                 {
-                    data = result.Response.data.Bancos
+                    data = result.Response.data
                 };
             }
             else
