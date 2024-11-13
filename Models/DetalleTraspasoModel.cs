@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 namespace marcatel_api.Models
 
+
+
 {
 
-    public class ResponseDTraspaso
+    public class ResponseDetalleTraspaso
     {
         public int StatusCode { get; set; }
         public bool Success { get; set; }
@@ -15,15 +17,7 @@ namespace marcatel_api.Models
 
     public class ResponseBodyDT
     {
-        public DataResponseDT data { get; set; }
-    }
-
-    public class DataResponseDT
-    {
-        public bool Status { get; set; }
-        public string Mensaje { get; set; }
-        // Cambia esto a una lista en lugar de un solo objeto
-        public List<GetDetalleTraspasoModel> DetalleTraspaso { get; set; }
+        public List<GetDetalleTraspasoModel> data { get; set; }
     }
     public class GetDetalleTraspasoModel
     {

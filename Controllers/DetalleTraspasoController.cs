@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -97,28 +98,23 @@ namespace marcatel_api.Controllers
         public IActionResult GetDetalleTraspaso([FromQuery] int idTraspaso)
         {
             var objectResponse = Helper.GetStructResponse();
-            ResponseDTraspaso result = new ResponseDTraspaso();
+            ResponseDetalleTraspaso result = new ResponseDetalleTraspaso();
             result.Response = new ResponseBodyDT();
-            result.Response.data = new DataResponseDT();
+            result.Response.data = new List<GetDetalleTraspasoModel>();
 
-            // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
             var DTResponse = _DetalleTraspasoService.GetDetalleTraspaso(new GetDetalleTraspasoModel { IdTraspaso = idTraspaso });
 
-            if (DTResponse != null && DTResponse.Any()) // Verificar si hay datos
+            if (DTResponse != null && DTResponse.Any())
             {
                 result.StatusCode = (int)HttpStatusCode.OK;
                 result.Error = false;
                 result.Success = true;
-                result.Message = "Éxito.";
-                result.Response.data.Status = true;
-                result.Response.data.Mensaje = "Información obtenida con éxito.";
+                result.Message = "Información obtenida con éxito.";
 
-                // Asignar toda la lista de movimientos
-                result.Response.data.DetalleTraspaso = DTResponse;  // MovResponse es List<GetMovimientosModel>
-
+                result.Response.data = DTResponse;
                 objectResponse.response = new
                 {
-                    data = result.Response.data.DetalleTraspaso
+                    data = result.Response.data
                 };
             }
             else

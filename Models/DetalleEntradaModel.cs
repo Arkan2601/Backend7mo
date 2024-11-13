@@ -1,6 +1,24 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
+
+
+
 {
+
+    public class ResponseDetalleEntrada
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyDE Response { get; set; }
+    }
+
+    public class ResponseBodyDE
+    {
+        public List<GetDetalleEntradaModel> data { get; set; }
+    }
     public class GetDetalleEntradaModel
     {
         public int Id { get; set; }
@@ -20,7 +38,7 @@ namespace marcatel_api.Models
 
     }
 
-     public class GetReportEntradasModel
+    public class GetReportEntradasModel
     {
         public int Id { get; set; }
         public int Entrada_Ligada { get; set; }
