@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -79,26 +80,21 @@ namespace marcatel_api.Controllers
             var objectResponse = Helper.GetStructResponse();
             ResponseArticulos result = new ResponseArticulos();
             result.Response = new ResponseBodyArt();
-            result.Response.data = new DataResponseArt();
+            result.Response.data = new List<GetArticulosModel>();
 
-            // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
-            var ArtResponse = _ArticulosService.Getarticulos();
+            var ArticuloResponse = _ArticulosService.GetArticulos();
 
-            if (ArtResponse != null && ArtResponse.Any()) // Verificar si hay datos
+            if (ArticuloResponse != null && ArticuloResponse.Any())
             {
                 result.StatusCode = (int)HttpStatusCode.OK;
                 result.Error = false;
                 result.Success = true;
-                result.Message = "Éxito.";
-                result.Response.data.Status = true;
-                result.Response.data.Mensaje = "Información obtenida con éxito.";
+                result.Message = "Información obtenida con éxito.";
 
-                // Asignar toda la lista de movimientos
-                result.Response.data.Articulo = ArtResponse;  // MovResponse es List<GetMovimientosModel>
-
+                result.Response.data = ArticuloResponse;
                 objectResponse.response = new
                 {
-                    data = result.Response.data.Articulo
+                    data = result.Response.data
                 };
             }
             else

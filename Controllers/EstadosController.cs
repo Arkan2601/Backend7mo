@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -55,8 +57,35 @@ namespace marcatel_api.Controllers
         [HttpGet("Get")]
         public IActionResult GetEstados()
         {
-            var articulo = _EstadosService.GetEstados();
-            return Ok(articulo);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseEstados result = new ResponseEstados();
+            result.Response = new ResponseBodyEstado();
+            result.Response.data = new List<GetEstadosModel>();
+
+            var EstadosResponse = _EstadosService.GetEstados();
+
+            if (EstadosResponse != null && EstadosResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = EstadosResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
         [HttpPut("Update")]

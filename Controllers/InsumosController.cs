@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -77,8 +79,35 @@ namespace marcatel_api.Controllers
         [HttpGet("Get")]
         public IActionResult GetInsumos() 
         {
-            var insumos = _InsumosService.GetInsumos();
-            return Ok(insumos);
+           var objectResponse = Helper.GetStructResponse();
+            ResponseInsumos result = new ResponseInsumos();
+            result.Response = new ResponseBodyInsumos();
+            result.Response.data = new List<GetInsumosModel>();
+
+            var InsumosResponse = _InsumosService.GetInsumos();
+
+            if (InsumosResponse != null && InsumosResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = InsumosResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
 

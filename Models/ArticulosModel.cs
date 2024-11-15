@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 namespace marcatel_api.Models
 
-
-
 {
 
     public class ResponseArticulos
@@ -17,15 +15,7 @@ namespace marcatel_api.Models
 
     public class ResponseBodyArt
     {
-        public DataResponseArt data { get; set; }
-    }
-
-    public class DataResponseArt
-    {
-        public bool Status { get; set; }
-        public string Mensaje { get; set; }
-        // Cambia esto a una lista en lugar de un solo objeto
-        public List<GetArticulosModel> Articulo { get; set; }
+        public List<GetArticulosModel> data { get; set; }
     }
     public class GetArticulosModel
     {
