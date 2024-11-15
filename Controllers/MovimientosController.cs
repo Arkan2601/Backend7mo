@@ -10,7 +10,7 @@ using marcatel_api.Helpers;
 using System.Collections.Generic;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using System.Linq;
-
+using System.Collections.Generic;
 
 
 namespace marcatel_api.Controllers

@@ -1,6 +1,22 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
 {
+
+ public class ResponseOrdenCompra
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyOrdenCompra Response { get; set; }
+    }
+
+    public class ResponseBodyOrdenCompra
+    {
+        public List<GetOrdenCompraModel> data { get; set; }
+    }
+
     public class GetOrdenCompraModel
     {
         public int Id { get; set; }
