@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace marcatel_api.Controllers
 {
@@ -80,8 +82,35 @@ namespace marcatel_api.Controllers
         [HttpGet("Get")]
         public IActionResult GetUsuario()
         {
-            var usuarios = _UsuarioService.GetUsuarios();
-            return Ok(usuarios);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseUsuario result = new ResponseUsuario();
+            result.Response = new ResponseBodyUsuario();
+            result.Response.data = new List<GetUsuariosModel>();
+
+            var UsuariosResponse = _UsuarioService.GetUsuarios();
+
+            if (UsuariosResponse != null && UsuariosResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = UsuariosResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
 

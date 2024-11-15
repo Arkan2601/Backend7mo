@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace marcatel_api.Controllers
@@ -91,8 +93,35 @@ public JsonResult InsertTipoMovimiento([FromBody] InsertTipoMovimientoModel tipo
         [HttpGet("Get")]
         public IActionResult GetTipoMovimiento() 
         {
-            var unidadMedida = _TipoMovimientoService.GetTipoMovimiento();
-            return Ok(unidadMedida);
+           var objectResponse = Helper.GetStructResponse();
+            ResponseTipoMovimiento result = new ResponseTipoMovimiento();
+            result.Response = new ResponseBodyTipoMovimiento();
+            result.Response.data = new List<GetTipoMovimientoModel>();
+
+            var TipoMovimientoResponse = _TipoMovimientoService.GetTipoMovimiento();
+
+            if (TipoMovimientoResponse != null && TipoMovimientoResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = TipoMovimientoResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
 

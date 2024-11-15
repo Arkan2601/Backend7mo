@@ -1,6 +1,20 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
 {
+     public class ResponseRecetas
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyRecetas Response { get; set; }
+    }
+
+    public class ResponseBodyRecetas
+    {
+        public List<GetRecetasModel> data { get; set; }
+    }
     public class GetRecetasModel
     {
         public int Id { get; set; }
