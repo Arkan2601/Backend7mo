@@ -1,6 +1,20 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
 {
+      public class ResponseUsuario
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyUsuario Response { get; set; }
+    }
+
+    public class ResponseBodyUsuario
+    {
+        public List<GetUsuariosModel> data { get; set; }
+    }
     public class GetUsuariosModel
     {
         public int Id { get; set; }

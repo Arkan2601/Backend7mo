@@ -7,6 +7,10 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Collections.Generic;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using System.Linq;
+using System.Collections.Generic;
 
 
 namespace marcatel_api.Controllers
@@ -25,26 +29,26 @@ namespace marcatel_api.Controllers
 
 
         [HttpGet("ExportarMovimientosAExcel")]
-public IActionResult ExportarMovimientosAExcel()
-{
-    try
-    {
-        var excelData = _movimientosService.ExportarMovimientosAExcel();
-
-        
-        return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Movimientos.xlsx");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.Message);
-        return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
-    }
-}
+        public IActionResult ExportarMovimientosAExcel()
+        {
+            try
+            {
+                var excelData = _movimientosService.ExportarMovimientosAExcel();
 
 
+                return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Movimientos.xlsx");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
+            }
+        }
 
 
-      [HttpPost("Insert")]
+
+
+        [HttpPost("Insert")]
         public JsonResult InsertarMovimiento([FromBody] InsertMovimientosModel movimiento)
         {
             var objectResponse = Helper.GetStructResponse();
@@ -109,11 +113,46 @@ public IActionResult ExportarMovimientosAExcel()
         //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetMovimientos() 
+        public IActionResult GetMovimientos()
         {
-            var movimientos = _movimientosService.GetMovimientos();
-            return Ok(movimientos);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseMovimientos result = new ResponseMovimientos();
+            result.Response = new ResponseBodyMov();
+            result.Response.data = new DataResponseMov();
+
+            // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
+            var MovResponse = _movimientosService.GetMovimientos();
+
+            if (MovResponse != null && MovResponse.Any()) // Verificar si hay datos
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Éxito.";
+                result.Response.data.Status = true;
+                result.Response.data.Mensaje = "Información obtenida con éxito.";
+
+                // Asignar toda la lista de movimientos
+                result.Response.data.Movimientos = MovResponse;  // MovResponse es List<GetMovimientosModel>
+
+                objectResponse.response = new
+                {
+                    data = result.Response.data.Movimientos
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
+
+
+
 
 
         [HttpPut("Update")]
@@ -162,7 +201,7 @@ public IActionResult ExportarMovimientosAExcel()
 
 
 
-    [HttpPut("UpdateFechaAutoriza")]
+        [HttpPut("UpdateFechaAutoriza")]
         public JsonResult UpdateMovimientosAutoriza([FromBody] UpdateMovimientosAutorizaModel movimientos)
         {
             var objectResponse = Helper.GetStructResponse();
@@ -209,47 +248,47 @@ public IActionResult ExportarMovimientosAExcel()
 
 
         [HttpPut("Delete")]
-public JsonResult DeleteMovimientos([FromBody] DeleteMovimientosModel movimientos)
-{
-    var objectResponse = Helper.GetStructResponse();
-    try
-    {
-        var catClienteResponse = _movimientosService.DeleteMovimientos(movimientos);
-
-        // Suponemos que el mensaje de éxito contiene la frase "Registro eliminado con éxito"
-        if (catClienteResponse.Contains("Registro eliminado con éxito", StringComparison.OrdinalIgnoreCase))
+        public JsonResult DeleteMovimientos([FromBody] DeleteMovimientosModel movimientos)
         {
-            objectResponse.StatusCode = (int)HttpStatusCode.OK;
-            objectResponse.success = true;
-            objectResponse.message = "Éxito.";
-
-            objectResponse.response = new
+            var objectResponse = Helper.GetStructResponse();
+            try
             {
-                data = catClienteResponse
-            };
-        }
-        else
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-            objectResponse.success = false; // Cambiado a false para indicar un error
-            objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
+                var catClienteResponse = _movimientosService.DeleteMovimientos(movimientos);
 
-            objectResponse.response = new
+                // Suponemos que el mensaje de éxito contiene la frase "Registro eliminado con éxito"
+                if (catClienteResponse.Contains("Registro eliminado con éxito", StringComparison.OrdinalIgnoreCase))
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = catClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = false; // Cambiado a false para indicar un error
+                    objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
+
+                    objectResponse.response = new
+                    {
+                        data = catClienteResponse
+                    };
+                }
+            }
+            catch (System.Exception ex)
             {
-                data = catClienteResponse
-            };
+                Console.Write(ex.Message);
+                objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
+                objectResponse.success = false;
+                objectResponse.message = "Error interno del servidor: " + ex.Message;
+            }
+
+            return new JsonResult(objectResponse);
         }
-    }
-    catch (System.Exception ex)
-    {
-        Console.Write(ex.Message);
-        objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
-        objectResponse.success = false;
-        objectResponse.message = "Error interno del servidor: " + ex.Message;
-    }
 
-    return new JsonResult(objectResponse);
-}
-
-} 
+    }
 }

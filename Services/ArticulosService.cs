@@ -53,7 +53,7 @@ namespace marcatel_api.Services
 
 
 
-        public List<GetArticulosModel> Getarticulos()
+        public List<GetArticulosModel> GetArticulos()
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);

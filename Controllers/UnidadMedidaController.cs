@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace marcatel_api.Controllers
@@ -91,8 +93,35 @@ public JsonResult InsertUnidadMedida([FromBody] InsertUnidadMedidaModel unidadMe
         [HttpGet("Get")]
         public IActionResult GetUnidadMedida() 
         {
-            var unidadMedida = _UnidadMedidaService.GetUnidadMedida();
-            return Ok(unidadMedida);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseUM result = new ResponseUM();
+            result.Response = new ResponseBodyUM();
+            result.Response.data = new List<GetUnidadMedidaModel>();
+
+            var UMResponse = _UnidadMedidaService.GetUnidadMedida();
+
+            if (UMResponse != null && UMResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = UMResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
 

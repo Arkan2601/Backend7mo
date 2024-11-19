@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -72,13 +74,40 @@ namespace marcatel_api.Controllers
 
 
 
-/*         [Authorize(AuthenticationSchemes = "Bearer")]
- */     [HttpGet("Get")]
+        /*         [Authorize(AuthenticationSchemes = "Bearer")]
+         */
+        [HttpGet("Get")]
         public IActionResult GetDetalleReceta([FromQuery] int idReceta)
         {
-            var DOC = new GetDetalleRecetaModel { IdReceta = idReceta };
-            var detalleOC = _DetalleRecetaService.GetDetalleReceta(DOC);
-            return Ok(detalleOC);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseDetalleReceta result = new ResponseDetalleReceta();
+            result.Response = new ResponseBodyDR();
+            result.Response.data = new List<GetDetalleRecetaModel>();
+
+            var DRResponse = _DetalleRecetaService.GetDetalleReceta(new GetDetalleRecetaModel { IdReceta = idReceta });
+
+            if (DRResponse != null && DRResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = DRResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
         [HttpPut("Update")]
