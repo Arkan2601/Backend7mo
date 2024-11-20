@@ -1,6 +1,21 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
 {
+
+    public class ResponseDetalleMovimiento
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyDM Response { get; set; }
+    }
+
+    public class ResponseBodyDM
+    {
+        public List<GetDetalleMovimientosModel> data { get; set; }
+    }
     public class GetDetalleMovimientosModel
     {
         public int Id { get; set; }
@@ -16,7 +31,7 @@ namespace marcatel_api.Models
 
     public class InsertDetalleMovimientosModel
     {
-         public int IdMovimiento { get; set; } 
+        public int IdMovimiento { get; set; }
         public string Insumo { get; set; }
         public decimal Cantidad { get; set; }
         public int UsuarioActualiza { get; set; }
@@ -28,7 +43,7 @@ namespace marcatel_api.Models
         public int Id { get; set; }
         public string Insumo { get; set; }
         public decimal Cantidad { get; set; }
-        public int UsuarioActualiza {get; set;}
+        public int UsuarioActualiza { get; set; }
         public int Estatus { get; set; }
 
     }

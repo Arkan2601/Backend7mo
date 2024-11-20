@@ -1,8 +1,21 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
 {
 
+  public class ResponseInsumos
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyInsumos Response { get; set; }
+    }
 
+    public class ResponseBodyInsumos
+    {
+        public List<GetInsumosModel> data { get; set; }
+    }
 
 public class InsertInsumosModel
     {

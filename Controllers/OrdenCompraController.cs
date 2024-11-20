@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -90,8 +92,35 @@ namespace marcatel_api.Controllers
         [HttpGet("Get")]
         public IActionResult GetOrdenCompras()
         {
-            var orden = _OrdenCompraService.getOrdenCompras();
-            return Ok(orden);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseOrdenCompra result = new ResponseOrdenCompra();
+            result.Response = new ResponseBodyOrdenCompra();
+            result.Response.data = new List<GetOrdenCompraModel>();
+
+            var OrdenCompraResponse = _OrdenCompraService.getOrdenCompras();
+
+            if (OrdenCompraResponse != null && OrdenCompraResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = OrdenCompraResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
 

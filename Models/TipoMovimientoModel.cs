@@ -1,8 +1,23 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
 
 
 {
+        public class ResponseTipoMovimiento
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyTipoMovimiento Response { get; set; }
+    }
+
+    public class ResponseBodyTipoMovimiento
+    {
+        public List<GetTipoMovimientoModel> data { get; set; }
+    }
+
      public class InsertTipoMovimientoModel
     {
         public string Descripcion { get; set; }

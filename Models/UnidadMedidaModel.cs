@@ -1,8 +1,22 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
 
 
 {
+      public class ResponseUM
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyUM Response { get; set; }
+    }
+
+    public class ResponseBodyUM
+    {
+        public List<GetUnidadMedidaModel> data { get; set; }
+    }
      public class InsertUnidadMedidaModel
     {
         public string Nombre { get; set; }

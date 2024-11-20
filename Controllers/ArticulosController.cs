@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -42,7 +44,7 @@ namespace marcatel_api.Controllers
                     objectResponse.success = true;
                     objectResponse.message = "Éxito.";
                     objectResponse.response = new
-                    { 
+                    {
                         data = CatClienteResponse
                     };
                 }
@@ -50,7 +52,7 @@ namespace marcatel_api.Controllers
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                     objectResponse.success = false;
-                    objectResponse.message = "Error." ;
+                    objectResponse.message = "Error.";
                     objectResponse.response = new
                     {
                         data = CatClienteResponse
@@ -75,8 +77,35 @@ namespace marcatel_api.Controllers
         [HttpGet("Get")]
         public IActionResult GetArticulos()
         {
-            var articulo = _ArticulosService.Getarticulos();
-            return Ok(articulo);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseArticulos result = new ResponseArticulos();
+            result.Response = new ResponseBodyArt();
+            result.Response.data = new List<GetArticulosModel>();
+
+            var ArticuloResponse = _ArticulosService.GetArticulos();
+
+            if (ArticuloResponse != null && ArticuloResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = ArticuloResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
 

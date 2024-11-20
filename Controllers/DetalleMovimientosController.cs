@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace marcatel_api.Controllers
 {
@@ -72,13 +74,40 @@ namespace marcatel_api.Controllers
 
 
 
-/*         [Authorize(AuthenticationSchemes = "Bearer")]
- */     [HttpGet("Get")]
+        /*         [Authorize(AuthenticationSchemes = "Bearer")]
+         */
+        [HttpGet("Get")]
         public IActionResult GetDetalleMovimientos([FromQuery] int idMovimiento)
         {
-            var DOC = new GetDetalleMovimientosModel { IdMovimiento = idMovimiento };
-            var detalleOC = _DetalleMovimientosService.GetDetalleMovimientos(DOC);
-            return Ok(detalleOC);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseDetalleMovimiento result = new ResponseDetalleMovimiento();
+            result.Response = new ResponseBodyDM();
+            result.Response.data = new List<GetDetalleMovimientosModel>();
+
+            var DMResponse = _DetalleMovimientosService.GetDetalleMovimientos(new GetDetalleMovimientosModel { IdMovimiento = idMovimiento });
+
+            if (DMResponse != null && DMResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = DMResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
         [HttpPut("Update")]

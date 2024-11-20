@@ -7,6 +7,8 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace marcatel_api.Controllers
 {
@@ -92,8 +94,35 @@ namespace marcatel_api.Controllers
         [HttpGet("Get")]
         public IActionResult GetRecetas()
         {
-            var recetas = _recetasService.GetRecetas();
-            return Ok(recetas);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseRecetas result = new ResponseRecetas();
+            result.Response = new ResponseBodyRecetas();
+            result.Response.data = new List<GetRecetasModel>();
+
+            var RecetasResponse = _recetasService.GetRecetas();
+
+            if (RecetasResponse != null && RecetasResponse.Any())
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Información obtenida con éxito.";
+
+                result.Response.data = RecetasResponse;
+                objectResponse.response = new
+                {
+                    data = result.Response.data
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
 
 
