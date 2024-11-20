@@ -57,12 +57,20 @@ namespace marcatel_api.Services
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             var lista = new List<GetTraspasosModel>();
+            if (string.IsNullOrEmpty(traspasos.FechaInicio))
+             {
+                traspasos.FechaInicio = DateTime.MinValue.ToString("yyyy-MM-dd");
+            }
+            if (string.IsNullOrEmpty(traspasos.FechaFinal))
+            {
+                traspasos.FechaFinal = DateTime.MaxValue.ToString("yyyy-MM-dd");
+            }
             try
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pAlmacenEnvia", SqlDbType = SqlDbType.Int, Value = traspasos.AlmacenOrigen });
                 parametros.Add(new SqlParameter { ParameterName = "@pAlmacenRecibe", SqlDbType = SqlDbType.Int, Value = traspasos.AlmacenDestino });
-                parametros.Add(new SqlParameter { ParameterName = "@pFechaInicio", SqlDbType = SqlDbType.VarChar, Value = traspasos.FechaInicio });
-                parametros.Add(new SqlParameter { ParameterName = "@pFechaFinal", SqlDbType = SqlDbType.VarChar, Value = traspasos.FechaFinal });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaInicio", SqlDbType = SqlDbType.Date, Value = traspasos.FechaInicio });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaFinal", SqlDbType = SqlDbType.Date, Value = traspasos.FechaFinal });
                 DataSet ds = dac.Fill("sp_GetTraspasos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {

@@ -1,6 +1,20 @@
 using System;
+using System.Collections.Generic;
 namespace marcatel_api.Models
 {
+    public class ResponseTraspasos
+    {
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public bool Error { get; set; }
+        public string Message { get; set; }
+        public ResponseBodyTraspasos Response { get; set; }
+    }
+
+    public class ResponseBodyTraspasos
+    {
+        public List<GetTraspasosModel> data { get; set; }
+    }
     public class GetTraspasosModel
     {
         public int Id { get; set; }

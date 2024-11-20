@@ -7,6 +7,10 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
+using System.Collections.Generic;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using System.Linq;
+using System.Collections.Generic;
 
 
 namespace marcatel_api.Controllers
@@ -111,9 +115,44 @@ namespace marcatel_api.Controllers
         [HttpGet("Get")]
         public IActionResult GetMovimientos()
         {
-            var movimientos = _movimientosService.GetMovimientos();
-            return Ok(movimientos);
+            var objectResponse = Helper.GetStructResponse();
+            ResponseMovimientos result = new ResponseMovimientos();
+            result.Response = new ResponseBodyMov();
+            result.Response.data = new DataResponseMov();
+
+            // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
+            var MovResponse = _movimientosService.GetMovimientos();
+
+            if (MovResponse != null && MovResponse.Any()) // Verificar si hay datos
+            {
+                result.StatusCode = (int)HttpStatusCode.OK;
+                result.Error = false;
+                result.Success = true;
+                result.Message = "Éxito.";
+                result.Response.data.Status = true;
+                result.Response.data.Mensaje = "Información obtenida con éxito.";
+
+                // Asignar toda la lista de movimientos
+                result.Response.data.Movimientos = MovResponse;  // MovResponse es List<GetMovimientosModel>
+
+                objectResponse.response = new
+                {
+                    data = result.Response.data.Movimientos
+                };
+            }
+            else
+            {
+                result.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Error = true;
+                result.Success = false;
+                result.Message = "Error al obtener la información.";
+            }
+
+            return new JsonResult(result);
         }
+
+
+
 
 
         [HttpPut("Update")]
