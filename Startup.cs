@@ -85,6 +85,7 @@ namespace marcatel_api
 
 
               services.AddSingleton<TipoMovimientoService>();
+              services.AddSingleton<RolService>();
 
 
 
