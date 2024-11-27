@@ -16,11 +16,10 @@ namespace marcatel_api.Services
             connection = settings.ConnectionString;
         }
 
-        public List<GetRolModel> InsertRol(InsertRolModel rol)
+        public string InsertRol(InsertRolModel rol)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetRolModel>();
 
             try
             {
@@ -31,21 +30,18 @@ namespace marcatel_api.Services
                 DataSet ds = dac.Fill("sp_InsertRol", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                   foreach (DataRow row in ds.Tables[0].Rows)
-                    {
-                        lista.Add(new GetRolModel
-                        {
-                            Id = int.Parse(row["Id"].ToString()),
-                            Mensaje = row["Mensaje"].ToString()
-                        });
-                    }
+                    return ds.Tables[0].Rows[0]["Mensaje"].ToString();
+                }
+                else
+                {
+                    return "No se recibió ningún mensaje desde la base de datos";
                 }
                 
-                return lista;
             }
             catch (Exception ex)
             {
-              throw ex;
+                Console.Write(ex.Message);
+                return "Error: " + ex.Message;
             }
         }
 

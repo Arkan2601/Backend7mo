@@ -27,33 +27,28 @@ namespace marcatel_api.Controllers
 
 
 
-        [HttpPost("Insert")]
+         [HttpPost("Insert")]
         public JsonResult InsertRol([FromBody] InsertRolModel rol)
         {
-            var objectResponse = Helper.GetStructResponse();
+           var objectResponse = Helper.GetStructResponse();
             try
             {
-                var rolmodel = _rolService.InsertRol(rol);
+                var CatClienteResponse = _rolService.InsertRol(rol);
 
-                 if (rolmodel.Count > 0)
+                string msgDefault = "Registro insertado con éxito.";
+
+
+                if (msgDefault == CatClienteResponse)
                 {
-                    var Id = rolmodel[0].Id;
-                    var Msg = rolmodel[0].Mensaje;
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
 
-                    string msgDefault = "Registro insertado con éxito.";
-
-                    if (msgDefault == Msg)
+                    objectResponse.response = new
                     {
-                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                        objectResponse.success = true;
-                        objectResponse.message = "Éxito.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                    }
+                        data = CatClienteResponse
+                    };
+                }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -61,19 +56,9 @@ namespace marcatel_api.Controllers
                     objectResponse.message = "Error.";
 
                     objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                }
-            }
-            else
-                {
-                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = true;
-                    objectResponse.message = "Error: No se devolvió ningún resultado.";
-
-                    objectResponse.response = null;
+                    {
+                        data = CatClienteResponse
+                    };
                 }
             }
             catch (System.Exception ex)
