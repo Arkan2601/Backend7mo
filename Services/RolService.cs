@@ -28,23 +28,25 @@ namespace marcatel_api.Services
 
 
                 DataSet ds = dac.Fill("sp_InsertRol", parametros);
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    return ds.Tables[0].Rows[0]["Mensaje"].ToString();
-                }
-                else
-                {
-                    return "No se recibió ningún mensaje desde la base de datos";
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                Console.Write(ex.Message);
-                return "Error: " + ex.Message;
-            }
+                // Asegúrate de que hay al menos una tabla devuelta
+        if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+        {
+            return ds.Tables[0].Rows[0]["Mensaje"].ToString(); // Retorna el mensaje del SP
         }
+        else
+        {
+            return "No se recibió ningún mensaje desde la base de datos";
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.Write(ex.Message);
+        return "Error: " + ex.Message;
+    }
 
+    // Retorno por defecto
+    return "Error: Ocurrió un problema al insertar el detalle rol."; // Valor por defecto en caso de fallo
+}
         public List<GetRolModel> GetRol()
         {
             ArrayList parametros = new ArrayList();
