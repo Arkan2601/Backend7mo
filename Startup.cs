@@ -69,7 +69,7 @@ namespace marcatel_api
 
 
 
-
+                       services.AddSingleton<DetalleRolService>();
 
 
 
