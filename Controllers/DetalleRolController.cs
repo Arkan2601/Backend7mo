@@ -28,51 +28,50 @@ namespace marcatel_api.Controllers
 
 
 
-        [HttpPost("Insert")]
-public JsonResult InsertDetalleRol([FromBody] InsertDetalleRolModel detalleRol)
-{
-    var objectResponse = Helper.GetStructResponse();
-    try
-    {
-        var catClienteResponse = _DetalleRolService.InsertDetalleRol(detalleRol);
-
-        // Suponemos que el mensaje de éxito contiene el ID del registro insertado
-        if (catClienteResponse.Contains("Registro insertado con éxito", StringComparison.OrdinalIgnoreCase))
+       [HttpPost("Insert")]
+        public JsonResult InsertDetalleRol([FromBody] InsertDetalleRolModel detalleRol)
         {
-            objectResponse.StatusCode = (int)HttpStatusCode.OK;
-            objectResponse.success = true;
-            objectResponse.message = "Éxito.";
-
-            // Extraer el ID de la respuesta
-            // Suponiendo que CatClienteResponse es algo como "Registro insertado con éxito. ID: 123"
-           // int id = ExtractIdFromResponse(catClienteResponse);
-            //objectResponse.response = new
-            //{
-              //  id = id // Agregamos el ID del registro insertado
-            //};
-        }
-        else
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-            objectResponse.success = false; // Cambiado a false para indicar un error
-            objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
-
-            objectResponse.response = new
+            var objectResponse = Helper.GetStructResponse();
+            try
             {
-                data = catClienteResponse
-            };
-        }
-    }
-    catch (System.Exception ex)
-    {
-        Console.Write(ex.Message);
-        objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
-        objectResponse.success = false;
-        objectResponse.message = "Error interno del servidor: " + ex.Message;
-    }
+                var CatClienteResponse = _DetalleRolService.InsertDetalleRol(detalleRol);
 
-    return new JsonResult(objectResponse);
-}
+                string msgDefault = "Registro insertado con éxito.";
+
+
+                if (msgDefault == CatClienteResponse)
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error.";
+
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.Write(ex.Message);
+                throw;
+            }
+
+
+            return new JsonResult(objectResponse);
+
+        }
 
 // Método auxiliar para extraer el ID del mensaje de respuesta
 //private int ExtractIdFromResponse(string response)

@@ -49,7 +49,7 @@ namespace marcatel_api.Services
     }
 
     // Retorno por defecto
-    return "Error: Ocurrió un problema al insertar la unidad de medida."; // Valor por defecto en caso de fallo
+    return "Error: Ocurrió un problema al insertar el detalle rol."; // Valor por defecto en caso de fallo
 }
 
         public List<GetDetalleRolModel> GetDetalleRol()
