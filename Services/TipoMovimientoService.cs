@@ -27,6 +27,7 @@ namespace marcatel_api.Services
         // Agregando los parámetros de inserción
         parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = tipoMovimiento.Descripcion });
         parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = tipoMovimiento.UsuarioActualiza });
+        parametros.Add(new SqlParameter { ParameterName = "@pEntradaSalida", SqlDbType = SqlDbType.Int, Value = tipoMovimiento.EntradaSalida });
 
         // Llamando al procedimiento almacenado
         DataSet ds = dac.Fill("sp_InsertTipoMovimiento", parametros);
@@ -69,7 +70,9 @@ namespace marcatel_api.Services
                             Descripcion= row["Descripcion"].ToString(),
                             FechaRegistro= row["FechaRegistro"].ToString(),
                             FechaActualiza = row["FechaActualiza"].ToString(),
-                            UsuarioActualiza = row["UsuarioActualiza"].ToString()
+                            UsuarioActualiza = row["UsuarioActualiza"].ToString(),
+                            EntradaSalida = int.Parse(row["EntradaSalida"].ToString()),
+                            EntradaSalidaStr = row["EntradaSalidaStr"].ToString()
                             
                         });
                     }

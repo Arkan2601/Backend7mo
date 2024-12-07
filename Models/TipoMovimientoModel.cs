@@ -21,6 +21,7 @@ namespace marcatel_api.Models
      public class InsertTipoMovimientoModel
     {
         public string Descripcion { get; set; }
+        public int EntradaSalida {get; set;} //1 para entrada, 2 para salida
         public int UsuarioActualiza { get; set; }
         
 
@@ -37,6 +38,8 @@ namespace marcatel_api.Models
         public string FechaRegistro { get; set; }
        public string FechaActualiza { get; set; }
         public string UsuarioActualiza { get; set; }
+        public int EntradaSalida {get; set;}
+        public string EntradaSalidaStr {get;set;}
 
         //public string Mensaje { get; set; }
 
