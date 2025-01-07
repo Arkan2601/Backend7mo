@@ -7,35 +7,35 @@ using marcatel_api.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using marcatel_api.Helpers;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class ArticulosController : ControllerBase
+    public class RolController : ControllerBase
     {
-        private readonly ArticulosService _ArticulosService;
+        private readonly RolService _rolService;
 
-        public ArticulosController(ArticulosService articulosService)
+        public RolController(RolService rolService)
         {
-            _ArticulosService = articulosService;
+            _rolService = rolService;
         }
 
 
 
 
 
-        [HttpPost("Insert")]
-        public JsonResult InsertArticulo([FromBody] InsertArticulosModel articulo)
+         [HttpPost("Insert")]
+        public JsonResult InsertRol([FromBody] InsertRolModel rol)
         {
-            var objectResponse = Helper.GetStructResponse();
+           var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _ArticulosService.InserArticulos(articulo);
+                var CatClienteResponse = _rolService.InsertRol(rol);
 
-                string msgDefault = "Artículo insertado con éxito.";
+                string msgDefault = "Registro insertado con éxito.";
 
 
                 if (msgDefault == CatClienteResponse)
@@ -43,6 +43,7 @@ namespace marcatel_api.Controllers
                     objectResponse.StatusCode = (int)HttpStatusCode.OK;
                     objectResponse.success = true;
                     objectResponse.message = "Éxito.";
+
                     objectResponse.response = new
                     {
                         data = CatClienteResponse
@@ -51,8 +52,9 @@ namespace marcatel_api.Controllers
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = false;
+                    objectResponse.success = true;
                     objectResponse.message = "Error.";
+
                     objectResponse.response = new
                     {
                         data = CatClienteResponse
@@ -75,23 +77,23 @@ namespace marcatel_api.Controllers
         //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetArticulos()
+        public IActionResult GetRol()
         {
             var objectResponse = Helper.GetStructResponse();
-            ResponseArticulos result = new ResponseArticulos();
-            result.Response = new ResponseBodyArt();
-            result.Response.data = new List<GetArticulosModel>();
+            ResponseRol result = new ResponseRol();
+            result.Response = new ResponseBodyRol();
+            result.Response.data = new List<GetRolModel>();
 
-            var ArticuloResponse = _ArticulosService.GetArticulos();
+            var RolResponse = _rolService.GetRol();
 
-            if (ArticuloResponse != null && ArticuloResponse.Any())
+            if (RolResponse != null && RolResponse.Any())
             {
                 result.StatusCode = (int)HttpStatusCode.OK;
                 result.Error = false;
                 result.Success = true;
                 result.Message = "Información obtenida con éxito.";
 
-                result.Response.data = ArticuloResponse;
+                result.Response.data = RolResponse;
                 objectResponse.response = new
                 {
                     data = result.Response.data
@@ -110,12 +112,12 @@ namespace marcatel_api.Controllers
 
 
         [HttpPut("Update")]
-        public JsonResult UpdateArticulo([FromBody] UpdateArticulosModel articulo)
+        public JsonResult UpdateRol([FromBody] UpdateRolModel rol)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _ArticulosService.Updatearticulos(articulo);
+                var CatClienteResponse = _rolService.UpdateRol(rol);
 
                 string msgDefault = "Registro actualizado con éxito.";
 
@@ -154,12 +156,12 @@ namespace marcatel_api.Controllers
         }
 
         [HttpPut("Delete")]
-        public JsonResult DeleteArticulo([FromBody] DeleteArticulosModel articulo)
+        public JsonResult DeletRol([FromBody] DeleteRolModel rol)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _ArticulosService.Deletearticulos(articulo);
+                var CatClienteResponse = _rolService.DeleteRol(rol);
 
                 string msgDefault = "Registro eliminado con éxito.";
 
