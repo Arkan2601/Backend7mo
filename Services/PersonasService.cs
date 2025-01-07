@@ -71,6 +71,7 @@ namespace marcatel_api.Services
                             ApMaterno = row["ApMaterno"].ToString(),
                             Direccion = row["Direccion"].ToString(),
                             Usuario = row["Usuario"].ToString(),
+                            Sucursal = row["Sucursal"].ToString(),
                             FechaAct = row["FechaActualiza"].ToString(),
                             FechaReg = row["FechaRegistro"].ToString()
                         });
