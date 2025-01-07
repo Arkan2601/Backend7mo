@@ -26,54 +26,36 @@ namespace marcatel_api.Controllers
 
 
 
-
-        [HttpPost("Insert")]
-        public JsonResult InsertRecetas([FromBody] InsertRecetasModel recetas)
+ [HttpPost("Insert")]
+        public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var recetasmodel = _recetasService.InsertRecetas(recetas);
+                var CatClienteResponse = _recetasService.InsertRecetas(receta);
 
-                 if (recetasmodel.Count > 0)
+                string msgDefault = "Artículo insertado con éxito.";
+
+
+                if (msgDefault == CatClienteResponse)
                 {
-                    var Id = recetasmodel[0].Id;
-                    var Msg = recetasmodel[0].Mensaje;
-
-                    string msgDefault = "Registro insertado con éxito.";
-
-                    if (msgDefault == Msg)
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+                    objectResponse.response = new
                     {
-                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                        objectResponse.success = true;
-                        objectResponse.message = "Éxito.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                    }
+                        data = CatClienteResponse
+                    };
+                }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = true;
+                    objectResponse.success = false;
                     objectResponse.message = "Error.";
-
                     objectResponse.response = new
-                        {
-                            data = Id,
-                            Msg
-                        };
-                }
-            }
-            else
-                {
-                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = true;
-                    objectResponse.message = "Error: No se devolvió ningún resultado.";
-
-                    objectResponse.response = null;
+                    {
+                        data = CatClienteResponse
+                    };
                 }
             }
             catch (System.Exception ex)
@@ -86,7 +68,6 @@ namespace marcatel_api.Controllers
             return new JsonResult(objectResponse);
 
         }
-
 
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
