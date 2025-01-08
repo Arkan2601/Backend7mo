@@ -4,7 +4,7 @@ namespace marcatel_api.Models
 
 {
 
-        public class ResponsePersonas
+    public class ResponsePersonas
     {
         public int StatusCode { get; set; }
         public bool Success { get; set; }
@@ -39,6 +39,7 @@ namespace marcatel_api.Models
         public string Direccion { get; set; }
         public int Usuario { get; set; }
         public string Pass { get; set; }
+        public int Sucursal { get; set; }
     }
     public class UpdatePersonasModel
     {
@@ -49,7 +50,7 @@ namespace marcatel_api.Models
         public string Direccion { get; set; }
         public int Usuario { get; set; }
 
-        public int Sucursal {get; set;}
+        public int Sucursal { get; set; }
     }
     public class DeletePersonasModel
     {
