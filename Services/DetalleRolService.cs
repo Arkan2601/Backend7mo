@@ -17,48 +17,49 @@ namespace marcatel_api.Services
         }
 
 
- public string InsertDetalleRol(InsertDetalleRolModel detalleRol)
-{
-    ArrayList parametros = new ArrayList();
-    ConexionDataAccess dac = new ConexionDataAccess(connection);
-
-    try
-    {
-        // Agregando los parámetros de inserción
-        parametros.Add(new SqlParameter { ParameterName = "@pIdRol", SqlDbType = SqlDbType.Int, Value = detalleRol.IdRol });
-        parametros.Add(new SqlParameter { ParameterName = "@pIdModulo", SqlDbType = SqlDbType.Int, Value = detalleRol.IdModulo });
-        parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = detalleRol.UsuarioActualiza });
-
-        // Llamando al procedimiento almacenado
-        DataSet ds = dac.Fill("sp_InsertDetalleRol", parametros);
-
-        // Asegúrate de que hay al menos una tabla devuelta
-        if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+        public string InsertDetalleRol(InsertDetalleRolModel detalleRol)
         {
-            return ds.Tables[0].Rows[0]["Mensaje"].ToString(); // Retorna el mensaje del SP
-        }
-        else
-        {
-            return "No se recibió ningún mensaje desde la base de datos";
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.Write(ex.Message);
-        return "Error: " + ex.Message;
-    }
+            ArrayList parametros = new ArrayList();
+            ConexionDataAccess dac = new ConexionDataAccess(connection);
 
-    // Retorno por defecto
-    return "Error: Ocurrió un problema al insertar el detalle rol."; // Valor por defecto en caso de fallo
-}
+            try
+            {
+                // Agregando los parámetros de inserción
+                parametros.Add(new SqlParameter { ParameterName = "@pIdRol", SqlDbType = SqlDbType.Int, Value = detalleRol.IdRol });
+                parametros.Add(new SqlParameter { ParameterName = "@pIdModulo", SqlDbType = SqlDbType.Int, Value = detalleRol.IdModulo });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = detalleRol.UsuarioActualiza });
 
-        public List<GetDetalleRolModel> GetDetalleRol()
+                // Llamando al procedimiento almacenado
+                DataSet ds = dac.Fill("sp_InsertDetalleRol", parametros);
+
+                // Asegúrate de que hay al menos una tabla devuelta
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    return ds.Tables[0].Rows[0]["Mensaje"].ToString(); // Retorna el mensaje del SP
+                }
+                else
+                {
+                    return "No se recibió ningún mensaje desde la base de datos";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                return "Error: " + ex.Message;
+            }
+
+            // Retorno por defecto
+            return "Error: Ocurrió un problema al insertar el detalle rol."; // Valor por defecto en caso de fallo
+        }
+
+        public List<GetDetalleRolModel> GetDetalleRol(GetDetalleRolModel rol)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             var lista = new List<GetDetalleRolModel>();
             try
             {
+                parametros.Add(new SqlParameter { ParameterName = "@pIdRol", SqlDbType = SqlDbType.Int, Value = rol.IdRol });
                 DataSet ds = dac.Fill("sp_GetDetalleRol", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -67,13 +68,13 @@ namespace marcatel_api.Services
                         lista.Add(new GetDetalleRolModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            Rol= row["Rol"].ToString(),
-                             Modulo= row["Modulo"].ToString(),
-                            FechaRegistro= row["FechaRegistro"].ToString(),
+                            Rol = row["Rol"].ToString(),
+                            Modulo = row["Modulo"].ToString(),
+                            FechaRegistro = row["FechaRegistro"].ToString(),
                             FechaActualiza = row["FechaActualiza"].ToString(),
                             UsuarioActualiza = row["UsuarioActualiza"].ToString(),
                             Estatus = row["Estatus"].ToString()
-                            
+
                         });
                     }
                 }
@@ -125,7 +126,7 @@ namespace marcatel_api.Services
 
 
 
-          
+
 
 
         public string DeleteDetalleRol(DeleteDetalleRolModel detalleRol)

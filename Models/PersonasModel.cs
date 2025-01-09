@@ -42,6 +42,7 @@ namespace marcatel_api.Models
         public int Usuario { get; set; }
         public int Sucursal { get; set; }
         public string Pass { get; set; }
+        public int Sucursal { get; set; }
     }
     public class UpdatePersonasModel
     {
