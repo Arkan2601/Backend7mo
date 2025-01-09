@@ -29,6 +29,8 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pApMaterno", SqlDbType = SqlDbType.VarChar, Value = personas.ApMaterno });
                 parametros.Add(new SqlParameter { ParameterName = "@pDireccion", SqlDbType = SqlDbType.VarChar, Value = personas.Direccion });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = personas.Usuario });
+                parametros.Add(new SqlParameter { ParameterName = "@pSucursal", SqlDbType = SqlDbType.Int, Value = personas.Sucursal });
+
                 parametros.Add(new SqlParameter { ParameterName = "@pPass", SqlDbType = SqlDbType.VarChar, Value = personas.Pass });
 
 
@@ -70,8 +72,9 @@ namespace marcatel_api.Services
                             ApPaterno = row["ApPaterno"].ToString(),
                             ApMaterno = row["ApMaterno"].ToString(),
                             Direccion = row["Direccion"].ToString(),
-                            Usuario = row["Usuario"].ToString(),
+                            Usuario = row["UsuarioActualiza"].ToString(),
                             Sucursal = row["Sucursal"].ToString(),
+                            UsuarioLigado = row["Usuario_Ligado"].ToString(),
                             FechaAct = row["FechaActualiza"].ToString(),
                             FechaReg = row["FechaRegistro"].ToString()
                         });
