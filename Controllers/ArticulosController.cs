@@ -35,7 +35,7 @@ namespace marcatel_api.Controllers
             {
                 var CatClienteResponse = _ArticulosService.InserArticulos(articulo);
 
-                string msgDefault = "Registro insertado con éxito.";
+                string msgDefault = "Artículo insertado con éxito.";
 
 
                 if (msgDefault == CatClienteResponse)
