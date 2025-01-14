@@ -21,6 +21,7 @@ namespace marcatel_api.Models
         public int Id { get; set; }
         public int IdMovimiento { get; set; }
         public string Insumo { get; set; }
+        public string Descripcion { get; set; }
         public decimal Cantidad { get; set; }
         public string FechaRegistro { get; set; }
         public string FechaActualiza { get; set; }
