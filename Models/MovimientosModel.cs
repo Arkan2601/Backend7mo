@@ -17,15 +17,7 @@ namespace marcatel_api.Models
 
     public class ResponseBodyMov
     {
-        public DataResponseMov data { get; set; }
-    }
-
-    public class DataResponseMov
-    {
-        public bool Status { get; set; }
-        public string Mensaje { get; set; }
-        // Cambia esto a una lista en lugar de un solo objeto
-        public List<GetMovimientosModel> Movimientos { get; set; }
+        public List<GetMovimientosModel> data { get; set; }
     }
 
     public class GetMovimientosModel
@@ -39,8 +31,14 @@ namespace marcatel_api.Models
         public string UsuarioAutoriza { get; set; }
         public string FechaActualiza { get; set; }
         public string UsuarioActualiza { get; set; }
-
         public string Mensaje { get; set; }
+
+        //Para el filtro
+
+        public string FechaInicio { get; set; }
+        public string FechaFin { get; set; }
+        public int IdSucursal { get; set; }
+        public int Usuario { get; set; }
 
     }
 

@@ -20,8 +20,15 @@ namespace marcatel_api.Services
 
         public byte[] ExportarMovimientosAExcel()
         {
+            var model = new GetMovimientosModel
+            {
+                FechaInicio = "",
+                FechaFin = "",
+                IdSucursal = 0,
+                Usuario = 0
+            };
 
-            var listaMovimientos = GetMovimientos();
+            var listaMovimientos = GetMovimientos(model);
 
 
             using (var workbook = new XLWorkbook())
@@ -102,13 +109,17 @@ namespace marcatel_api.Services
         }
 
 
-        public List<GetMovimientosModel> GetMovimientos()
+        public List<GetMovimientosModel> GetMovimientos(GetMovimientosModel movimientos)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             var lista = new List<GetMovimientosModel>();
             try
             {
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaInicio", SqlDbType = SqlDbType.Date, Value = movimientos.FechaInicio });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaFin", SqlDbType = SqlDbType.Date, Value = movimientos.FechaFin });
+                parametros.Add(new SqlParameter { ParameterName = "@pSucursal", SqlDbType = SqlDbType.Int, Value = movimientos.IdSucursal });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = movimientos.Usuario });
                 DataSet ds = dac.Fill("sp_GetMovimientos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
