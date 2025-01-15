@@ -114,6 +114,14 @@ namespace marcatel_api.Services
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             var lista = new List<GetMovimientosModel>();
+            if (string.IsNullOrEmpty(movimientos.FechaInicio))
+            {
+                movimientos.FechaInicio = DateTime.MinValue.ToString("yyyy-MM-dd");
+            }
+            if (string.IsNullOrEmpty(movimientos.FechaFin))
+            {
+                movimientos.FechaFin = DateTime.MaxValue.ToString("yyyy-MM-dd");
+            }
             try
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pFechaInicio", SqlDbType = SqlDbType.Date, Value = movimientos.FechaInicio });
