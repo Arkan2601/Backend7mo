@@ -113,31 +113,27 @@ namespace marcatel_api.Controllers
         //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetMovimientos()
+        public IActionResult GetMovimientos([FromQuery] string Fechainicio, string Fechafin, int sucursal, int usuario)
         {
             var objectResponse = Helper.GetStructResponse();
             ResponseMovimientos result = new ResponseMovimientos();
             result.Response = new ResponseBodyMov();
-            result.Response.data = new DataResponseMov();
+            result.Response.data = new List<GetMovimientosModel>();
 
             // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
-            var MovResponse = _movimientosService.GetMovimientos();
+            var MovResponse = _movimientosService.GetMovimientos(new GetMovimientosModel { FechaInicio = Fechainicio, FechaFin = Fechafin, IdSucursal = sucursal, Usuario = usuario });
 
             if (MovResponse != null && MovResponse.Any()) // Verificar si hay datos
             {
                 result.StatusCode = (int)HttpStatusCode.OK;
                 result.Error = false;
                 result.Success = true;
-                result.Message = "Éxito.";
-                result.Response.data.Status = true;
-                result.Response.data.Mensaje = "Información obtenida con éxito.";
+                result.Message = "Información obtenida con éxito.";
 
-                // Asignar toda la lista de movimientos
-                result.Response.data.Movimientos = MovResponse;  // MovResponse es List<GetMovimientosModel>
-
+                result.Response.data = MovResponse;
                 objectResponse.response = new
                 {
-                    data = result.Response.data.Movimientos
+                    data = result.Response.data
                 };
             }
             else
