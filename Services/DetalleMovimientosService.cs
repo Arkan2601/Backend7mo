@@ -23,9 +23,19 @@ namespace marcatel_api.Services
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             var lista = new List<GetDetalleMovimientosModel>();
+            if (string.IsNullOrEmpty(dm.FechaInicio))
+             {
+                dm.FechaInicio = DateTime.MinValue.ToString("yyyy-MM-dd");
+            }
+            if (string.IsNullOrEmpty(dm.FechaFin))
+            {
+                dm.FechaFin = DateTime.MaxValue.ToString("yyyy-MM-dd");
+            }
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pIdMovimiento", SqlDbType = SqlDbType.Int, Value = dm.IdMovimiento });
+                
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaInicio", SqlDbType = SqlDbType.Date, Value = dm.FechaInicio });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaFin", SqlDbType = SqlDbType.Date, Value = dm.FechaFin });
 
                 DataSet ds = dac.Fill("sp_GetDetalleMovimientos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
@@ -36,8 +46,8 @@ namespace marcatel_api.Services
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             IdMovimiento = int.Parse(row["IdMovimiento"].ToString()),
-                            Insumo = row["CodigoInsumo"].ToString(),
-                            Descripcion = row["DescripcionInsumo"].ToString(),
+                            CodigoInsumo = row["CodigoInsumo"].ToString(),
+                            DescripcionInsumo =row["DescripcionInsumo"].ToString(),
                             Cantidad = decimal.Parse(row["Cantidad"].ToString()),
                             FechaRegistro = row["FechaRegistro"].ToString(),
                             FechaActualiza = row["FechaActualiza"].ToString(),

@@ -28,7 +28,7 @@ namespace marcatel_api.Controllers
 
 
 
-       [HttpPost("Insert")]
+        [HttpPost("Insert")]
         public JsonResult InsertDetalleRol([FromBody] InsertDetalleRolModel detalleRol)
         {
             var objectResponse = Helper.GetStructResponse();
@@ -73,31 +73,31 @@ namespace marcatel_api.Controllers
 
         }
 
-// Método auxiliar para extraer el ID del mensaje de respuesta
-//private int ExtractIdFromResponse(string response)
-//{
-    // Suponiendo que la respuesta tiene el formato: "Registro insertado con éxito. ID: 123"
-  //  var parts = response.Split(new[] { "Id: " }, StringSplitOptions.None);
-    //if (parts.Length > 1 && int.TryParse(parts[1], out int id))
-    //{
-      //  return id; // Devuelve el ID extraído
-    //}
-    //return 0; // Devuelve 0 si no se puede extraer el ID
-//}
+        // Método auxiliar para extraer el ID del mensaje de respuesta
+        //private int ExtractIdFromResponse(string response)
+        //{
+        // Suponiendo que la respuesta tiene el formato: "Registro insertado con éxito. ID: 123"
+        //  var parts = response.Split(new[] { "Id: " }, StringSplitOptions.None);
+        //if (parts.Length > 1 && int.TryParse(parts[1], out int id))
+        //{
+        //  return id; // Devuelve el ID extraído
+        //}
+        //return 0; // Devuelve 0 si no se puede extraer el ID
+        //}
 
 
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetDetalleRol() 
+        public IActionResult GetDetalleRol([FromQuery] int idRol)
         {
             var objectResponse = Helper.GetStructResponse();
             ResponseDetalleRol result = new ResponseDetalleRol();
             result.Response = new ResponseBodyDetalleRol();
             result.Response.data = new List<GetDetalleRolModel>();
 
-            var DetaResponse = _DetalleRolService.GetDetalleRol();
+            var DetaResponse = _DetalleRolService.GetDetalleRol(new GetDetalleRolModel { IdRol = idRol });
 
             if (DetaResponse != null && DetaResponse.Any())
             {
@@ -174,47 +174,47 @@ namespace marcatel_api.Controllers
 
 
         [HttpPut("Delete")]
-public JsonResult DeleteDetalleRol([FromBody] DeleteDetalleRolModel detalleRol)
-{
-    var objectResponse = Helper.GetStructResponse();
-    try
-    {
-        var catClienteResponse = _DetalleRolService.DeleteDetalleRol(detalleRol);
-
-        // Suponemos que el mensaje de éxito contiene la frase "Registro eliminado con éxito"
-        if (catClienteResponse.Contains("Registro eliminado con éxito", StringComparison.OrdinalIgnoreCase))
+        public JsonResult DeleteDetalleRol([FromBody] DeleteDetalleRolModel detalleRol)
         {
-            objectResponse.StatusCode = (int)HttpStatusCode.OK;
-            objectResponse.success = true;
-            objectResponse.message = "Éxito.";
-
-            objectResponse.response = new
+            var objectResponse = Helper.GetStructResponse();
+            try
             {
-                data = catClienteResponse
-            };
-        }
-        else
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-            objectResponse.success = false; // Cambiado a false para indicar un error
-            objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
+                var catClienteResponse = _DetalleRolService.DeleteDetalleRol(detalleRol);
 
-            objectResponse.response = new
+                // Suponemos que el mensaje de éxito contiene la frase "Registro eliminado con éxito"
+                if (catClienteResponse.Contains("Registro eliminado con éxito", StringComparison.OrdinalIgnoreCase))
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
+
+                    objectResponse.response = new
+                    {
+                        data = catClienteResponse
+                    };
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = false; // Cambiado a false para indicar un error
+                    objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
+
+                    objectResponse.response = new
+                    {
+                        data = catClienteResponse
+                    };
+                }
+            }
+            catch (System.Exception ex)
             {
-                data = catClienteResponse
-            };
+                Console.Write(ex.Message);
+                objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
+                objectResponse.success = false;
+                objectResponse.message = "Error interno del servidor: " + ex.Message;
+            }
+
+            return new JsonResult(objectResponse);
         }
-    }
-    catch (System.Exception ex)
-    {
-        Console.Write(ex.Message);
-        objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
-        objectResponse.success = false;
-        objectResponse.message = "Error interno del servidor: " + ex.Message;
-    }
 
-    return new JsonResult(objectResponse);
-}
-
-} 
+    }
 }

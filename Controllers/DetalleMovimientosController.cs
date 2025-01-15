@@ -77,14 +77,14 @@ namespace marcatel_api.Controllers
         /*         [Authorize(AuthenticationSchemes = "Bearer")]
          */
         [HttpGet("Get")]
-        public IActionResult GetDetalleMovimientos([FromQuery] int idMovimiento)
+        public IActionResult GetDetalleMovimientos([FromQuery] string fechaInicio, string fechaFin)
         {
             var objectResponse = Helper.GetStructResponse();
             ResponseDetalleMovimiento result = new ResponseDetalleMovimiento();
             result.Response = new ResponseBodyDM();
             result.Response.data = new List<GetDetalleMovimientosModel>();
 
-            var DMResponse = _DetalleMovimientosService.GetDetalleMovimientos(new GetDetalleMovimientosModel { IdMovimiento = idMovimiento });
+            var DMResponse = _DetalleMovimientosService.GetDetalleMovimientos(new GetDetalleMovimientosModel { FechaInicio =fechaInicio, FechaFin = fechaFin });
 
             if (DMResponse != null && DMResponse.Any())
             {
