@@ -32,38 +32,58 @@ public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
     var objectResponse = Helper.GetStructResponse();
     try
     {
-        var CatClienteResponse = _recetasService.InsertRecetas(receta);
+        var recetaModels = _recetasService.InsertRecetas(receta);
 
-        // Modifica la comparación para permitir cualquier mensaje que contenga "con éxito"
-        if (CatClienteResponse.Contains("con éxito"))
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.OK;
-            objectResponse.success = true;
-            objectResponse.message = "Éxito.";
-            objectResponse.response = new
-            {
-                data = CatClienteResponse
-            };
-        }
-        else
-        {
-            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-            objectResponse.success = false;
-            objectResponse.message = "Error.";
-            objectResponse.response = new
-            {
-                data = CatClienteResponse
-            };
-        }
-    }
-    catch (System.Exception ex)
-    {
-        Console.Write(ex.Message);
-        throw;
-    }
+       if (recetaModels.Count > 0)
+                {
+                    var Id = recetaModels[0].Id;
+                    var msg = recetaModels[0].Mensaje;
 
-    return new JsonResult(objectResponse);
-}
+                    string msgDefault = "Registro insertado con éxito.";
+
+                    if (msgDefault == msg)
+                    {
+                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                        objectResponse.success = true;
+                        objectResponse.message = "Éxito.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            msg
+                        };
+                    }
+                    else
+                    {
+                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                        objectResponse.success = true;
+                        objectResponse.message = "Error.";
+
+                        objectResponse.response = new
+                        {
+                            data = Id,
+                            msg
+                        };
+                    }
+                }
+                else
+                {
+                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    objectResponse.success = true;
+                    objectResponse.message = "Error: No se devolvió ningún resultado.";
+
+                    objectResponse.response = null;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.Write(ex.Message);
+                throw;
+            }
+
+            return new JsonResult(objectResponse);
+
+        }
 
 
 
