@@ -27,47 +27,44 @@ namespace marcatel_api.Controllers
 
 
  [HttpPost("Insert")]
-        public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
+public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
+{
+    var objectResponse = Helper.GetStructResponse();
+    try
+    {
+        var CatClienteResponse = _recetasService.InsertRecetas(receta);
+
+        // Modifica la comparación para permitir cualquier mensaje que contenga "con éxito"
+        if (CatClienteResponse.Contains("con éxito"))
         {
-            var objectResponse = Helper.GetStructResponse();
-            try
+            objectResponse.StatusCode = (int)HttpStatusCode.OK;
+            objectResponse.success = true;
+            objectResponse.message = "Éxito.";
+            objectResponse.response = new
             {
-                var CatClienteResponse = _recetasService.InsertRecetas(receta);
-
-                string msgDefault = "Artículo insertado con éxito.";
-
-
-                if (msgDefault == CatClienteResponse)
-                {
-                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                    objectResponse.success = true;
-                    objectResponse.message = "Éxito.";
-                    objectResponse.response = new
-                    {
-                        data = CatClienteResponse
-                    };
-                }
-                else
-                {
-                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = false;
-                    objectResponse.message = "Error.";
-                    objectResponse.response = new
-                    {
-                        data = CatClienteResponse
-                    };
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Console.Write(ex.Message);
-                throw;
-            }
-
-
-            return new JsonResult(objectResponse);
-
+                data = CatClienteResponse
+            };
         }
+        else
+        {
+            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+            objectResponse.success = false;
+            objectResponse.message = "Error.";
+            objectResponse.response = new
+            {
+                data = CatClienteResponse
+            };
+        }
+    }
+    catch (System.Exception ex)
+    {
+        Console.Write(ex.Message);
+        throw;
+    }
+
+    return new JsonResult(objectResponse);
+}
+
 
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
