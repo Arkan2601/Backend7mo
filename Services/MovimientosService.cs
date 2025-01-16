@@ -184,7 +184,7 @@ namespace marcatel_api.Services
                 else
                 {
                     return "No se recibió ningún mensaje desde la base de datos";
-                }
+                } 
             }
             catch (Exception ex)
             {
