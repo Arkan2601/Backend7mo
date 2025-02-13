@@ -87,7 +87,7 @@ namespace marcatel_api
               services.AddSingleton<TipoMovimientoService>();
               services.AddSingleton<RolService>();
 
-
+                  services.AddSingleton<CfgColaboradoresService>();
 
             services.AddCors();
 
