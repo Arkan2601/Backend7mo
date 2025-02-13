@@ -24,6 +24,7 @@ namespace marcatel_api.Services
             try
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pRol", SqlDbType = SqlDbType.VarChar, Value = rol.Rol });
+                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = rol.Descripcion });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = rol.UsuarioActualiza });
 
 
@@ -63,6 +64,7 @@ namespace marcatel_api.Services
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             Rol = row["Rol"].ToString(),
+                            Descripcion = row["Descripcion"].ToString(),
                             FechaRegistro = row["FechaRegistro"].ToString(), 
                             FechaActualiza = row["FechaActualiza"].ToString(),
                             UsuarioActualiza = row["UsuarioActualiza"].ToString()
@@ -92,6 +94,7 @@ namespace marcatel_api.Services
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = rol.Id });
                 parametros.Add(new SqlParameter { ParameterName = "@pRol", SqlDbType = SqlDbType.VarChar, Value = rol.Rol });
+                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = rol.Descripcion });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = rol.UsuarioActualiza });
 
                 DataSet ds = dac.Fill("sp_UpdateRol", parametros);
