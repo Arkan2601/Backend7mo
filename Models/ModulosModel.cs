@@ -21,16 +21,24 @@ namespace marcatel_api.Models
     {
         public int Id {get; set;}
         public string Modulo {get; set;}
-        public string CategoriaModulo {get; set;}
+        public string Ruta {get; set;}
+        public string Descripcion {get; set;}
+        public int PanelControl {get; set;}
+        public string Categoria {get; set;}
+        public string Icono {get; set;}
+        public string Tema {get; set;}
+        public string FechaHora {get; set;}
         public string Usuario {get; set;}
-        public string FechaAct {get; set;}
-        public string FechaReg {get; set;}
-
     }
     public class InsertModulosModel
     {
         public string NombreModulo {get; set;}
-        public int CategoriaModulo {get; set;}
+        public string Ruta {get; set;}
+        public string Descripcion {get; set;}
+        public int PanelControl {get; set;}
+        public int Categoria {get; set;}
+        public string Icono {get; set;}
+        public string Tema {get; set;}
         public int Usuario {get; set;}
   
     } 
@@ -38,7 +46,12 @@ namespace marcatel_api.Models
     {
         public int Id {get; set;}
         public string NombreModulo {get; set;}
-        public int CategoriaModulo {get; set;}
+        public string Ruta {get; set;}
+        public string Descripcion {get; set;}
+        public int PanelControl {get; set;}
+        public int Categoria {get; set;}
+        public string Icono {get; set;}
+        public string Tema {get; set;}
         public int Usuario {get; set;}
     }
     public class DeleteModulosModel
