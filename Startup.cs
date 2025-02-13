@@ -89,6 +89,8 @@ namespace marcatel_api
 
                   services.AddSingleton<CfgColaboradoresService>();
 
+                  services.AddSingleton<CfgDepartamentosService>();
+
             services.AddCors();
 
             services.AddControllers()

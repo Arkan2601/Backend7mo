@@ -15,27 +15,27 @@ namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class CfgColaboradoresController : ControllerBase
+    public class CfgDepartamentosController : ControllerBase
     {
-        private readonly CfgColaboradoresService _CfgColaboradoresService;
+        private readonly CfgDepartamentosService _CfgDepartamentosService;
 
-        public CfgColaboradoresController(CfgColaboradoresService cfgColaboradores)
+        public CfgDepartamentosController(CfgDepartamentosService cfgDepartamentos)
         {
-            _CfgColaboradoresService = cfgColaboradores;
+            _CfgDepartamentosService = cfgDepartamentos;
         }
 
 
 
 
 
-        [HttpPost("Insert")]
-public JsonResult InsertCfgColaboradores([FromBody] InsertCfgColaboradoresModel cfgColaboradores)
+    [HttpPost("Insert")]
+public JsonResult InsertCfgDepartamentos([FromBody] InsertCfgDepartamentosModel cfgDepartamentos)
 {
     var objectResponse = Helper.GetStructResponse();
     try
     {
         // Llamada al servicio que ejecuta el procedimiento almacenado
-        var catClienteResponse = _CfgColaboradoresService.InsertCfgColaboradores(cfgColaboradores);
+        var catClienteResponse = _CfgDepartamentosService.InsertCfgDepartamentos(cfgDepartamentos);
 
         // Verificar si la respuesta del SP indica éxito o error
         bool esExito = catClienteResponse.Contains("Registro insertado con éxito", StringComparison.OrdinalIgnoreCase);
@@ -61,6 +61,7 @@ public JsonResult InsertCfgColaboradores([FromBody] InsertCfgColaboradoresModel 
     return new JsonResult(objectResponse);
 }
 
+
 // Método auxiliar para extraer el ID del mensaje de respuesta
 //private int ExtractIdFromResponse(string response)
 //{
@@ -78,23 +79,23 @@ public JsonResult InsertCfgColaboradores([FromBody] InsertCfgColaboradoresModel 
         //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetCfgColaboradores() 
+        public IActionResult GetCfgDepartamentos() 
         {
             var objectResponse = Helper.GetStructResponse();
-            ResponseColabo result = new ResponseColabo();
-            result.Response = new ResponseBodyCfgColaboradores();
-            result.Response.data = new List<GetCfgColaboradoresModel>();
+            ResponseDepa result = new ResponseDepa();
+            result.Response = new ResponseBodyCfgDepartamentos();
+            result.Response.data = new List<GetCfgDepartamentosModel>();
 
-            var CfgColaboradoresResponse = _CfgColaboradoresService.GetCfgColaboradores();
+            var CfgDepartamentosResponse = _CfgDepartamentosService.GetCfgDepartamentos();
 
-            if (CfgColaboradoresResponse != null && CfgColaboradoresResponse.Any())
+            if (CfgDepartamentosResponse != null && CfgDepartamentosResponse.Any())
             {
                 result.StatusCode = (int)HttpStatusCode.OK;
                 result.Error = false;
                 result.Success = true;
                 result.Message = "Información obtenida con éxito.";
 
-                result.Response.data = CfgColaboradoresResponse;
+                result.Response.data = CfgDepartamentosResponse;
                 objectResponse.response = new
                 {
                     data = result.Response.data
@@ -113,13 +114,13 @@ public JsonResult InsertCfgColaboradores([FromBody] InsertCfgColaboradoresModel 
 
 
         [HttpPut("Update")]
-        public JsonResult UpdateCfgColaboradoresResponse([FromBody] UpdateCfgColaboradoresModel cfgColaboradores)
-        {
-            var objectResponse = Helper.GetStructResponse();
+public JsonResult UpdateCfgDepartamentosResponse([FromBody] UpdateCfgDepartamentosModel cfgDepartamentos)
+{
+    var objectResponse = Helper.GetStructResponse();
     try
     {
         // Ejecuta el procedimiento almacenado y obtiene el mensaje de respuesta
-        var resultado = _CfgColaboradoresService.UpdateCfgColaboradores(cfgColaboradores);
+        var resultado = _CfgDepartamentosService.UpdateCfgDepartamentos(cfgDepartamentos);
 
         // Verifica si el mensaje devuelto por el SP indica éxito o error
         bool esExito = resultado == "Registro actualizado con éxito.";
@@ -143,8 +144,7 @@ public JsonResult InsertCfgColaboradores([FromBody] InsertCfgColaboradoresModel 
     }
 
     return new JsonResult(objectResponse);
-
-        }
+}
 
 
 
@@ -152,13 +152,13 @@ public JsonResult InsertCfgColaboradores([FromBody] InsertCfgColaboradoresModel 
 
 
         [HttpPut("Delete")]
-public JsonResult DeleteCfgColaboradores([FromBody] DeleteCfgColaboradoresModel cfgColaboradores)
+public JsonResult DeleteCfgDepartamentos([FromBody] DeleteCfgDepartamentosModel cfgDepartamentos)
 {
-   var objectResponse = Helper.GetStructResponse();
+    var objectResponse = Helper.GetStructResponse();
     try
     {
         // Llamada al servicio que ejecuta el procedimiento almacenado
-        var catClienteResponse = _CfgColaboradoresService.DeleteCfgColaboradores(cfgColaboradores);
+        var catClienteResponse = _CfgDepartamentosService.DeleteCfgDepartamentos(cfgDepartamentos);
 
         // Verificar si la respuesta del SP indica éxito o error
         bool esExito = catClienteResponse.Contains("Registro eliminado con éxito", StringComparison.OrdinalIgnoreCase);
