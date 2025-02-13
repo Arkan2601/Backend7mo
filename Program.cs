@@ -20,9 +20,10 @@ namespace marcatel_api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+
                     webBuilder.UseStartup<Startup>();
 
-                    /* webBuilder.UseUrls("http://localhost:8081/"); */
+                    webBuilder.UseUrls("http://localhost:5020/"); 
                 });
     }
 }

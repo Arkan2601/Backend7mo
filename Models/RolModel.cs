@@ -19,6 +19,7 @@ namespace marcatel_api.Models
     {
         public int Id { get; set; }
         public string Rol { get; set; }
+        public string Descripcion {get; set;}
         public string FechaRegistro { get; set; }
         public string FechaActualiza { get; set; }
         public string UsuarioActualiza { get; set; }
@@ -29,6 +30,7 @@ namespace marcatel_api.Models
     {
         public string Rol { get; set; }
         public int UsuarioActualiza { get; set; }
+        public string Descripcion {get; set;}
 
     }
 
@@ -36,6 +38,7 @@ namespace marcatel_api.Models
     {
         public int Id { get; set; }
         public string Rol { get; set; }
+        public string Descripcion {get; set;}
         public int UsuarioActualiza {get; set;}
 
     }

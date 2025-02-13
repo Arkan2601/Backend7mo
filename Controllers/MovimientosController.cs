@@ -28,22 +28,22 @@ namespace marcatel_api.Controllers
 
 
 
-        [HttpGet("ExportarMovimientosAExcel")]
-        public IActionResult ExportarMovimientosAExcel()
-        {
-            try
-            {
-                var excelData = _movimientosService.ExportarMovimientosAExcel();
+        // [HttpGet("ExportarMovimientosAExcel")]
+        // public IActionResult ExportarMovimientosAExcel()
+        // {
+        //     try
+        //     {
+        //         var excelData = _movimientosService.ExportarMovimientosAExcel();
 
 
-                return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Movimientos.xlsx");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
-            }
-        }
+        //         return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Movimientos.xlsx");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine(ex.Message);
+        //         return StatusCode((int)HttpStatusCode.InternalServerError, "Error interno del servidor.");
+        //     }
+        // }
 
 
 
@@ -121,7 +121,7 @@ namespace marcatel_api.Controllers
             result.Response.data = new List<GetMovimientosModel>();
 
             // Aquí llamamos al servicio para obtener los movimientos (que devuelve una lista)
-            var MovResponse = _movimientosService.GetMovimientos(new GetMovimientosModel { FechaInicio = Fechainicio, FechaFin = Fechafin, IdSucursal = sucursal, Usuario = usuario });
+            var MovResponse = _movimientosService.GetMovimientos(Fechainicio, Fechafin, sucursal, usuario);
 
             if (MovResponse != null && MovResponse.Any()) // Verificar si hay datos
             {
