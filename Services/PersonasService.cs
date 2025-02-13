@@ -44,7 +44,7 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pSucursal", SqlDbType = SqlDbType.Int, Value = personas.Sucursal });
                 parametros.Add(new SqlParameter { ParameterName = "@pTitulo", SqlDbType = SqlDbType.VarChar, Value = personas.Titulo });
                 parametros.Add(new SqlParameter { ParameterName = "@pActualizado", SqlDbType = SqlDbType.VarChar, Value = personas.Actualizado });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.VarChar, Value = personas.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = personas.UsuarioActualiza });
                 parametros.Add(new SqlParameter { ParameterName = "@pPass", SqlDbType = SqlDbType.VarChar, Value = personas.Pass });
                 DataSet ds = dac.Fill("sp_InsertPersonas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
@@ -125,7 +125,7 @@ namespace marcatel_api.Services
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.VarChar, Value = personas.Id });
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = personas.Id });
                 parametros.Add(new SqlParameter { ParameterName = "@pTipo_Persona", SqlDbType = SqlDbType.Int, Value = personas.TipoPersona });
                 parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = personas.Nombre });
                 parametros.Add(new SqlParameter { ParameterName = "@pApPaterno", SqlDbType = SqlDbType.VarChar, Value = personas.ApPaterno });
@@ -146,7 +146,7 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pSucursal", SqlDbType = SqlDbType.Int, Value = personas.Sucursal });
                 parametros.Add(new SqlParameter { ParameterName = "@pTitulo", SqlDbType = SqlDbType.VarChar, Value = personas.Titulo });
                 parametros.Add(new SqlParameter { ParameterName = "@pActualizado", SqlDbType = SqlDbType.VarChar, Value = personas.Actualizado });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.VarChar, Value = personas.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = personas.UsuarioActualiza });
 
                 DataSet ds = dac.Fill("sp_UpdatePersona", parametros);
                 if (ds.Tables[0].Rows.Count > 0)

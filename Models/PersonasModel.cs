@@ -70,8 +70,8 @@ namespace marcatel_api.Models
         public string CodigoPostal { get; set; }
         public int Sucursal { get; set; }
         public string Titulo { get; set; }
-        public string Actualizado { get; set; }
-        public string UsuarioActualiza { get; set; }
+        public int Actualizado { get; set; }
+        public int UsuarioActualiza { get; set; }
 
         public string Pass { get; set; }
     }
@@ -97,8 +97,8 @@ namespace marcatel_api.Models
         public string CodigoPostal { get; set; }
         public int Sucursal { get; set; }
         public string Titulo { get; set; }
-        public string Actualizado { get; set; }
-        public string UsuarioActualiza { get; set; }
+        public int Actualizado { get; set; }
+        public int UsuarioActualiza { get; set; }
 
     }
     public class DeletePersonasModel
