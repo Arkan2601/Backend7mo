@@ -161,49 +161,45 @@ namespace marcatel_api.Controllers
         }
 
         
-        [HttpPut("UpdateColor")]
-        public JsonResult UpdateColor([FromBody] UpdateColorUsuariosModel color)
+       [HttpPut("UpdateColor")]
+public JsonResult UpdateColor([FromBody] UpdateColorUsuariosModel color)
+{
+    var objectResponse = Helper.GetStructResponse();
+    try
+    {
+        var CatClienteResponse = _UsuarioService.UpdateColorUsuarios(color);
+
+        string msgDefault = "Registro actualizado con éxito.";
+
+        if (msgDefault == CatClienteResponse)
         {
-            var objectResponse = Helper.GetStructResponse();
-            try
+            objectResponse.StatusCode = (int)HttpStatusCode.OK;
+            objectResponse.success = true;
+            objectResponse.message = "Éxito.";
+            objectResponse.response = new
             {
-                var CatClienteResponse = _UsuarioService.UpdateColorUsuarios(color);
-
-                string msgDefault = "Registro actualizado con éxito.";
-
-                if (msgDefault == CatClienteResponse)
-                {
-                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                    objectResponse.success = true;
-                    objectResponse.message = "Éxito.";
-
-                    objectResponse.response = new
-                    {
-                        data = CatClienteResponse
-                    };
-                }
-                else
-                {
-                    objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = true;
-                    objectResponse.message = "Error.";
-
-                    objectResponse.response = new
-                    {
-                        data = CatClienteResponse
-                    };
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Console.Write(ex.Message);
-                throw;
-            }
-
-
-            return new JsonResult(objectResponse);
-
+                data = CatClienteResponse
+            };
         }
+        else
+        {
+            objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+            objectResponse.success = false;
+            objectResponse.message = "Error.";
+            objectResponse.response = new
+            {
+                data = CatClienteResponse
+            };
+        }
+    }
+    catch (System.Exception ex)
+    {
+        Console.Write(ex.Message);
+        throw;
+    }
+
+    return new JsonResult(objectResponse);
+}
 
 
 
