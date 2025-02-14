@@ -48,11 +48,15 @@ namespace marcatel_api.Models
     {
         public int Id { get; set; }
         public string Contrasena { get; set; }
-        public string Theme { get; set; }
         public int Usuario { get; set; }
     }
     public class DeleteUsuariosModel
     {
         public int Id { get; set; }
+    }
+        public class UpdateColorUsuariosModel
+    {
+        public int Id { get; set; }
+        public string Theme { get; set; }
     }
 }
