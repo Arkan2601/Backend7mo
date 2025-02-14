@@ -178,7 +178,32 @@ namespace marcatel_api.Services
 
 
         }
+        
+                public string UpdateColorUsuarios(UpdateColorUsuariosModel usuarios)
+        {
+            ArrayList parametros = new ArrayList();
+            ConexionDataAccess dac = new ConexionDataAccess(connection);
+            var lista = new List<UpdateColorUsuariosModel>();
 
-
+            try
+            {
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = usuarios.Id });
+                parametros.Add(new SqlParameter { ParameterName = "@pColor", SqlDbType = SqlDbType.VarChar, Value = usuarios.Theme });
+                DataSet ds = dac.Fill("sp_UpdateColorUsuarios", parametros);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    return ds.Tables[0].Rows[0]["Mensaje"].ToString();
+                }
+                else
+                {
+                    return "No se recibió ningún mensaje desde la base de datos";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                return "Error: " + ex.Message;
+            }
+        }
     }
 }
