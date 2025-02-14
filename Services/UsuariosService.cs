@@ -68,6 +68,7 @@ namespace marcatel_api.Services
                             Rol = row["Rol"].ToString(),
                             IdPersona = int.Parse(row["IdPersona"].ToString()),
                             Usuario = row["Usuario"].ToString(),
+                            Theme = row["Theme"].ToString(),
                             FechaAct = row["FechaActualiza"].ToString(),
                             FechaReg = row["FechaRegistro"].ToString()
 
