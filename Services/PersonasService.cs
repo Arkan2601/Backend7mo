@@ -24,16 +24,28 @@ namespace marcatel_api.Services
 
             try
             {
+                parametros.Add(new SqlParameter { ParameterName = "@pTipo_Persona", SqlDbType = SqlDbType.Int, Value = personas.TipoPersona });
                 parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = personas.Nombre });
                 parametros.Add(new SqlParameter { ParameterName = "@pApPaterno", SqlDbType = SqlDbType.VarChar, Value = personas.ApPaterno });
                 parametros.Add(new SqlParameter { ParameterName = "@pApMaterno", SqlDbType = SqlDbType.VarChar, Value = personas.ApMaterno });
-                parametros.Add(new SqlParameter { ParameterName = "@pDireccion", SqlDbType = SqlDbType.VarChar, Value = personas.Direccion });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = personas.Usuario });
+                parametros.Add(new SqlParameter { ParameterName = "@pSexo", SqlDbType = SqlDbType.VarChar, Value = personas.Sexo });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaNac", SqlDbType = SqlDbType.Date, Value = personas.FechaNac });
+                parametros.Add(new SqlParameter { ParameterName = "@pRFC", SqlDbType = SqlDbType.VarChar, Value = personas.RFC });
+                parametros.Add(new SqlParameter { ParameterName = "@pCURP", SqlDbType = SqlDbType.VarChar, Value = personas.CURP });
+                parametros.Add(new SqlParameter { ParameterName = "@pECIVIL", SqlDbType = SqlDbType.VarChar, Value = personas.ECivil });
+                parametros.Add(new SqlParameter { ParameterName = "@pEMail", SqlDbType = SqlDbType.VarChar, Value = personas.Email });
+                parametros.Add(new SqlParameter { ParameterName = "@pTelefono", SqlDbType = SqlDbType.VarChar, Value = personas.Telefono });
+                parametros.Add(new SqlParameter { ParameterName = "@pColonia", SqlDbType = SqlDbType.VarChar, Value = personas.Colonia });
+                parametros.Add(new SqlParameter { ParameterName = "@pCalle", SqlDbType = SqlDbType.VarChar, Value = personas.Calle });
+                parametros.Add(new SqlParameter { ParameterName = "@pNumero", SqlDbType = SqlDbType.VarChar, Value = personas.Numero });
+                parametros.Add(new SqlParameter { ParameterName = "@pMunicipio", SqlDbType = SqlDbType.VarChar, Value = personas.Municipio });
+                parametros.Add(new SqlParameter { ParameterName = "@pEstado", SqlDbType = SqlDbType.VarChar, Value = personas.Estado });
+                parametros.Add(new SqlParameter { ParameterName = "@pCodigoPostal", SqlDbType = SqlDbType.VarChar, Value = personas.CodigoPostal });
+                parametros.Add(new SqlParameter { ParameterName = "@pSucursal", SqlDbType = SqlDbType.Int, Value = personas.Sucursal });
+                parametros.Add(new SqlParameter { ParameterName = "@pTitulo", SqlDbType = SqlDbType.VarChar, Value = personas.Titulo });
+                parametros.Add(new SqlParameter { ParameterName = "@pActualizado", SqlDbType = SqlDbType.VarChar, Value = personas.Actualizado });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = personas.UsuarioActualiza });
                 parametros.Add(new SqlParameter { ParameterName = "@pPass", SqlDbType = SqlDbType.VarChar, Value = personas.Pass });
-
-
-
-
                 DataSet ds = dac.Fill("sp_InsertPersonas", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -65,14 +77,32 @@ namespace marcatel_api.Services
                     {
                         lista.Add(new GetPersonasModel
                         {
-                            Id = int.Parse(row["Id"].ToString()),
-                            Nombre = row["Nombre"].ToString(),
-                            ApPaterno = row["ApPaterno"].ToString(),
-                            ApMaterno = row["ApMaterno"].ToString(),
-                            Direccion = row["Direccion"].ToString(),
-                            Usuario = row["Usuario"].ToString(),
-                            FechaAct = row["FechaActualiza"].ToString(),
-                            FechaReg = row["FechaRegistro"].ToString()
+                            Id = int.Parse(row["ID"].ToString()),
+                            TipoPersona = row["TIPO_PERSONA"].ToString(),
+                            Nombre = row["NOMBRE"].ToString(),
+                            ApPaterno = row["AP_PATERNO"].ToString(),
+                            ApMaterno = row["AP_MATERNO"].ToString(),
+                            Sexo = row["SEXO"].ToString(),
+                            FechaNac = row["FECHANACIMIENTO"].ToString(),
+                            RFC = row["RFC"].ToString(),
+                            CURP = row["CURP"].ToString(),
+                            ECivil = row["ECIVIL"].ToString(),
+                            Email = row["EMAIL"].ToString(),
+                            Telefono = row["TELEFONO"].ToString(),
+                            Colonia = row["COLONIA"].ToString(),
+                            Calle = row["CALLE"].ToString(),
+                            Numero = row["NUMERO"].ToString(),
+                            Municipio = row["MUNICIPIO"].ToString(),
+                            Estado = row["ESTADO"].ToString(),
+                            CodigoPostal = row["CODIGOPOSTAL"].ToString(),
+                            Sucursal = row["SUCURSAL"].ToString(),
+                            Titulo = row["TITULO"].ToString(),
+                            Actualizado = row["ACTUALIZADO"].ToString(),
+                            FechaHora = row["FECHAHORA"].ToString(),
+                            Estatus = row["ACTIVO"].ToString(),
+                            UsuarioActualiza = row["USUARIOACTUALIZA"].ToString(),
+                            Usuario_Ligado = row["USUARIOLIGADO"].ToString(),
+
                         });
                     }
                 }
@@ -95,13 +125,28 @@ namespace marcatel_api.Services
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.VarChar, Value = personas.Id });
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = personas.Id });
+                parametros.Add(new SqlParameter { ParameterName = "@pTipo_Persona", SqlDbType = SqlDbType.Int, Value = personas.TipoPersona });
                 parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = personas.Nombre });
                 parametros.Add(new SqlParameter { ParameterName = "@pApPaterno", SqlDbType = SqlDbType.VarChar, Value = personas.ApPaterno });
                 parametros.Add(new SqlParameter { ParameterName = "@pApMaterno", SqlDbType = SqlDbType.VarChar, Value = personas.ApMaterno });
-                parametros.Add(new SqlParameter { ParameterName = "@pDireccion", SqlDbType = SqlDbType.VarChar, Value = personas.Direccion });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = personas.Usuario });
+                parametros.Add(new SqlParameter { ParameterName = "@pSexo", SqlDbType = SqlDbType.VarChar, Value = personas.Sexo });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaNac", SqlDbType = SqlDbType.Date, Value = personas.FechaNac });
+                parametros.Add(new SqlParameter { ParameterName = "@pRFC", SqlDbType = SqlDbType.VarChar, Value = personas.RFC });
+                parametros.Add(new SqlParameter { ParameterName = "@pCURP", SqlDbType = SqlDbType.VarChar, Value = personas.CURP });
+                parametros.Add(new SqlParameter { ParameterName = "@pECIVIL", SqlDbType = SqlDbType.VarChar, Value = personas.ECivil });
+                parametros.Add(new SqlParameter { ParameterName = "@pEMail", SqlDbType = SqlDbType.VarChar, Value = personas.Email });
+                parametros.Add(new SqlParameter { ParameterName = "@pTelefono", SqlDbType = SqlDbType.VarChar, Value = personas.Telefono });
+                parametros.Add(new SqlParameter { ParameterName = "@pColonia", SqlDbType = SqlDbType.VarChar, Value = personas.Colonia });
+                parametros.Add(new SqlParameter { ParameterName = "@pCalle", SqlDbType = SqlDbType.VarChar, Value = personas.Calle });
+                parametros.Add(new SqlParameter { ParameterName = "@pNumero", SqlDbType = SqlDbType.VarChar, Value = personas.Numero });
+                parametros.Add(new SqlParameter { ParameterName = "@pMunicipio", SqlDbType = SqlDbType.VarChar, Value = personas.Municipio });
+                parametros.Add(new SqlParameter { ParameterName = "@pEstado", SqlDbType = SqlDbType.VarChar, Value = personas.Estado });
+                parametros.Add(new SqlParameter { ParameterName = "@pCodigoPostal", SqlDbType = SqlDbType.VarChar, Value = personas.CodigoPostal });
                 parametros.Add(new SqlParameter { ParameterName = "@pSucursal", SqlDbType = SqlDbType.Int, Value = personas.Sucursal });
+                parametros.Add(new SqlParameter { ParameterName = "@pTitulo", SqlDbType = SqlDbType.VarChar, Value = personas.Titulo });
+                parametros.Add(new SqlParameter { ParameterName = "@pActualizado", SqlDbType = SqlDbType.VarChar, Value = personas.Actualizado });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = personas.UsuarioActualiza });
 
                 DataSet ds = dac.Fill("sp_UpdatePersona", parametros);
                 if (ds.Tables[0].Rows.Count > 0)

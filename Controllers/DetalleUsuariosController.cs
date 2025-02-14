@@ -10,69 +10,56 @@ using marcatel_api.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace marcatel_api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class RecetasController : ControllerBase
+    public class DetalleUsuariosController : ControllerBase
     {
-        private readonly RecetasService _recetasService;
+        private readonly DetalleUsuariosService _DetalleUsuariosService;
 
-        public RecetasController(RecetasService recetasservice)
+        public DetalleUsuariosController(DetalleUsuariosService detalleUsuariosService)
         {
-            _recetasService = recetasservice;
+            _DetalleUsuariosService = detalleUsuariosService;
         }
 
 
 
 
- [HttpPost("Insert")]
-public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
-{
-    var objectResponse = Helper.GetStructResponse();
-    try
-    {
-        var recetaModels = _recetasService.InsertRecetas(receta);
 
-       if (recetaModels.Count > 0)
+        [HttpPost("Insert")]
+        public JsonResult InsertDetalleRol([FromBody] InsertDetalleUsuariosModel DetalleUsuarios)
+        {
+            var objectResponse = Helper.GetStructResponse();
+            try
+            {
+                var CatClienteResponse = _DetalleUsuariosService.InsertDetalleUsuariosModel(DetalleUsuarios);
+
+                string msgDefault = "Registro insertado con éxito.";
+
+
+                if (msgDefault == CatClienteResponse)
                 {
-                    var Id = recetaModels[0].Id;
-                    var msg = recetaModels[0].Mensaje;
+                    objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                    objectResponse.success = true;
+                    objectResponse.message = "Éxito.";
 
-                    string msgDefault = "Registro insertado con éxito.";
-
-                    if (msgDefault == msg)
+                    objectResponse.response = new
                     {
-                        objectResponse.StatusCode = (int)HttpStatusCode.OK;
-                        objectResponse.success = true;
-                        objectResponse.message = "Éxito.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            msg
-                        };
-                    }
-                    else
-                    {
-                        objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                        objectResponse.success = true;
-                        objectResponse.message = "Error.";
-
-                        objectResponse.response = new
-                        {
-                            data = Id,
-                            msg
-                        };
-                    }
+                        data = CatClienteResponse
+                    };
                 }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                     objectResponse.success = true;
-                    objectResponse.message = "Error: No se devolvió ningún resultado.";
+                    objectResponse.message = "Error.";
 
-                    objectResponse.response = null;
+                    objectResponse.response = new
+                    {
+                        data = CatClienteResponse
+                    };
                 }
             }
             catch (System.Exception ex)
@@ -81,32 +68,45 @@ public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
                 throw;
             }
 
+
             return new JsonResult(objectResponse);
 
         }
+
+        // Método auxiliar para extraer el ID del mensaje de respuesta
+        //private int ExtractIdFromResponse(string response)
+        //{
+        // Suponiendo que la respuesta tiene el formato: "Registro insertado con éxito. ID: 123"
+        //  var parts = response.Split(new[] { "Id: " }, StringSplitOptions.None);
+        //if (parts.Length > 1 && int.TryParse(parts[1], out int id))
+        //{
+        //  return id; // Devuelve el ID extraído
+        //}
+        //return 0; // Devuelve 0 si no se puede extraer el ID
+        //}
 
 
 
         //[Authorize(AuthenticationSchemes = "Bearer")]
 
         [HttpGet("Get")]
-        public IActionResult GetRecetas()
+        public IActionResult GetDetalleUsuarios([FromQuery] int id)
         {
             var objectResponse = Helper.GetStructResponse();
-            ResponseRecetas result = new ResponseRecetas();
-            result.Response = new ResponseBodyRecetas();
-            result.Response.data = new List<GetRecetasModel>();
+            ResponsDetalleUsuarios result = new ResponsDetalleUsuarios();
+            result.Response = new ResponseBodyDetalleUsuarios();
+            result.Response.data = new List<GetDetalleUsuariosModel>();
 
-            var RecetasResponse = _recetasService.GetRecetas();
+            var DetaResponse = _DetalleUsuariosService.GetDetalleUsuariosModel(new GetDetalleUsuariosModel { Id = id });
 
-            if (RecetasResponse != null && RecetasResponse.Any())
+            if (DetaResponse != null && DetaResponse.Any())
             {
                 result.StatusCode = (int)HttpStatusCode.OK;
                 result.Error = false;
                 result.Success = true;
                 result.Message = "Información obtenida con éxito.";
 
-                result.Response.data = RecetasResponse;
+                result.Response.data = DetaResponse;
                 objectResponse.response = new
                 {
                     data = result.Response.data
@@ -125,12 +125,12 @@ public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
 
 
         [HttpPut("Update")]
-        public JsonResult UpdateRecetas([FromBody] UpdateRecetasModel recetas)
+        public JsonResult UpdateDetalleUsuarios([FromBody] UpdateDetalleUsuariosModel DetalleUsuarios)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _recetasService.UpdateRecetas(recetas);
+                var CatClienteResponse = _DetalleUsuariosService.UpdateDetalleUsuariosModel(DetalleUsuarios);
 
                 string msgDefault = "Registro actualizado con éxito.";
 
@@ -168,17 +168,21 @@ public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
 
         }
 
+
+
+
+
+
         [HttpPut("Delete")]
-        public JsonResult DeletRecetas([FromBody] DeleteRecetasModel recetas)
+        public JsonResult DeleteDetalleUsuarios([FromBody] DeleteDetalleUsuariosModel DetalleUsuarios)
         {
             var objectResponse = Helper.GetStructResponse();
             try
             {
-                var CatClienteResponse = _recetasService.DeleteRecetas(recetas);
+                var catClienteResponse = _DetalleUsuariosService.DeleteDetalleUsuarios(DetalleUsuarios);
 
-                string msgDefault = "Registro eliminado con éxito.";
-
-                if (msgDefault == CatClienteResponse)
+                // Suponemos que el mensaje de éxito contiene la frase "Registro eliminado con éxito"
+                if (catClienteResponse.Contains("Registro eliminado con éxito", StringComparison.OrdinalIgnoreCase))
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.OK;
                     objectResponse.success = true;
@@ -186,37 +190,31 @@ public JsonResult InsertArticulo([FromBody] InsertRecetasModel receta)
 
                     objectResponse.response = new
                     {
-                        data = CatClienteResponse
+                        data = catClienteResponse
                     };
                 }
                 else
                 {
                     objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
-                    objectResponse.success = true;
-                    objectResponse.message = "Error.";
+                    objectResponse.success = false; // Cambiado a false para indicar un error
+                    objectResponse.message = "Error: " + catClienteResponse; // Incluye el mensaje de error de la SP
 
                     objectResponse.response = new
                     {
-                        data = CatClienteResponse
+                        data = catClienteResponse
                     };
                 }
             }
             catch (System.Exception ex)
             {
                 Console.Write(ex.Message);
-                throw;
+                objectResponse.StatusCode = (int)HttpStatusCode.InternalServerError; // Cambia a 500 en caso de excepción
+                objectResponse.success = false;
+                objectResponse.message = "Error interno del servidor: " + ex.Message;
             }
 
-
             return new JsonResult(objectResponse);
-
         }
-
-
-
-
-
-
 
     }
 }

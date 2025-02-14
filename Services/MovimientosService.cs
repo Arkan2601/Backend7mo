@@ -18,51 +18,59 @@ namespace marcatel_api.Services
             connection = settings.ConnectionString;
         }
 
-        public byte[] ExportarMovimientosAExcel()
-        {
+        // public byte[] ExportarMovimientosAExcel()
+        // {
+        //     var model = new GetMovimientosModel
+        //     {
 
-            var listaMovimientos = GetMovimientos();
+        //         FechaInicio = "",
+        //         FechaFin = "",
+        //         IdSucursal = 0,
+        //         Usuario = 0
+        //     };
 
-
-            using (var workbook = new XLWorkbook())
-            {
-                var worksheet = workbook.Worksheets.Add("Movimientos");
-
-
-                worksheet.Cell(1, 1).Value = "Id";
-                worksheet.Cell(1, 2).Value = "Nombre Almacen";
-                worksheet.Cell(1, 3).Value = "Tipo Movimiento";
-                worksheet.Cell(1, 4).Value = "Fecha Creacion";
-                worksheet.Cell(1, 5).Value = "Fecha Autorizacion";
-                worksheet.Cell(1, 6).Value = "Usuario Registra";
-                worksheet.Cell(1, 7).Value = "Usuario Autoriza";
-                worksheet.Cell(1, 8).Value = "Fecha Actualiza";
-                worksheet.Cell(1, 9).Value = "Usuario Actualiza";
+        //     //var listaMovimientos = GetMovimientos(model);
 
 
-                for (int i = 0; i < listaMovimientos.Count; i++)
-                {
-                    var movimiento = listaMovimientos[i];
-                    worksheet.Cell(i + 2, 1).Value = movimiento.Id;
-                    worksheet.Cell(i + 2, 2).Value = movimiento.NombreAlmacen;
-                    worksheet.Cell(i + 2, 3).Value = movimiento.TipoMovimiento;
-                    worksheet.Cell(i + 2, 4).Value = movimiento.FechaCreacion;
-                    worksheet.Cell(i + 2, 5).Value = movimiento.FechaAutorizacion;
-                    worksheet.Cell(i + 2, 6).Value = movimiento.UsuarioRegistra;
-                    worksheet.Cell(i + 2, 7).Value = movimiento.UsuarioAutoriza;
-                    worksheet.Cell(i + 2, 8).Value = movimiento.FechaActualiza;
-                    worksheet.Cell(i + 2, 9).Value = movimiento.UsuarioActualiza;
-                }
+        //     using (var workbook = new XLWorkbook())
+        //     {
+        //         var worksheet = workbook.Worksheets.Add("Movimientos");
 
-                worksheet.Columns().AdjustToContents();
 
-                using (var stream = new MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    return stream.ToArray();
-                }
-            }
-        }
+        //         worksheet.Cell(1, 1).Value = "Id";
+        //         worksheet.Cell(1, 2).Value = "Nombre Almacen";
+        //         worksheet.Cell(1, 3).Value = "Tipo Movimiento";
+        //         worksheet.Cell(1, 4).Value = "Fecha Creacion";
+        //         worksheet.Cell(1, 5).Value = "Fecha Autorizacion";
+        //         worksheet.Cell(1, 6).Value = "Usuario Registra";
+        //         worksheet.Cell(1, 7).Value = "Usuario Autoriza";
+        //         worksheet.Cell(1, 8).Value = "Fecha Actualiza";
+        //         worksheet.Cell(1, 9).Value = "Usuario Actualiza";
+
+
+        //         for (int i = 0; i < listaMovimientos.Count; i++)
+        //         {
+        //             var movimiento = listaMovimientos[i];
+        //             worksheet.Cell(i + 2, 1).Value = movimiento.Id;
+        //             worksheet.Cell(i + 2, 2).Value = movimiento.NombreAlmacen;
+        //             worksheet.Cell(i + 2, 3).Value = movimiento.TipoMovimiento;
+        //             worksheet.Cell(i + 2, 4).Value = movimiento.FechaCreacion;
+        //             worksheet.Cell(i + 2, 5).Value = movimiento.FechaAutorizacion;
+        //             worksheet.Cell(i + 2, 6).Value = movimiento.UsuarioRegistra;
+        //             worksheet.Cell(i + 2, 7).Value = movimiento.UsuarioAutoriza;
+        //             worksheet.Cell(i + 2, 8).Value = movimiento.FechaActualiza;
+        //             worksheet.Cell(i + 2, 9).Value = movimiento.UsuarioActualiza;
+        //         }
+
+        //         worksheet.Columns().AdjustToContents();
+
+        //         using (var stream = new MemoryStream())
+        //         {
+        //             workbook.SaveAs(stream);
+        //             return stream.ToArray();
+        //         }
+        //     }
+        // }
 
         public List<GetMovimientosModel> InsertarMovimientos(InsertMovimientosModel movimientos)
         {
@@ -102,13 +110,19 @@ namespace marcatel_api.Services
         }
 
 
-        public List<GetMovimientosModel> GetMovimientos()
+        public List<GetMovimientosModel> GetMovimientos(string FechaInicio, string FechaFin, int IdSucursal, int Usuario)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             var lista = new List<GetMovimientosModel>();
+
             try
             {
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaInicio", SqlDbType = SqlDbType.VarChar, Value = FechaInicio });
+                parametros.Add(new SqlParameter { ParameterName = "@pFechaFin", SqlDbType = SqlDbType.VarChar, Value = FechaFin });
+                parametros.Add(new SqlParameter { ParameterName = "@pSucursal", SqlDbType = SqlDbType.Int, Value = IdSucursal });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = Usuario });
+
                 DataSet ds = dac.Fill("sp_GetMovimientos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -125,20 +139,17 @@ namespace marcatel_api.Services
                             UsuarioAutoriza = row["UsuarioAutoriza"].ToString(),
                             FechaActualiza = row["FechaActualiza"].ToString(),
                             UsuarioActualiza = row["UsuarioActualiza"].ToString()
-
                         });
                     }
                 }
                 return lista;
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
-
         }
+
 
         public string UpdateMovimientos(UpdateMovimientosModel movimientos)
         {
@@ -165,7 +176,7 @@ namespace marcatel_api.Services
                 else
                 {
                     return "No se recibió ningún mensaje desde la base de datos";
-                }
+                } 
             }
             catch (Exception ex)
             {

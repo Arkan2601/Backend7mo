@@ -30,9 +30,9 @@ namespace marcatel_api.Services
 
 
                 DataSet ds = dac.Fill("sp_InsertRecetas", parametros);
-                if (ds.Tables[0].Rows.Count > 0)
+                     if (ds.Tables[0].Rows.Count > 0)
                 {
-                   foreach (DataRow row in ds.Tables[0].Rows)
+                    foreach (DataRow row in ds.Tables[0].Rows)
                     {
                         lista.Add(new GetRecetasModel
                         {
@@ -40,15 +40,16 @@ namespace marcatel_api.Services
                             Mensaje = row["Mensaje"].ToString()
                         });
                     }
+
                 }
-                
-                return lista;
+            return lista;
             }
             catch (Exception ex)
             {
-              throw ex;
+                throw ex;
             }
         }
+        
 
         public List<GetRecetasModel> GetRecetas()
         {

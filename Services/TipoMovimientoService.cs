@@ -17,40 +17,40 @@ namespace marcatel_api.Services
         }
 
 
- public string InsertTipoMovimiento(InsertTipoMovimientoModel tipoMovimiento)
-{
-    ArrayList parametros = new ArrayList();
-    ConexionDataAccess dac = new ConexionDataAccess(connection);
-
-    try
-    {
-        // Agregando los parámetros de inserción
-        parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = tipoMovimiento.Descripcion });
-        parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = tipoMovimiento.UsuarioActualiza });
-        parametros.Add(new SqlParameter { ParameterName = "@pEntradaSalida", SqlDbType = SqlDbType.Int, Value = tipoMovimiento.EntradaSalida });
-
-        // Llamando al procedimiento almacenado
-        DataSet ds = dac.Fill("sp_InsertTipoMovimiento", parametros);
-
-        // Asegúrate de que hay al menos una tabla devuelta
-        if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+        public string InsertTipoMovimiento(InsertTipoMovimientoModel tipoMovimiento)
         {
-            return ds.Tables[0].Rows[0]["Mensaje"].ToString(); // Retorna el mensaje del SP
-        }
-        else
-        {
-            return "No se recibió ningún mensaje desde la base de datos";
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.Write(ex.Message);
-        return "Error: " + ex.Message;
-    }
+            ArrayList parametros = new ArrayList();
+            ConexionDataAccess dac = new ConexionDataAccess(connection);
 
-    // Retorno por defecto
-    return "Error: Ocurrió un problema al insertar la unidad de medida."; // Valor por defecto en caso de fallo
-}
+            try
+            {
+                // Agregando los parámetros de inserción
+                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = tipoMovimiento.Descripcion });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = tipoMovimiento.UsuarioActualiza });
+                parametros.Add(new SqlParameter { ParameterName = "@pEntradaSalida", SqlDbType = SqlDbType.Int, Value = tipoMovimiento.EntradaoSalida });
+
+                // Llamando al procedimiento almacenado
+                DataSet ds = dac.Fill("sp_InsertTipoMovimiento", parametros);
+
+                // Asegúrate de que hay al menos una tabla devuelta
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    return ds.Tables[0].Rows[0]["Mensaje"].ToString(); // Retorna el mensaje del SP
+                }
+                else
+                {
+                    return "No se recibió ningún mensaje desde la base de datos";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                return "Error: " + ex.Message;
+            }
+
+            // Retorno por defecto
+            return "Error: Ocurrió un problema al insertar la unidad de medida."; // Valor por defecto en caso de fallo
+        }
 
         public List<GetTipoMovimientoModel> GetTipoMovimiento()
         {
@@ -67,13 +67,12 @@ namespace marcatel_api.Services
                         lista.Add(new GetTipoMovimientoModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            Descripcion= row["Descripcion"].ToString(),
-                            FechaRegistro= row["FechaRegistro"].ToString(),
+                            Descripcion = row["Descripcion"].ToString(),
+                            EntradaoSalida = row["Tipo"].ToString(),
+                            FechaRegistro = row["FechaRegistro"].ToString(),
                             FechaActualiza = row["FechaActualiza"].ToString(),
-                            UsuarioActualiza = row["UsuarioActualiza"].ToString(),
-                            EntradaSalida = int.Parse(row["EntradaSalida"].ToString()),
-                            EntradaSalidaStr = row["EntradaSalidaStr"].ToString()
-                            
+                            UsuarioActualiza = row["UsuarioActualiza"].ToString()
+
                         });
                     }
                 }
@@ -97,8 +96,9 @@ namespace marcatel_api.Services
             try
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = tipoMovimiento.Id });
-                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar , Value = tipoMovimiento.Descripcion });
-                parametros.Add(new SqlParameter { ParameterName = "@pEstatus", SqlDbType = SqlDbType.VarChar , Value = tipoMovimiento.Estatus });
+                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = tipoMovimiento.Descripcion });
+                parametros.Add(new SqlParameter { ParameterName = "@pEntradaSalida", SqlDbType = SqlDbType.VarChar, Value = tipoMovimiento.EntradaoSalida });
+                parametros.Add(new SqlParameter { ParameterName = "@pEstatus", SqlDbType = SqlDbType.VarChar, Value = tipoMovimiento.Estatus });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = tipoMovimiento.UsuarioActualiza });
 
 
@@ -122,7 +122,7 @@ namespace marcatel_api.Services
 
 
 
-          
+
 
 
         public string DeleteTipoMovimiento(DeleteTipoMovimientoModel tipoMovimiento)

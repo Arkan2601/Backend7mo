@@ -25,7 +25,12 @@ namespace marcatel_api.Services
             try
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pNombreModulo", SqlDbType = SqlDbType.VarChar, Value = modulos.NombreModulo });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdCategoriaModulo", SqlDbType = SqlDbType.Int, Value = modulos.CategoriaModulo });
+                parametros.Add(new SqlParameter { ParameterName = "@pRuta", SqlDbType = SqlDbType.VarChar, Value = modulos.Ruta });
+                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = modulos.Descripcion });
+                parametros.Add(new SqlParameter { ParameterName = "@pPanelControl", SqlDbType = SqlDbType.Int, Value = modulos.PanelControl });
+                parametros.Add(new SqlParameter { ParameterName = "@pCategoria", SqlDbType = SqlDbType.Int, Value = modulos.Categoria });
+                parametros.Add(new SqlParameter { ParameterName = "@pIcono", SqlDbType = SqlDbType.VarChar, Value = modulos.Icono });
+                parametros.Add(new SqlParameter { ParameterName = "@pTema", SqlDbType = SqlDbType.VarChar, Value = modulos.Tema });
                 parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = modulos.Usuario });
 
 
@@ -62,10 +67,16 @@ namespace marcatel_api.Services
                         {
                             Id = int.Parse(row["Id"].ToString()),
                             Modulo = row["Modulo"].ToString(),
-                            CategoriaModulo = row["Categoria"].ToString(),
+                            Ruta = row["Ruta"].ToString(),
+                            Descripcion = row["Descripcion"].ToString(),
+                            PanelControl = int.Parse(row["PanelControl"].ToString()),
+                            Categoria = row["Categoria"].ToString(),
+                            Icono = row["Icono"].ToString(),
+                            Tema = row["Tema"].ToString(),
+                            FechaHora = row["FechaHora"].ToString(),
                             Usuario = row["Usuario"].ToString(),
-                            FechaAct =row["FechaActualiza"].ToString(),
-                            FechaReg = row["FechaRegistro"].ToString()
+                            
+                           
                         });
                     }
                 }
@@ -90,8 +101,13 @@ namespace marcatel_api.Services
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.VarChar, Value = modulo.Id });
                 parametros.Add(new SqlParameter { ParameterName = "@pNombreModulo", SqlDbType = SqlDbType.VarChar, Value = modulo.NombreModulo });
-                parametros.Add(new SqlParameter { ParameterName = "@pIdCategoriaModulo", SqlDbType = SqlDbType.VarChar, Value = modulo.CategoriaModulo });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = modulo.Usuario });
+                parametros.Add(new SqlParameter { ParameterName = "@pRuta", SqlDbType = SqlDbType.VarChar, Value = modulo.Ruta });
+                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = modulo.Descripcion });
+                parametros.Add(new SqlParameter { ParameterName = "@pPanelControl", SqlDbType = SqlDbType.Int, Value = modulo.PanelControl });
+                parametros.Add(new SqlParameter { ParameterName = "@pCategoria", SqlDbType = SqlDbType.Int, Value = modulo.Categoria });
+                parametros.Add(new SqlParameter { ParameterName = "@pIcono", SqlDbType = SqlDbType.VarChar, Value = modulo.Icono });
+                parametros.Add(new SqlParameter { ParameterName = "@pTema", SqlDbType = SqlDbType.VarChar, Value = modulo.Tema });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuario", SqlDbType = SqlDbType.Int, Value = modulo.Usuario });
                 DataSet ds = dac.Fill("sp_UpdateModulo", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {

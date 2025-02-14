@@ -26,7 +26,9 @@ namespace marcatel_api.Services
             {
                 parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = sucursal.Nombre });
                 parametros.Add(new SqlParameter { ParameterName = "@pDireccion", SqlDbType = SqlDbType.VarChar, Value = sucursal.Direccion });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = sucursal.IdUsuario });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioRegistra", SqlDbType = SqlDbType.Int, Value = sucursal.UsuarioReg });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = sucursal.UsuarioAct });
+                parametros.Add(new SqlParameter { ParameterName = "@pAbreviatura", SqlDbType = SqlDbType.VarChar, Value = sucursal.Abreviatura });
                 DataSet ds = dac.Fill("sp_InsertSucursales", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -63,7 +65,9 @@ namespace marcatel_api.Services
                             Id = int.Parse(row["Id"].ToString()),
                             Nombre = row["Nombre"].ToString(),
                             Direccion = row["Direccion"].ToString(),
-                            Usuario = row["UsuarioActualiza"].ToString(),
+                            UsuarioReg = row["UsuarioRegistra"].ToString(),
+                            UsuarioAct = row["UsuarioActualiza"].ToString(),
+                            Abreviatura = row["Abreviatura"].ToString(),
                             FechaReg = row["FechaRegistro"].ToString(),
                             FechaAct = row["FechaActualiza"].ToString()
                         });
@@ -91,7 +95,8 @@ namespace marcatel_api.Services
                 parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = sucursal.Id });
                 parametros.Add(new SqlParameter { ParameterName = "@pNombre", SqlDbType = SqlDbType.VarChar, Value = sucursal.Nombre });
                 parametros.Add(new SqlParameter { ParameterName = "@pDireccion", SqlDbType = SqlDbType.VarChar, Value = sucursal.Direccion });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = sucursal.IdUsuario });
+                parametros.Add(new SqlParameter { ParameterName = "@pAbreviatura", SqlDbType = SqlDbType.VarChar, Value = sucursal.Abreviatura });
+                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = sucursal.UsuarioAct });
 
                 DataSet ds = dac.Fill("sp_UpdateSucursales", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
