@@ -22,7 +22,7 @@ namespace marcatel_api.Models
         public string Nombre { get; set; }
         public string Contrasena { get; set; }
         public string Rol { get; set; }
-
+        public string Theme { get; set; }
         public int IdPersona { get; set; }
         public string Usuario { get; set; }
         public string FechaAct { get; set; }
