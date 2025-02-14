@@ -21,7 +21,9 @@ namespace marcatel_api.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Direccion { get; set; }
-        public string Usuario { get; set; }
+        public string UsuarioReg { get; set; }
+        public string UsuarioAct { get; set; }
+        public string Abreviatura { get; set; }
         public string FechaAct { get; set; }
         public string FechaReg { get; set; }
 
@@ -32,7 +34,9 @@ namespace marcatel_api.Models
 
         public string Nombre { get; set; }
         public string Direccion { get; set; }
-        public int IdUsuario { get; set; }
+        public int UsuarioReg { get; set; }
+        public int UsuarioAct { get; set; }
+        public string Abreviatura { get; set; }
 
     }
     public class UpdateSucursalesModel
@@ -40,7 +44,8 @@ namespace marcatel_api.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Direccion { get; set; }
-        public int IdUsuario { get; set; }
+        public string Abreviatura { get; set; }
+        public int UsuarioAct { get; set; }
     }
     public class DeleteSucursalesModel
     {
