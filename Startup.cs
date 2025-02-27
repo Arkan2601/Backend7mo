@@ -89,6 +89,8 @@ namespace marcatel_api
               services.AddSingleton<DetalleUsuariosService>();
 
                   services.AddSingleton<CfgColaboradoresService>();
+                  services.AddSingleton<CfgPersonasTService>();
+                   services.AddSingleton<CfgPuestosService>();
 
                   services.AddSingleton<CfgDepartamentosService>();
 
