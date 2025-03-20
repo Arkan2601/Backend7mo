@@ -8,28 +8,31 @@ using System.Collections;
 
 namespace marcatel_api.Services
 {
-    public class RolService
+    public class CfgPuestosService
     {
         private string connection;
-        public RolService(IMarcatelDatabaseSetting settings)
+        public CfgPuestosService(IMarcatelDatabaseSetting settings)
         {
             connection = settings.ConnectionString;
         }
 
-        public string InsertRol(InsertRolModel rol)
-        {
-            ArrayList parametros = new ArrayList();
-            ConexionDataAccess dac = new ConexionDataAccess(connection);
 
-            try
-            {
-                parametros.Add(new SqlParameter { ParameterName = "@pRol", SqlDbType = SqlDbType.VarChar, Value = rol.Rol });
-                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = rol.Descripcion });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = rol.UsuarioActualiza });
+ public string InsertCfgPuestos(InsertCfgPuestosModel cfgPuestos)
+{
+    ArrayList parametros = new ArrayList();
+    ConexionDataAccess dac = new ConexionDataAccess(connection);
 
+    try
+    {
+        // Agregando los parámetros de inserción
+        parametros.Add(new SqlParameter { ParameterName = "@pPUESTO", SqlDbType = SqlDbType.VarChar, Value = cfgPuestos.PUESTO });
+        parametros.Add(new SqlParameter { ParameterName = "@pDESCRIPCION", SqlDbType = SqlDbType.VarChar, Value = cfgPuestos.DESCRIPCION });
+        parametros.Add(new SqlParameter { ParameterName = "@pUSUARIO", SqlDbType = SqlDbType.Int, Value = cfgPuestos.USUARIO });
 
-                DataSet ds = dac.Fill("sp_InsertRol", parametros);
-                // Asegúrate de que hay al menos una tabla devuelta
+        // Llamando al procedimiento almacenado
+        DataSet ds = dac.Fill("sp_InsertCfgpuestos", parametros);
+
+        // Asegúrate de que hay al menos una tabla devuelta
         if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
         {
             return ds.Tables[0].Rows[0]["Mensaje"].ToString(); // Retorna el mensaje del SP
@@ -46,30 +49,29 @@ namespace marcatel_api.Services
     }
 
     // Retorno por defecto
-    return "Error: Ocurrió un problema al insertar el detalle rol."; // Valor por defecto en caso de fallo
+    return "Error: Ocurrió un problema al insertar la unidad de medida."; // Valor por defecto en caso de fallo
 }
-        public List<GetRolModel> GetRol()
+
+        public List<GetCfgPuestosModel> GetCfgPuestos()
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            var lista = new List<GetRolModel>();
+            var lista = new List<GetCfgPuestosModel>();
             try
             {
-                DataSet ds = dac.Fill("sp_GetRol", parametros);
+                DataSet ds = dac.Fill("sp_GetCfgpuestos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        lista.Add(new GetRolModel
+                        lista.Add(new GetCfgPuestosModel
                         {
                             Id = int.Parse(row["Id"].ToString()),
-                            Rol = row["Rol"].ToString(),
-                            Descripcion = row["Descripcion"].ToString(),
-                            FechaRegistro = row["FechaRegistro"].ToString(), 
-                            FechaActualiza = row["FechaActualiza"].ToString(),
-                            UsuarioActualiza = row["UsuarioActualiza"].ToString()
-
-                           
+                            PUESTO = row["PUESTO"].ToString(),
+                            DESCRIPCION = row["DESCRIPCION"].ToString(),
+                            FECHAHORA = row["FECHAHORA"].ToString(),
+                            USUARIO = row["USUARIO"].ToString()
+                            
                         });
                     }
                 }
@@ -84,20 +86,20 @@ namespace marcatel_api.Services
 
         }
 
-        public string UpdateRol(UpdateRolModel rol)
+        public string UpdateCfgPuestos(UpdateCfgPuestosModel cfgPuestos)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-
+            var lista = new List<UpdateCfgPuestosModel>();
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = rol.Id });
-                parametros.Add(new SqlParameter { ParameterName = "@pRol", SqlDbType = SqlDbType.VarChar, Value = rol.Rol });
-                parametros.Add(new SqlParameter { ParameterName = "@pDescripcion", SqlDbType = SqlDbType.VarChar, Value = rol.Descripcion });
-                parametros.Add(new SqlParameter { ParameterName = "@pUsuarioActualiza", SqlDbType = SqlDbType.Int, Value = rol.UsuarioActualiza });
+        parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = cfgPuestos.Id });
+         parametros.Add(new SqlParameter { ParameterName = "@pPUESTO", SqlDbType = SqlDbType.VarChar, Value = cfgPuestos.PUESTO });
+        parametros.Add(new SqlParameter { ParameterName = "@pDESCRIPCION", SqlDbType = SqlDbType.VarChar, Value = cfgPuestos.DESCRIPCION });
+        parametros.Add(new SqlParameter { ParameterName = "@pUSUARIO", SqlDbType = SqlDbType.Int, Value = cfgPuestos.USUARIO });
 
-                DataSet ds = dac.Fill("sp_UpdateRol", parametros);
+                DataSet ds = dac.Fill("sp_UpdateCfgpuestos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
@@ -114,16 +116,22 @@ namespace marcatel_api.Services
             }
         }
 
-        public string DeleteRol(DeleteRolModel rol)
+
+
+
+          
+
+
+        public string DeleteCfgPuestos(DeleteCfgPuestosModel cfgPuestos)
         {
             ArrayList parametros = new ArrayList();
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-
+            var lista = new List<DeleteCfgPuestosModel>();
 
             try
             {
-                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = rol.Id });
-                DataSet ds = dac.Fill("sp_DeleteRol", parametros);
+                parametros.Add(new SqlParameter { ParameterName = "@pId", SqlDbType = SqlDbType.Int, Value = cfgPuestos.Id });
+                DataSet ds = dac.Fill("sp_DeleteCfgpuestos", parametros);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     return ds.Tables[0].Rows[0]["Mensaje"].ToString();
