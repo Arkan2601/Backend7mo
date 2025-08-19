@@ -23,7 +23,8 @@ namespace marcatel_api
 
                     webBuilder.UseStartup<Startup>();
 
-                    webBuilder.UseUrls("http://localhost:5020/"); 
+                    /* webBuilder.UseUrls("http://localhost:8081/"); */
+
                 });
     }
 }
